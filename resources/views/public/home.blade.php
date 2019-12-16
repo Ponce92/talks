@@ -1,66 +1,60 @@
 <!DOCTYPE html>
-<html lang="en" dir="ltr">
+<html lang="en">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
 
-    <title>Talks - @yield('title')</title>
+    <title>Talks amerikas</title>
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-touch-fullscreen" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
-    <!-- BEGIN VENDOR CSS-->
-    <link rel="stylesheet" type="text/css" href="{{ asset('template/app-assets/css/bootstrap.css') }}">
-    <!-- font icons-->
+
+    {{--Estilos css de la plantilla principal    --}}
+    <link rel="stylesheet" type="text/css" href="{{ asset('bootstrap4/css/bootstrap.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('template/app-assets/fonts/icomoon.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('template/app-assets/fonts/flag-icon-css/css/flag-icon.min.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ asset('template/app-assets/vendors/css/extensions/pace.css') }}">
-    <!-- END VENDOR CSS-->
-    <!-- BEGIN ROBUST CSS-->
-    <link rel="stylesheet" type="text/css" href="{{ asset('template/app-assets/css/bootstrap-extended.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ asset('template/app-assets/css/app.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ asset('template/app-assets/css/colors.css') }}">
-    <!-- END ROBUST CSS-->
-    <!-- BEGIN Page Level CSS-->
-    <link rel="stylesheet" type="text/css" href="{{ asset('template/app-assets/css/core/menu/menu-types/vertical-menu.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ asset('template/app-assets/css/core/menu/menu-types/vertical-overlay-menu.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ asset('template/app-assets/css/core/colors/palette-gradient.css') }}">
-    <!-- END Page Level CSS-->
-    <!-- BEGIN Custom CSS-->
-    <link rel="stylesheet" type="text/css" href="{{ asset('template/assets/css/style.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/main/main.css') }}">
 
 </head>
-  <body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-  <a class="navbar-brand" href="#">Navbar</a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-  <div class="collapse navbar-collapse" id="navbarNavDropdown">
-    <ul class="navbar-nav">
-      <li class="nav-item active">
-        <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="#">Features</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="#">Pricing</a>
-      </li>
-      <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          Dropdown link
-        </a>
-        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-          <a class="dropdown-item" href="#">Action</a>
-          <a class="dropdown-item" href="#">Another action</a>
-          <a class="dropdown-item" href="#">Something else here</a>
+<body>
+    <nav class="navbar navbar-expand-lg main-navbar">
+        <div class="collapse navbar-collapse" id="main-navbar">
+            <a class="navbar-brand" href="#">Talks</a>
+            <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+                <li class="nav-item active">
+                    <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+                </li>
+            </ul>
+            <div class="my-2">
+                <a href="{{ route('login') }}">Login</a>
+            </div>
         </div>
-      </li>
-    </ul>
-  </div>
-</nav>
 
-
-  </body>
+    </nav>
+    <div class="container-fluid">
+        <div class="row main-banner">
+            <div class="col col-lg-6 col-md-6" style="margin-top: auto; margin-bottom: auto;">
+                <div class="row justify-content-center align-items-center">
+                    <div class="main-card">
+                        <div class="row justify-content-center">
+                            <h3>Talks americas</h3>
+                            <br>
+                        </div>
+                        <br>
+                        <p style="text-align: justify">
+                            Lorem ipsum dolor sit amet, rj45 consectetur adipisicing elit. Amet ducimus earum est fugit iure mollitia, nemo, nostrum nulla perspiciatis possimus quae quis quisquam tempore temporibus?
+                        </p>
+                        <div class="row justify-content-center">
+                            <button class="main-btn">
+                                Vamos !
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col col-lg-6"></div>
+        </div>
+    </div>
+</body>
 </html>

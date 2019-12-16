@@ -48,10 +48,9 @@
         <div class="content-header row">
             @yield('hrow')
         </div>
-        <div class="content-body"><!-- stats -->
+        <div class="content-body">
 
-        @yield('body')
-            <!-- Recent invoice with Statistics -->
+            @yield('body')
 
         </div>
     </div>
@@ -77,7 +76,7 @@
 <script src="{{ asset('template/app-assets/js/core/app-menu.js') }}" type="text/javascript"></script>
 <script src="{{ asset('template/app-assets/js/core/app.js') }}" type="text/javascript"></script>
 <script src="{{ asset('template/app-assets/js/scripts/pages/dashboard-lite.js') }}" type="text/javascript"></script>
-
+@yield('scripts')
 
 
 </body>

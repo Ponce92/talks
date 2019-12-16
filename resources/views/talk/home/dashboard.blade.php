@@ -1,5 +1,5 @@
 @extends('layout.layout')
-@section('title') Dash @endsection
+@section('title') Home @endsection
 
 @section('hrow') @endsection
 
