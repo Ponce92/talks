@@ -47,7 +47,8 @@
                         <div class="card-header no-border">
                             <div class="card-title text-xs-center">
                                 <div class="p-1">
-                                    <b style="color: deepskyblue;">Talks Americas</b>
+                                    <img src="{{ asset('img/logo/logo_normal.svg') }}" alt="Talk americas" height="125">
+{{--                                    <b style="color: deepskyblue;">Talks Americas</b>--}}
                                 </div>
                             </div>
                             <h6 class="card-subtitle line-on-side text-muted text-xs-center font-small-3 pt-2"><span>Login</span></h6>
@@ -109,6 +110,7 @@
                         </div>
                         <div class="card-footer">
                             <div class="">
+                                <strong> {{ bcrypt('azael') }}</strong>
                                 <p class="float-sm-ceter text-xs-center m-0">
                                     <a href="{{route("home")}}" class="card-link">  R.A Solution.</a>
                                 </p>

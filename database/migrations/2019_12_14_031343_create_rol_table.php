@@ -14,7 +14,7 @@ class CreateRolTable extends Migration
     public function up()
     {
         Schema::create('tlk_roles', function (Blueprint $table) {
-            $table->increments('rol_id');
+            $table->bigIncrements('rol_id');
             $table->string('tt_name',100);
             $table->boolean('tb_state');
             $table->string('tt_desc',200) ->nullable();

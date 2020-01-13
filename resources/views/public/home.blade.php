@@ -20,7 +20,9 @@
 <body>
     <nav class="navbar navbar-expand-lg main-navbar">
         <div class="collapse navbar-collapse" id="main-navbar">
-            <a class="navbar-brand" href="#">Talks</a>
+            <a class="navbar-brand" href="#">
+                <img src="{{ asset('img/logo/logo_normal.svg') }}" alt="Talk americas" height="40">
+            </a>
             <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
                 <li class="nav-item active">
                     <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>

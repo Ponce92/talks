@@ -1,15 +1,15 @@
 @extends('layout.layout')
 
-@section('title') Roles @endsection
+@section('title') Permisos @endsection
 
 @section('body')
     <div class="col-md-12">
         <div class="card">
             <div class="card-header">
-                <h4 class="card-title" id="basic-layout-form">Roles</h4>
+                <h4 class="card-title" id="basic-layout-form">Permisos</h4>
                 <a class="heading-elements-toggle"><i class="icon-ellipsis font-medium-3"></i></a>
                 <div class="heading-elements">
-                    <button class="btn btn-green" type="button" onclick="showCreateForm('{{ route('roles.create') }}')">
+                    <button class="btn btn-green" type="button" onclick="showCreateForm('{{ route('permissions.create') }}')">
                         <i class="icon-plus" style="color: white;"></i>    Agregar
                     </button>
                 </div>
@@ -23,8 +23,10 @@
                         <thead>
                             <tr>
                                 <th width="30">Id</th>
-                                <th>Nombre de Rol</th>
+                                <th>Nombre permiso</th>
                                 <th>Descripcion</th>
+                                <th width="75">Creado</th>
+                                <th width="75">Actualizado</th>
                                 <th width="25">Estado</th>
                                 <th style="width: 150px;">Acciones</th>
                             </tr>
@@ -35,7 +37,7 @@
             </div>
         </div>
     </div>
-
+{{--  CREACION DE UNUEVO OBJETO --}}
     <div class="modal animated fadeIn text-left"
          id="modalCreate"
          tabindex="-1"
@@ -47,7 +49,7 @@
                 <div class="modal-header">
                     <h4 class="modal-title">
                         <i class="icon-cog2"></i>
-                        Crear Rol
+                        Crear Permiso
                     </h4>
                 </div>
                 <div class="modal-body" id="targetCreate">
@@ -146,18 +148,20 @@
     <script src="https://cdn.datatables.net/1.10.16/js/dataTables.bootstrap4.min.js"></script>
 
 
-    <script src="{{ asset('js/protegido/roles/roles.js') }}"></script>
+    <script src="{{ asset('js/util/crud.js') }}"></script>
     <script>
         $(document).ready( function () {
             $('#laravel_datatable').DataTable({
                 processing: true,
                 serverSide: true,
-                ajax: "{{ route('roles.get.list') }}",
+                ajax: "{{ route('permissions.index') }}",
                 columns: [
-                    { data: 'rol_id'},
-                    { data: 'tt_name'},
-                    { data: 'tt_desc',orderable:false},
-                    { data:'tb_state',
+                    { data: 'pk_id'},
+                    { data: 'ts_name'},
+                    { data: 'td_desc',orderable:false},
+                    { data: 'tf_created_at',orderable:false},
+                    { data: 'tf_updated_at',orderable:false},
+                    { data:'tb_active',
                         render: function (data,type,row){
                                 if(data){
                                     return "<i class='icon-checkbox-checked success' ><i/>"

@@ -8,12 +8,12 @@
                 <strong>Error !</strong> Se encontraron errores al processar el formulario.
             </div>
         </div>
-
     @endif
 </div>
 
-<form action="#" method="post" data-url="{{ route('roles.store') }}" id="formCreate">
-{{--    <input type="text" name="rol_id" value="" id="rol_id">--}}
+
+<form action="#" method="put" data-url="{{ $errors->any() ? route('permissions.update',$id):route('permissions.update',$Object->getId()) }}" id="formEdit">
+    <input type="text" name="id" value="{{ $errors->any() ? $id:$Object->getId() }}" id="id" hidden>
     <div class="form-body">
         <div class="row">
             <div class="col col-sm-12 col-md-12">
@@ -22,27 +22,35 @@
                     <input type="text"
                            id="name"
                            name="name"
-                           value="{{ $errors->any() ? $name:'' }}"
-                           class="form-control {{ $errors->has('name') ? 'border-danger':'' }} ">
+                           value="{{ $errors->any() ? $name:$Object->getName() }}"
+                           class="form-control
+                                   @if($errors->any() && $errors->has('name'))
+                                       border-danger
+                                   @endif"
+                    >
                     <p class="text-right">
-                        <small class="danger text-muted">
-                            {{ $errors->first('name') }}
-                        </small>
-
+                        @if($errors->any() && $errors->has('name'))
+                            <small class="danger text-muted">
+                                {{ $errors->first('name') }}
+                            </small>
+                        @endif
                     </p>
                 </fieldset>
                 <div class="form-group">
                     <label class="desc" for="desc">Descripcion :</label>
                     <textarea name="desc"
-                              class="form-control {{ $errors->has('desc') ? 'border-danger':'' }}"
+                              class="form-control @if($errors->any() && $errors->has('desc'))
+                                    border-danger @endif"
                               id="desc"
                               cols="30"
-                              rows="3">{{ $errors->any() ? $desc:'' }}</textarea>
-                        <p class="text-right">
+                              rows="3">{{ $errors->any() ? $desc:$Object->getDesc() }}</textarea>
+                    <p class="text-right">
+                        @if($errors->any() && $errors->has('desc'))
                             <small class="danger text-muted">
                                 {{ $errors->first('desc') }}
                             </small>
-                        </p>
+                        @endif
+                    </p>
                 </div>
                 <div class="form-group">
                     <div class="input-group">
@@ -52,7 +60,9 @@
                                    id="estado"
                                    name="estado"
                                    @if($errors->any())
-                                   {{ $estado ? 'checked': '' }}
+                                       {{ $state ? 'checked': ''}}
+                                   @else
+                                        {{ $Object->isActive() ? 'checked':'' }}
                                    @endif
                                    value="true">
                             <label class="form-check-label" for="estado">Activo</label>
@@ -64,4 +74,3 @@
         </div>
     </div>
 </form>
-

@@ -12,7 +12,7 @@
     @endif
 </div>
 
-<form action="#" method="post" data-url="{{ route('roles.store') }}" id="formCreate">
+<form action="#" method="post" data-url="{{ route('permissions.store') }}" id="formCreate">
 {{--    <input type="text" name="rol_id" value="" id="rol_id">--}}
     <div class="form-body">
         <div class="row">
