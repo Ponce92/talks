@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 
+
 class LoginController extends Controller
 {
     /*
@@ -27,7 +28,7 @@ class LoginController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/dashboard';
+    protected $redirectTo = 'dashboard';
 
     /**
      * Create a new controller instance.
@@ -46,13 +47,14 @@ class LoginController extends Controller
             'password' => 'required|string'
         ]);
 
+
         if (Auth::attempt(['tt_name'=>$request->get('usuario'),'password'=>$request->get('password')]))
         {
-            $user=Auth::User();
-            return redirect()->route('dashboard');
-            }
 
-        return back()->withErrors(['cal','upress']);
+            return redirect()->route('dashboard');
+        }else {
+            return back()->withErrors(['cal', 'upress']);
+        }
     }
 
     public function username()

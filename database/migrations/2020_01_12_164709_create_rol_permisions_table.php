@@ -14,16 +14,17 @@ class CreateRolPermisionsTable extends Migration
     public function up()
     {
         Schema::create('tlk_rol_permision', function (Blueprint $table) {
-            $table->bigIncrements('pk_id');
-            $table->unsignedBigInteger('fk_rol_pk');
-            $table->unsignedBigInteger('fk_permission_pk');
+            $table->increments('id');
+
+            $table->unsignedBigInteger('fk_rol');
+            $table->unsignedBigInteger('fk_permission');
 
 
-            $table->foreign('fk_rol_pk')
+            $table->foreign('fk_rol')
                 ->references('rol_id')
                 ->on('tlk_roles');
 
-            $table->foreign('fk_permission_pk')
+            $table->foreign('fk_permission')
                 ->references('pk_id')
                 ->on('tlk_permissions');
         });

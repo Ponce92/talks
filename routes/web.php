@@ -14,7 +14,7 @@
 
 Route::get('/logout','Auth\LoginController@logout')->name('logout');
 Route::post('/login','Auth\LoginController@login')->name('login');
-Route::get('/dashboard','Publico\HomeController@showDashboard')->name('dashboard');
+//Route::get('/dashboard','Publico\HomeController@showDashboard')->name('dashboard');
 
 /**
  * Tipos: /public/....
@@ -23,21 +23,33 @@ Route::get('/dashboard','Publico\HomeController@showDashboard')->name('dashboard
 
 
 Route::get('/',function (){
-return redirect('public/');
+    return redirect('public/');
 });
+
 Route::get('public/','HomeController@showHome')->name('home');
-Route::get('login','HomeController@showLogin')->name('showLogin');
+Route::get('login','HomeController@showLogin')->name('showLogin')->middleware('guest');
 
-
-/*Seccion : Rutas de administracion
- * Descripcion:
- * Author : Azael Ponce
+/** Seccion : Rutas de administracion
+ *  Descripcion:
+ *  Author : Azael Ponce
  */
-Route::get('/private/dashboard/','Publico\HomeController@showDashboard')->name('dashboard');
+Route::group(['middleware'=>'auth'],function(){
+    Route::get('dashboard','Publico\HomeController@showDashboard')->name('dashboard');
+    Route::resource('private/admin/roles','Protegido\RolController');
 
-Route::resource('private/admin/roles','Protegido\RolController');
-Route::get('roles/get/list','Protegido\RolController@getList')->name('roles.get.list');
+    Route::get('roles/get/list','Protegido\RolController@getList')->name('roles.get.list');
+    Route::resource('protected/resources/permissions','Protegido\PermissionController');
 
-Route::resource('protected/resources/permissions','Protegido\PermissionController');
+    Route::get('/private/admin/rolpermisions/{idRol}','Protegido\RolPermisionsController@index')->name('rolPermisions');
+    Route::post('/private/admin/rolpermisions/update/','Protegido\RolPermisionsController@update')->name('update.rol.permisions');
+
+
+    Route::resources([
+        'protected/users'=>'Protegido\UserController',
+        'protected/groups'=>'Protegido\GropController'
+    ]);
+});
+
+
 
 

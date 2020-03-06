@@ -22,14 +22,14 @@ function showCreateForm(url) {
             $('#modalCreate').modal('show');
         },
         statusCode: {
-            401: function() {
-                showMesssage('danger','Acesso no autorizado');
+            404: function() {
+                alert('Servidor no encontrado');
             }
-
         },
-        error:function(x,status,tipo){
+        error:function(x,xs,xt){
+            showMesssage('danger','No se ha pordido contactar al servidor..')
             //nos dara el error si es que hay alguno
-            //showMesssage('danger',xs)
+            //window.open(JSON.stringify(x));
             //alert('error: ' + JSON.stringify(x) +"\n error string: "+ xs + "\n error throwed: " + xt);
         }
     });
@@ -64,7 +64,7 @@ function store(modal,form) {
         },
         error:function(x,xs,xt){
             //nos dara el error si es que hay alguno
-            window.open(JSON.stringify(x));
+            showMesssage('danger','Error al contactar al servidor')
             //alert('error: ' + JSON.stringify(x) +"\n error string: "+ xs + "\n error throwed: " + xt);
         }
     });
@@ -115,24 +115,37 @@ function editObject() {
         type:'PUT',
         success: function (data) {
             //si la variable de estado es verdadres oculatmos el modal y notificamos
-            if(data.valor){
-                modal.modal('hide');
-                target.html('');
-                dtbl.DataTable().ajax.reload();
-                showMesssage('success','Actualizacion completada exitosamente');
-            }else{
-            //Si la variable de estado es falso es un error de formulario a corregir
-                target.html(data.html);
+            switch (data.status) {
+                case 'success':
+                    modal.modal('hide');
+                    target.html('');
+                    dtbl.DataTable().ajax.reload();
+                    showMesssage('success','Actualizacion completada.');
+                    break;
+                case 'fails_validation':
+                    target.html(data.html);
+
+                    break;
+                case 'not_found':
+                    modal.modal('hide');
+                    dtbl.DataTable().ajax.reload();
+                    showMesssage('danger','Objeto no encontrado');
+                    break;
+                case 'errors':
+                    modal.modal('hide');
+                    showMesssage('danger','El servidor ha respondido con un estado de error, refresaca la pagina intentalo de nuevo.');
+                    break;
             }
+
         },
         statusCode: {
-            403:function (data) {
-                showMesssage('error',data.message)
+            404: function() {
+                alert('Servidor no encontrado');
             }
         },
         error:function(x,xs,xt){
             //nos dara el error si es que hay alguno
-            alert(x)
+            window.open(JSON.stringify(x));
             //alert('error: ' + JSON.stringify(x) +"\n error string: "+ xs + "\n error throwed: " + xt);
         }
     });
@@ -156,14 +169,23 @@ function deleteObject() {
         method:'DELETE',
         dataType:'json',
         success: function (data) {
+
             //si la variable de estado es verdadres oculatmos el modal y notificamos
-            if(data.valor){
-                modal.modal('hide');
-                dtbl.DataTable().ajax.reload();
-                showMesssage('success','Recurso eliminado correctamete del sistema.');
-            }else{
-                //Si la variable de estado es falso es un error de formulario a corregir
-                showMesssage('alert','Error al processar la peticion.');
+            switch (data.status) {
+                case 'success':
+                    modal.modal('hide');
+                    dtbl.DataTable().ajax.reload();
+                    showMesssage('info','Eliminacion completada exitosamente.');
+                    break;
+                case 'not_found':
+                    modal.modal('hide');
+                    dtbl.DataTable().ajax.reload();
+                    showMesssage('danger','Objeto no encontrado');
+                    break;
+                case 'errors':
+                    modal.modal('hide');
+                    showMesssage('danger','El servidor ha respondido con un estado de error, refresaca la pagina intentalo de nuevo.');
+                    break;
             }
         },
         statusCode: {

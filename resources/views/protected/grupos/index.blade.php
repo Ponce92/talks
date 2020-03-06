@@ -6,11 +6,11 @@
     <div class="col-md-12">
         <div class="card">
             <div class="card-header">
-                <h4 class="card-title" id="basic-layout-form">Roles</h4>
+                <h4 class="card-title" id="basic-layout-form">Grupos de usuarios</h4>
                 <a class="heading-elements-toggle"><i class="icon-ellipsis font-medium-3"></i></a>
                 <div class="heading-elements">
-                    @if(Auth::user()->hasPermission('puede_crear_roles'))
-                    <button class="btn btn-green" type="button" onclick="showCreateForm('{{ route('roles.create') }}')">
+                    @if(Auth::user()->hasPermission('puede_crear_grupos'))
+                    <button class="btn btn-green" type="button" onclick="showCreateForm('{{ route('groups.create') }}')">
                         <i class="icon-plus" style="color: white;"></i>    Agregar
                     </button>
                     @endif
@@ -148,18 +148,18 @@
     <script src="https://cdn.datatables.net/1.10.16/js/dataTables.bootstrap4.min.js"></script>
 
 
-    <script src="{{ asset('js/protegido/roles/roles.js') }}"></script>
+    <script src="{{ asset('js/util/datatable.js') }}"></script>
     <script>
         $(document).ready( function () {
             $('#laravel_datatable').DataTable({
                 processing: true,
                 serverSide: true,
-                ajax: "{{ route('roles.get.list') }}",
+                ajax: "{{ route('groups.index') }}",
                 columns: [
-                    { data: 'rol_id'},
-                    { data: 'tt_name'},
-                    { data: 'tt_desc',orderable:false},
-                    { data:'tb_state',
+                    { data: 'id'},
+                    { data: 'cs_name'},
+                    { data: 'cs_desc',orderable:false},
+                    { data:'cb_state',
                         render: function (data,type,row){
                                 if(data){
                                     return "<i class='icon-checkbox-checked success' ><i/>"

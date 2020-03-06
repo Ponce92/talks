@@ -16,9 +16,7 @@ class Rol extends Model
         parent::__construct($attributes);
     }
 
-    public function permissions(){
-        return $this->belongsToMany(Permission::class,'tlk_rol_permision','fk_rol_pk','fk_rol_pk');
-    }
+
 /**
  * getter and setters
  */
@@ -51,6 +49,16 @@ class Rol extends Model
     }
     public function setState($valor){
         $this->tb_state=$valor;
+    }
+
+    /**
+     * Relacion de muchos a muchos desde roles (un rol puede ver sus permisos)
+     */
+    public function permissions(){
+        return $this->belongsToMany(Permission::class,
+                                    'tlk_rol_permision',
+                            'fk_rol',
+                            'fk_permission');
     }
 
 }

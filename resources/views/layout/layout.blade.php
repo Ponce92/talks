@@ -86,7 +86,6 @@
 <script src="{{ asset('js/public/app.js') }}"></script>
 @yield('scripts')
 
-
 </body>
 </html>
 

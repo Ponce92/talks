@@ -90,7 +90,7 @@
                     <li class="dropdown dropdown-user nav-item">
                         <a href="#" data-toggle="dropdown" class="dropdown-toggle nav-link dropdown-user-link">
                             <span class="avatar avatar-online">
-                                <img src="{{asset('img/user.png')}}" alt="avatar"><i></i></span><span class="user-name">User
+                                <img src="{{asset('img/user.png')}}" alt="avatar"><i></i></span><span class="user-name">{{ Auth::user()->getName() }}
                             </span>
                         </a>
                         <div class="dropdown-menu dropdown-menu-right"><a href="#" class="dropdown-item"><i class="icon-head"></i> Edit Profile</a><a href="#" class="dropdown-item"><i class="icon-mail6"></i> My Inbox</a><a href="#" class="dropdown-item"><i class="icon-clipboard2"></i> Task</a><a href="#" class="dropdown-item"><i class="icon-calendar5"></i> Calender</a>

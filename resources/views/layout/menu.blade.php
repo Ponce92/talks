@@ -13,11 +13,21 @@
                     <span data-i18n="nav.dash.main" class="menu-title">Administracion</span>
                 </a>
                 <ul class="menu-content">
+                    @if(Auth::user()->hasPermission('puede_ver_roles'))
                     <li class="active"><a href="{{route('roles.index')}}" data-i18n="nav.dash.main" class="menu-item">Roles</a>
                     </li>
+                    @endif
                     <li class="active">
                         <a href="{{route('permissions.index')}}" data-i18n="nav.dash.main" class="menu-item">Permisos</a>
                     </li>
+                    <li class="active">
+                        <a href="{{route('users.index')}}" data-i18n="nav.dash.main" class="menu-item">Usuarios</a>
+                    </li>
+                        @if(Auth::user()->hasPermission('puede_ver_grupos'))
+                            <li class="active"><a href="{{route('groups.index')}}" data-i18n="nav.dash.main" class="menu-item">Grpos de usuarios</a>
+                            </li>
+                        @endif
+
                 </ul>
             </li>
         </ul>

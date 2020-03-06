@@ -11,6 +11,14 @@ use Datatable;
 
 class RolController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('auth');
+        $this->middleware('credential:puede_crear_roles')->only(['create','store']);
+        $this->middleware('credential:puede_editar_roles')->only(['edit','update']);
+    }
+
     /**
      * Display a listing of the resource.
      *
