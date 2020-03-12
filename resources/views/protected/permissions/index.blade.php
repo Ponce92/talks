@@ -9,9 +9,11 @@
                 <h4 class="card-title" id="basic-layout-form">Permisos</h4>
                 <a class="heading-elements-toggle"><i class="icon-ellipsis font-medium-3"></i></a>
                 <div class="heading-elements">
+                    @if(Auth::user()->hasPermission('puede_crear_permisos'))
                     <button class="btn btn-green" type="button" onclick="showCreateForm('{{ route('permissions.create') }}')">
                         <i class="icon-plus" style="color: white;"></i>    Agregar
                     </button>
+                    @endif
                 </div>
             </div>
             <div class="card-body collapse in">
@@ -156,12 +158,12 @@
                 serverSide: true,
                 ajax: "{{ route('permissions.index') }}",
                 columns: [
-                    { data: 'pk_id'},
-                    { data: 'ts_name'},
-                    { data: 'td_desc',orderable:false},
-                    { data: 'tf_created_at',orderable:false},
-                    { data: 'tf_updated_at',orderable:false},
-                    { data:'tb_active',
+                    { data: 'id'},
+                    { data: 'cs_name'},
+                    { data: 'cs_desc',orderable:false},
+                    { data: 'cd_created_at',orderable:false},
+                    { data: 'cd_updated_at',orderable:false},
+                    { data:'cb_activo',
                         render: function (data,type,row){
                                 if(data){
                                     return "<i class='icon-checkbox-checked success' ><i/>"

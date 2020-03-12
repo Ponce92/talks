@@ -156,10 +156,10 @@
                 serverSide: true,
                 ajax: "{{ route('roles.get.list') }}",
                 columns: [
-                    { data: 'rol_id'},
-                    { data: 'tt_name'},
-                    { data: 'tt_desc',orderable:false},
-                    { data:'tb_state',
+                    { data: 'id'},
+                    { data: 'cs_name'},
+                    { data: 'cs_desc',orderable:false},
+                    { data:'cb_state',
                         render: function (data,type,row){
                                 if(data){
                                     return "<i class='icon-checkbox-checked success' ><i/>"

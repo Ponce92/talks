@@ -13,7 +13,7 @@ class CreateGroupsTable extends Migration
      */
     public function up()
     {
-        Schema::create('tkl_groups', function (Blueprint $table) {
+        Schema::create('groups', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('cs_name',150);
             $table->string('cs_desc')->nullable();
@@ -31,6 +31,6 @@ class CreateGroupsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('tkl_groups');
+        Schema::dropIfExists('groups');
     }
 }

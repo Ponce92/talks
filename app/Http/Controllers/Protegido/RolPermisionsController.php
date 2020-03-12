@@ -12,7 +12,7 @@ class RolPermisionsController extends Controller
     public function index($idRol=0){
         $rol=Rol::findOrFail($idRol);
 
-        $permissions=Permission::all();
+        $permissions=Permission::where('cb_activo','<>',false)->get();
 
        return  view('protected.rolPermisions.index')
                 ->with('rol',$rol)

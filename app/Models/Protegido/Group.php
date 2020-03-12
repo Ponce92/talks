@@ -6,8 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Group extends Model
 {
-    protected $table='tlk_groups';
-    protected $primaryKey='id';
+    protected $table='groups';
 
     public function __construct(array $attributes = [])
     {
@@ -40,5 +39,9 @@ class Group extends Model
     }
     public  function setState($state){
         $this->cb_state=$state;
+    }
+
+    public function getId(){
+        return $this->pk_id;
     }
 }

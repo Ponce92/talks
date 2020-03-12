@@ -9,9 +9,19 @@ use App\Models\Protegido\Permission;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\Validator;
 use Datatable;
+use Illuminate\Validation\Rule;
 
 class PermissionController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+        $this->middleware('credential:puede_ver_permisos')->only(['index']);
+        $this->middleware('credential:puede_crear_permisos')->only(['create','store']);
+        $this->middleware('credential:puede_editar_permisos')->only(['edit','update']);
+        $this->middleware('credential:puede_editar_permisos')->only(['destroy']);
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -56,7 +66,7 @@ class PermissionController extends Controller
                 $band=false;
                 $html='';
                 $isValid=Validator::Make($request->all(),[
-                    'name'=>'required|string|min:3|max:50|unique:tlk_permissions,ts_name',
+                    'name'=>'required|string|min:3|max:50|unique:permissions,cs_name',
                     'desc'=>'required|string|min:4|max:250',
                     'estado'=>''
                 ]);
@@ -142,7 +152,7 @@ class PermissionController extends Controller
         if($request->ajax() && $request->method()=="PUT"){
             $var=Validator::make($request->all(),[
                 'id'=>'required|int',
-                'name'=>'required|min:3|max:250',
+                'name'=>['required','string','min:4','max:50',Rule::unique('permissions','cs_name')->ignore($request->id,'id')],
                 'desc'=>'required|min:3|string|max:600',
             ]);
         }
@@ -180,13 +190,16 @@ class PermissionController extends Controller
     public function destroy($id)
     {
         $status='not_found';
+        $html='';
         try {
             Permission::destroy($id);
             $status='success';
         }catch (\Exception $exception){
+            $html=''.$exception;
             $status='error';
+
         }
 
-        return  response()->json(array('status'=>$status,'html'=>''));
+        return  response()->json(array('status'=>$status,'html'=>$html));
     }
 }

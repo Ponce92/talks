@@ -12,6 +12,15 @@ use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('auth');
+        $this->middleware('credential:puede_ver_usuarios')->only(['index']);
+        $this->middleware('credential:puede_crear_usuarios')->only(['create','store']);
+        $this->middleware('credential:puede_editar_usuarios')->only(['edit','update']);
+        $this->middleware('credential:puede_eliminar_usuarios')->only(['destroy']);
+    }
     /**
      * Display a listing of the resource.
      *
@@ -42,7 +51,7 @@ class UserController extends Controller
     {
         if($request->ajax()){
             $roles=Rol::where('cb_protected','<>',true)
-                        ->where('tb_state','=',true)
+                        ->where('cb_state','=',true)
                         ->get();
 
             $html=view('protected.users.create')->with('roles',$roles)->render();
@@ -66,14 +75,14 @@ class UserController extends Controller
         $html="";
         if($request->ajax()){
             $isValid=Validator::Make($request->all(),[
-                'name'=>'required|string|min:4|max:50|unique:tlk_users,tt_name',
+                'name'=>'required|string|min:4|max:50|unique:users,cs_name',
                 'password'=>'required|string|min:6|max:250|confirmed',
                 'rol'=>'required'
             ]);
 
             if($isValid->fails()){
                 $roles=Rol::where('cb_protected','<>',true)
-                    ->where('tb_state','=',true)
+                    ->where('cb_state','=',true)
                     ->get();
 
                 $html=view('protected.users.create')
@@ -130,7 +139,7 @@ class UserController extends Controller
         $perm=Permission::all();
         $roles=Rol::where('cb_protected','<>',true)->get();
 
-        $rol=Rol::where('tt_name','=',$id)->get();
+        $rol=Rol::where('cs_name','=',$id)->get();
 
         return view('protected.users.edit')
             ->with('permisions',$perm)

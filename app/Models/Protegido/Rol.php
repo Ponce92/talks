@@ -6,8 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Rol extends Model
 {
-    protected $table='tlk_roles';
-    protected $primaryKey='rol_id';
+    protected $table='roles';
     public $timestamps=false;
 
     public function __construct(array $attributes = [])
@@ -22,43 +21,40 @@ class Rol extends Model
  */
 
     public function getId(){
-        return $this->rol_id;
+        return $this->id;
     }
 
     public function getName(){
 
-        return $this->tt_name;
+        return $this->cs_name;
     }
     public function setName($valor){
-        $this->tt_name=$valor;
+        $this->cs_name=$valor;
     }
 
     public function setDesc($desc){
-        $this->tt_desc=$desc;
+        $this->cs_desc=$desc;
     }
 
     public function getNombre(){
-        return $this->tt_name;
+        return $this->cs_name;
     }
     public function getDesc(){
-        return $this->tt_desc;
+        return $this->cs_desc;
     }
 
     public function isActive(){
-        return $this->tb_state;
+        return $this->cb_state;
     }
     public function setState($valor){
-        $this->tb_state=$valor;
+        $this->cb_state=$valor;
     }
 
     /**
      * Relacion de muchos a muchos desde roles (un rol puede ver sus permisos)
      */
     public function permissions(){
-        return $this->belongsToMany(Permission::class,
-                                    'tlk_rol_permision',
-                            'fk_rol',
-                            'fk_permission');
+        return $this->belongsToMany(Permission::class);
     }
 
 }

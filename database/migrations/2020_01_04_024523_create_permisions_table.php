@@ -13,13 +13,13 @@ class CreatePermisionsTable extends Migration
      */
     public function up()
     {
-        Schema::create('tlk_permissions', function (Blueprint $table) {
-            $table->bigIncrements('pk_id');
-            $table->string('ts_name',100);
-            $table->string('td_desc',750);
-            $table->boolean('tb_activo');
-            $table->date('tf_created_at');
-            $table->date('tf_updated_at');
+        Schema::create('permissions', function (Blueprint $table) {
+            $table->bigIncrements('id');
+            $table->string('cs_name',100);
+            $table->string('cs_desc',750);
+            $table->boolean('cb_activo');
+            $table->date('cd_created_at');
+            $table->date('cd_updated_at');
 
         });
     }
@@ -31,6 +31,6 @@ class CreatePermisionsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('tlk_permissions');
+        Schema::dropIfExists('permissions');
     }
 }

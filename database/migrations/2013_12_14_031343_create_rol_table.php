@@ -13,13 +13,16 @@ class CreateRolTable extends Migration
      */
     public function up()
     {
-        Schema::create('tlk_roles', function (Blueprint $table) {
-            $table->bigIncrements('rol_id');
-            $table->string('tt_name',100);
-            $table->boolean('tb_state');
-            $table->string('tt_desc',200) ->nullable();
+        Schema::create('roles', function (Blueprint $table) {
+
+            $table->bigIncrements('id');
+            $table->string('cs_name',100);
+            $table->boolean('cb_state');
+            $table->boolean('cb_protected')->default(false);
+            $table->string('cs_desc',200) ->nullable();
 
         });
+
     }
 
     /**
@@ -29,6 +32,6 @@ class CreateRolTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('tkl_roles');
+        Schema::dropIfExists('roles');
     }
 }

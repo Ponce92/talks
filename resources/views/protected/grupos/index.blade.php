@@ -1,6 +1,6 @@
 @extends('layout.layout')
 
-@section('title') Roles @endsection
+@section('title') Grupos @endsection
 
 @section('body')
     <div class="col-md-12">
@@ -159,13 +159,14 @@
                     { data: 'id'},
                     { data: 'cs_name'},
                     { data: 'cs_desc',orderable:false},
-                    { data:'cb_state',
+                    { data: 'cb_state',
                         render: function (data,type,row){
-                                if(data){
-                                    return "<i class='icon-checkbox-checked success' ><i/>"
+                            if(data > 0){
+                                return "<i class='icon-checkbox-checked success' ><i/>";
                                 }
-                                return "<i class='icon-checkbox-unchecked danger' ><i/>";
-                        }},
+                            return "<i class='icon-checkbox-unchecked danger' ><i/>";
+                        }
+                    },
                     { data: 'acctions'},
                 ]
             });

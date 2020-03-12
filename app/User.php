@@ -2,7 +2,9 @@
 
 namespace App;
 
+use App\Models\Protegido\Group;
 use App\Models\Protegido\Rol;
+use App\Models\Protegido\Permission;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -11,8 +13,8 @@ use Illuminate\Support\Facades\Date;
 class User extends Authenticatable
 {
     use Notifiable;
-    protected $table='tlk_users';
-    protected $primaryKey='pk_id';
+    protected $table='users';
+    protected $primaryKey='id';
 
 
 
@@ -52,10 +54,10 @@ class User extends Authenticatable
      */
 
     public  function getName(){
-        return $this->tt_name;
+        return $this->cs_name;
     }
     public function setName($name){
-        $this->tt_name=$name;
+        $this->cs_name=$name;
     }
 
     public function getEmail(){
@@ -65,15 +67,8 @@ class User extends Authenticatable
         $this->email=$email;
     }
 
-    public function isActive(){
-        return $this->cl_active;
-    }
-    public function setActive($active){
-        $this->cl_active=$active;
-    }
-
     public function setState($est){
-        $this->cb_estado=$est;
+        $this->cb_state=$est;
     }
 
     public function setPassword($pass){
@@ -81,16 +76,13 @@ class User extends Authenticatable
     }
 
     public function setRol($id){
-        $this->fk_rol_id=$id;
+        $this->rol_id=$id;
     }
 
-    public function getRol(){
-        return Rol::find($this->fk_rol_id);
-    }
 
     public function hasPermission($perm){
         $band=false;
-        $rol=$this->getRol();
+        $rol=$this->rol;
         foreach ($rol->permissions as $pivot){
 
             if($pivot->getName() == $perm){
@@ -98,6 +90,14 @@ class User extends Authenticatable
             }
         }
         return $band;
+    }
+
+    public function permission(){
+        return $this->belongsToMany(Permission::class);
+    }
+
+    public function rol(){
+        return $this->belongsTo('App\Models\Protegido\Rol');
     }
 
 }

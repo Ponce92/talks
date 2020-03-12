@@ -48,7 +48,7 @@ class LoginController extends Controller
         ]);
 
 
-        if (Auth::attempt(['tt_name'=>$request->get('usuario'),'password'=>$request->get('password')]))
+        if (Auth::attempt(['cs_name'=>$request->get('usuario'),'password'=>$request->get('password')]))
         {
 
             return redirect()->route('dashboard');
@@ -59,6 +59,6 @@ class LoginController extends Controller
 
     public function username()
     {
-        return 'tt_name';
+        return 'cs_name';
     }
 }

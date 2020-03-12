@@ -63,7 +63,7 @@ function store(modal,form) {
         },
         error:function(x,xs,xt){
             //nos dara el error si es que hay alguno
-            window.open(JSON.stringify(x));
+            //
             //alert('error: ' + JSON.stringify(x) +"\n error string: "+ xs + "\n error throwed: " + xt);
         }
     });
@@ -144,7 +144,7 @@ function editObject() {
         },
         error:function(x,xs,xt){
             //nos dara el error si es que hay alguno
-            window.open(JSON.stringify(x));
+            //window.open(JSON.stringify(x));
             //alert('error: ' + JSON.stringify(x) +"\n error string: "+ xs + "\n error throwed: " + xt);
         }
     });
@@ -174,16 +174,16 @@ function deleteObject() {
                 case 'success':
                     modal.modal('hide');
                     dtbl.DataTable().ajax.reload();
-                    showMesssage('info','Eliminacion completada exitosamente.');
+                    showMesssage('success','Eliminacion completada exitosamente.');
                     break;
                 case 'not_found':
                     modal.modal('hide');
                     dtbl.DataTable().ajax.reload();
                     showMesssage('danger','Objeto no encontrado');
                     break;
-                case 'errors':
+                case 'error':
                     modal.modal('hide');
-                    showMesssage('danger','El servidor ha respondido con un estado de error, refresaca la pagina intentalo de nuevo.');
+                    showMesssage('danger','El objeto referido no puede ser eliminado ');
                     break;
             }
         },
@@ -194,7 +194,7 @@ function deleteObject() {
         },
         error:function(x,xs,xt){
             //nos dara el error si es que hay alguno
-            window.open(JSON.stringify(x));
+            //
             //alert('error: ' + JSON.stringify(x) +"\n error string: "+ xs + "\n error throwed: " + xt);
         }
     });

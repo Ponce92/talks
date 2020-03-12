@@ -13,16 +13,26 @@ class CreateUsersTable extends Migration
      */
     public function up()
     {
-        Schema::create('tlk_users', function (Blueprint $table) {
-            $table->string('tt_name')->unique();
+        Schema::create('users', function (Blueprint $table) {
+
+
+            $table->bigIncrements('id');
+            $table->unsignedBigInteger('rol_id');
+            $table->string('cs_name')->unique();
+            $table->boolean('cb_state');
+            $table->boolean('cb_protected')->default(false);
             $table->string('email')->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();
             $table->timestamps();
 
-            $table->primary('tt_name');
+            $table->foreign('rol_id')
+                ->references('id')
+                ->on('roles');
         });
+
+
     }
 
     /**
@@ -32,6 +42,6 @@ class CreateUsersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('tlk_users');
+        Schema::dropIfExists('users');
     }
 }

@@ -64,7 +64,7 @@ function store(modal,form) {
         },
         error:function(x,xs,xt){
             //nos dara el error si es que hay alguno
-            showMesssage('danger','Error al contactar al servidor')
+            //showMesssage('danger','Error al contactar al servidor')
             //alert('error: ' + JSON.stringify(x) +"\n error string: "+ xs + "\n error throwed: " + xt);
         }
     });
@@ -94,7 +94,7 @@ function showObject(url){
         },
         error:function(x,xs,xt){
             //nos dara el error si es que hay alguno
-            window.open(JSON.stringify(x));
+            //window.open(JSON.stringify(x));
             //alert('error: ' + JSON.stringify(x) +"\n error string: "+ xs + "\n error throwed: " + xt);
         }
     });
@@ -108,6 +108,7 @@ function editObject() {
     var target=$('#targetEdit');
 
     //Realizamos la peticion actualizacion...
+
     $.ajax({
         url:form.attr('data-url'),
         headers:{'X-CSRF-TOKEN':token},
@@ -140,13 +141,17 @@ function editObject() {
         },
         statusCode: {
             404: function() {
-                alert('Servidor no encontrado');
+                showMesssage('El servidor no se encuentra accesible en este momento');
+            },
+            403:function () {
+                showMesssage('danger','No cuentas permisos para realizar esta accion');
             }
         },
         error:function(x,xs,xt){
             //nos dara el error si es que hay alguno
-            window.open(JSON.stringify(x));
+            //window.open(JSON.stringify(x));
             //alert('error: ' + JSON.stringify(x) +"\n error string: "+ xs + "\n error throwed: " + xt);
+            showObject('danger','El servidor ha respondido con estatus de errror, contacte con el administrador..')
         }
     });
 
@@ -190,12 +195,15 @@ function deleteObject() {
         },
         statusCode: {
             404: function() {
-                alert('Servidor no encontrado');
+                showMesssage('danger','Servidor inaccesible...')
+            },
+            403:function () {
+                showMesssage('danger','No cuentas con credenciales para realizar esta accion.')
             }
         },
         error:function(x,xs,xt){
             //nos dara el error si es que hay alguno
-            window.open(JSON.stringify(x));
+            //window.open(JSON.stringify(x));
             //alert('error: ' + JSON.stringify(x) +"\n error string: "+ xs + "\n error throwed: " + xt);
         }
     });

@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 use App\Models\Protegido\Rol;
 use Datatable;
+use Illuminate\Validation\Rule;
 
 class RolController extends Controller
 {
@@ -15,8 +16,10 @@ class RolController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
+        $this->middleware('credential:puede_ver_roles')->only(['index']);
         $this->middleware('credential:puede_crear_roles')->only(['create','store']);
         $this->middleware('credential:puede_editar_roles')->only(['edit','update']);
+        $this->middleware('credential:puede_eliminar_roles')->only(['destroy']);
     }
 
     /**
@@ -30,9 +33,10 @@ class RolController extends Controller
     }
 
     public function getList(){
+        $query=Rol::where('cb_protected',"<>",true);
 
         return datatables()
-            ->eloquent(Rol::query())
+            ->eloquent($query)
             ->addColumn('acctions','protected.roles.acctions')
             ->rawColumns(['acctions'])
             ->toJson();
@@ -76,7 +80,7 @@ class RolController extends Controller
                 //Si no se encuentra, se hara una insersion del registro
                 //por lo cual se validan los datos recibidos
                 $isValid=Validator::Make($request->all(),[
-                    'name'=>'required|string|min:4|max:50|unique:tlk_roles,tt_name',
+                    'name'=>'required|string|min:4|max:50|unique:roles,cs_name',
                     'desc'=>'required|string|min:6|max:250',
                     'estado'=>''
                 ]);
@@ -153,16 +157,15 @@ class RolController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
         if($request->ajax() && $request->method()=='PUT'){
             $band=false;
             $html='';
-
             //Validacion del request..........
             $val=Validator::Make($request->all(),[
                 'id'=>'required|int|min:1',
-                'name'=>'required|string|min:4|max:50|unique:tlk_roles,tt_name',
+                'name'=>['required','string','min:4','max:50',Rule::unique('roles','cs_name')->ignore($request->id,'rol_id')],
                 'desc'=>'required|string|min:6|max:250',
                 'estado'=>''
             ]);

@@ -10,8 +10,8 @@
         </div>
     @endif
 </div>
-<form action="#" method="put" data-url="{{ $errors->any() ? route('roles.update',$id):route('roles.update',$Object->getId()) }}" id="formEdit">
-    <input type="text" name="id" value="{{ $errors->any() ? $id:$Object->getId() }}" id="id" hidden>
+<form action="#" method="put" data-url="{{ route('groups.update',$Object->getId())}}" id="formEdit">
+    <input type="text" name="id" value="{{ $Object->getId() }}" id="id" hidden>
     <div class="form-body">
         <div class="row">
             <div class="col col-sm-12 col-md-12">
@@ -20,7 +20,7 @@
                     <input type="text"
                            id="name"
                            name="name"
-                           value="{{ $errors->any() ? $name:$Object->getName() }}"
+                           value="{{ $Object->getName() }}"
                            class="form-control
                                    @if($errors->any() && $errors->has('name'))
                                        border-danger
@@ -41,7 +41,7 @@
                                     border-danger @endif"
                               id="desc"
                               cols="30"
-                              rows="3">{{ $errors->any() ? $desc:$Object->getDesc() }}</textarea>
+                              rows="3">{{ $Object->getDesc() }}</textarea>
                     <p class="text-right">
                         @if($errors->any() && $errors->has('desc'))
                             <small class="danger text-muted">
@@ -57,11 +57,8 @@
                                    type="checkbox"
                                    id="estado"
                                    name="estado"
-                                   @if($errors->any())
-                                       {{ $state ? 'checked': ''}}
-                                   @else
-                                        {{ $Object->isActive() ? 'checked':'' }}
-                                   @endif
+
+                                   {{ $Object->getState() ? 'checked':'' }}
                                    value="true">
                             <label class="form-check-label" for="estado">Activo</label>
 

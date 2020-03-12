@@ -6,8 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Permission extends Model
 {
-    protected  $table="tlk_permissions";
-    protected $primaryKey="pk_id";
+    protected  $table="permissions";
     public $timestamps=false;
 
     public function __construct(array $attributes = [])
@@ -21,50 +20,50 @@ class Permission extends Model
  */
 
     public function getId(){
-        return $this->pk_id;
+        return $this->id;
 
     }
 
     public function getName(){
-        return $this->ts_name;
+        return $this->cs_name;
     }
 
     public function setName($val){
-        $this->ts_name=$val;
+        $this->cs_name=$val;
     }
     public function getDesc(){
-        return $this->td_desc;
+        return $this->cs_desc;
     }
 
     public function setDesc($desc){
-        $this->td_desc=$desc;
+        $this->cs_desc=$desc;
     }
 
     public function getCreatedAt(){
-        return $this->tf_create_at;
+        return $this->cd_create_at;
     }
 
     public function setCreatedAt($date)
     {
-        $this->tf_created_at=$date;
+        $this->cd_created_at=$date;
     }
 
     public function setActive($val)
     {
-        $this->tb_active=$val;
+        $this->cb_activo=$val;
     }
     public function getUpdateAt(){
-        return $this->tf_updated_at;
+        return $this->cd_updated_at;
     }
 
     public function setUpdatedAt($value)
     {
-        $this->tf_updated_at=$value;
+        $this->cd_updated_at=$value;
     }
 
 
     public function isActive(){
-        if($this->tb_active){
+        if($this->cb_active){
             return true;}
         return false;
     }

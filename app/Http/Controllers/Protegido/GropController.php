@@ -5,7 +5,9 @@ namespace App\Http\Controllers\Protegido;
 use App\Models\Protegido\Group;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 
 class GropController extends Controller
 {
@@ -27,6 +29,7 @@ class GropController extends Controller
     {
 
         if($request->ajax()){
+
             return datatables()
                 ->eloquent(Group::query())
                 ->addColumn('acctions','protected.grupos.acctions')
@@ -63,7 +66,7 @@ class GropController extends Controller
         $status='error';
         $html='';
         $isValid=Validator::Make($request->all(),[
-            'name'=>'required|string|min:4|max:50|unique:tlk_groups,cs_name',
+            'name'=>'required|string|min:4|max:50|unique:groups,cs_name',
             'desc'=>'required|string|min:6|max:250',
             'estado'=>''
         ]);
@@ -118,7 +121,12 @@ class GropController extends Controller
      */
     public function edit(Group $group)
     {
-        //
+        $status="success";
+        $html=view('protected.grupos.edit')
+            ->with('Object',$group)
+            ->render();
+        return response()->json(array('valor'=>true,'html'=>$html,"status"=>$status));
+
     }
 
     /**
@@ -130,7 +138,29 @@ class GropController extends Controller
      */
     public function update(Request $request, Group $group)
     {
-        //
+        $var=Validator::make($request->all(),[
+            'name'=>['required','string','min:4','max:50',Rule::unique('groups','cs_name')->ignore($request->id,'pk_id')],
+            'desc'=>'required|min:3|string|max:600',
+        ]);
+
+        $group->setName($request->name);
+        $group->setDesc($request->desc);
+        $request->estado ? $group->setState(true):$group->setState(false);
+
+        if($var->fails()){
+            $status='fails_validation';
+            $html=view('protected.grupos.edit')
+                ->withErrors($var)
+                ->with('Object',$group)
+                ->render();
+
+        }else{
+            $group->save();
+            $status='success';
+            $html='';
+        }
+
+        return response()->json(array('status'=>$status, 'html'=>$html));
     }
 
     /**
@@ -142,5 +172,6 @@ class GropController extends Controller
     public function destroy(Group $group)
     {
         //
+
     }
 }

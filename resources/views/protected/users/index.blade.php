@@ -9,9 +9,11 @@
                 <h4 class="card-title" id="basic-layout-form">Usuarios del sistema</h4>
                 <a class="heading-elements-toggle"><i class="icon-ellipsis font-medium-3"></i></a>
                 <div class="heading-elements">
+                    @if(Auth::user()->hasPermission('puede_crear_usuarios'))
                     <button class="btn btn-green" type="button" onclick="showCreateForm('{{ route('users.create') }}')">
                         <i class="icon-plus" style="color: white;"></i>    Agregar
                     </button>
+                    @endif
                 </div>
             </div>
             <div class="card-body collapse in">
@@ -156,10 +158,10 @@
                 ajax: "{{ route('users.index') }}",
 
                 columns: [
-                    { data: 'tt_name'},
+                    { data: 'cs_name'},
                     { data: 'created_at'},
-                    {data:'fk_rol_id'},
-                    { data:'cb_estado',
+                    {data:'rol_id'},
+                    { data:'cb_state',
                         render: function (data,type,row){
                                 if(data){
                                     return "<i class='icon-checkbox-checked success' ><i/>"
