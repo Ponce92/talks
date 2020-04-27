@@ -20,6 +20,7 @@ class CreatePermisionsTable extends Migration
             $table->boolean('cb_activo');
             $table->date('cd_created_at');
             $table->date('cd_updated_at');
+            $table->date('cs_group');
 
         });
     }

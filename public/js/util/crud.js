@@ -8,7 +8,6 @@
  *
  */
 
-
 var dtbl=$('#laravel_datatable');
 
 /*      Create roles   */
@@ -28,7 +27,7 @@ function showCreateForm(url) {
         },
         error:function(x,xs,xt){
             //nos dara el error si es que hay alguno
-            window.open(JSON.stringify(x));
+            //window.open(JSON.stringify(x));
             //alert('error: ' + JSON.stringify(x) +"\n error string: "+ xs + "\n error throwed: " + xt);
         }
     });
@@ -48,10 +47,9 @@ function store(modal,form) {
         success: function (data) {
             //almacenamos la data en el server o mostramos el error de validacion
             if(data.valor){
-
                 $(modal).modal('hide');
                 dtbl.DataTable().ajax.reload();
-                showMesssage('success','Rol almacenado correctamente ...');
+                showMesssage('success','Transaccion se ha completado satisfactoriamente ...');
             }else{
                 $('#targetCreate').html(data.html);
             }
@@ -70,13 +68,12 @@ function store(modal,form) {
 }
 
 /**
- * Nombre: show()
+ * Nombre: showObject()
  * Desc: La funcion que realiza la consulta de un objeto almacenado y lo muestra en el modal correspondiente
  * Parametros: La funcion recibe la url de la peticion de conuslta..
  *
  */
 function showObject(url){
-    //Obtenemos la instalcia del div a contener el fomrmulario y del modal que contiene el div
     var modal=$('#modalEdit');
     var target=$('#targetEdit');
     $.ajax({
@@ -91,11 +88,6 @@ function showObject(url){
                 alert('Servidor no encontrado');
             }
         },
-        error:function(x,xs,xt){
-            //nos dara el error si es que hay alguno
-            window.open(JSON.stringify(x));
-            //alert('error: ' + JSON.stringify(x) +"\n error string: "+ xs + "\n error throwed: " + xt);
-        }
     });
 }
 
@@ -119,7 +111,7 @@ function editObject() {
                     modal.modal('hide');
                     target.html('');
                     dtbl.DataTable().ajax.reload();
-                    showMesssage('success','Actualizacion completada.');
+                    showMesssage('success','Actualizacion completada exitosamente.');
                     break;
                 case 'fails_validation':
                     target.html(data.html);
@@ -142,11 +134,6 @@ function editObject() {
                 alert('Servidor no encontrado');
             }
         },
-        error:function(x,xs,xt){
-            //nos dara el error si es que hay alguno
-            //window.open(JSON.stringify(x));
-            //alert('error: ' + JSON.stringify(x) +"\n error string: "+ xs + "\n error throwed: " + xt);
-        }
     });
 
 }
@@ -198,4 +185,69 @@ function deleteObject() {
             //alert('error: ' + JSON.stringify(x) +"\n error string: "+ xs + "\n error throwed: " + xt);
         }
     });
+}
+
+/**
+ * Author: Azael Ponce
+ * Descripcion: funcion que llena un segundo select que depende de otro select
+ *              valida que el select posea una option valida, limpia y llena el select. . .
+ * @param url
+ * @param target
+ * @param element
+ * @param  label
+ */
+function fillSelect(url,target,element,label) {
+    var to_fill=$(target);
+    var token =$('#token').val();
+    var opt = $(element).val();
+    $.ajax({
+        url:url,
+        type:'POST',
+        headers:{'X-CSRF-TOKEN':token},
+        data:{'id':opt},
+        success: function (data){
+            if(data.options.length > 0)
+            {
+                to_fill.attr('disabled',false);
+            }else{
+                to_fill.attr('disabled',true);
+            }
+            to_fill.html('');
+            to_fill.append('<option value="" disabled selected>'+label+'</option>');
+            for(var i in data.options)
+            {
+                var pivot=data.options[i];
+                to_fill.append('<option value="'+pivot.id+'">'+pivot.cs_name+'</option>')
+            }
+        },
+        statusCode: {
+            404: function() {
+                showMesssage('danger','No se ha podido contactar al servidor');
+            }
+        },
+    });
+}
+
+/**
+ * Author: Azael Ponce
+ * @param type
+ * @param element
+ * Descrip: Funcion que actualiza el valor de un input
+ *          tipo numeber simulando un incremento/decremnto de valor;
+ */
+function updateRangeInput(type,element) {
+    var input=$(element);
+    var num=parseInt(input.val());
+    var max=input.attr('max');
+    var min=input.attr('min');
+
+    if(type == 'add' && max > num){
+        num=num+1;
+        input.val(num);
+        return;
+    }
+    if(type=='less' && min<num){
+        num=num-1;
+        input.val(num);
+    }
 }

@@ -1,6 +1,6 @@
 
 // Indicamos el estilo de las notificaciones y la localizamos  la notificacion
-PNotify.defaults.styling = 'bootstrap4';
+ PNotify.defaults.styling = 'bootstrap4';
 window.stackBottomRight = {
     'dir1': 'up',
     'dir2': 'left',
@@ -15,6 +15,7 @@ function showMesssage(type,msj){
                 title:'Informacion',
                 icon:'icon icon-info',
                 text: msj,
+                delay:1000,
                 addClass: 'translucent',
                 stack:window.stackBottomRight
             });
@@ -23,6 +24,7 @@ function showMesssage(type,msj){
             PNotify.success({
                 title:'Completado . . .',
                 text: msj,
+                delay:1000,
                 icon: 'icon icon-check',
                 addClass: 'translucent',
                 stack:window.stackBottomRight
@@ -32,16 +34,18 @@ function showMesssage(type,msj){
             PNotify.error({
                 title:'Error . . .',
                 text: msj,
+                delay:1000,
                 icon:'icon icon-fire',
                 addClass: 'translucent',
                 stack:window.stackBottomRight
             });
             break;
         case 'notice':
-            PNotify.success({
-                title:'Info',
+            PNotify.notice({
+                title:'',
                 text: msj,
                 icon:'icon icon-info',
+                delay:1000,
                 addClass: 'translucent',
                 stack:window.stackBottomRight
             });

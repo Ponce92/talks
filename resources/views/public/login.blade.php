@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
     <meta name="author" content="PIXINVENT">
-    <title>Login Page - Robust Free Bootstrap Admin Template</title>
+    <title>Login :: Talkamericas</title>
 
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-touch-fullscreen" content="yes">
@@ -100,9 +100,8 @@
                                         <br>
                                     @endif
 
-                                    <button type="submit" class="btn btn-primary btn-lg btn-block">
+                                    <button type="submit" class="btn btn-info btn-lg btn-block">
                                         <i class="icon-unlock2">
-
                                         </i> Login
                                     </button>
                                 </form>
@@ -110,7 +109,6 @@
                         </div>
                         <div class="card-footer">
                             <div class="">
-                                <strong> {{ bcrypt('azael') }}</strong>
                                 <p class="float-sm-ceter text-xs-center m-0">
                                     <a href="{{route("home")}}" class="card-link">  R.A Solution.</a>
                                 </p>

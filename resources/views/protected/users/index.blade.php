@@ -2,42 +2,118 @@
 
 @section('title') Usuarios @endsection
 
-@section('body')
-    <div class="col-md-12">
-        <div class="card">
-            <div class="card-header">
-                <h4 class="card-title" id="basic-layout-form">Usuarios del sistema</h4>
-                <a class="heading-elements-toggle"><i class="icon-ellipsis font-medium-3"></i></a>
-                <div class="heading-elements">
-                    @if(Auth::user()->hasPermission('puede_crear_usuarios'))
-                    <button class="btn btn-green" type="button" onclick="showCreateForm('{{ route('users.create') }}')">
-                        <i class="icon-plus" style="color: white;"></i>    Agregar
-                    </button>
-                    @endif
+@section('hrow')
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="{{asset('plugins/tree/file-explore.css')}}">
+    <div class="col-sm-12 mb-1">
+        <div class="content-header-left breadcrumb-new">
+            <div class="row breadcrumbs-top d-inline-block">
+                <div class="breadcrumb-wrapper col-12">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item">
+                            <a href="/">Home</a>
+                        </li>
+                        <li class="breadcrumb-item">Protegido</li>
+                        <li class="breadcrumb-item">Usuarios
+                        </li>
+                    </ol>
                 </div>
-            </div>
-            <div class="card-body collapse in">
-                <div class="card-block">
-                    <table class="table table-bordered table-striped"
-                           id="laravel_datatable"
-                           role="grid"
-                           style="width: 100%">
-                        <thead>
-                            <tr>
-                                <th width="200">Nombre usuario</th>
-                                <th width="200">Fecha Creacion</th>
-                                <th>Rol ID</th>
-                                <th width="25">Estado</th>
-                                <th width="200">Acciones</th>
-
-                            </tr>
-                        </thead>
-                    </table>
-                </div>
-
             </div>
         </div>
     </div>
+
+@endsection
+
+
+@section('body')
+    <div class="row">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="card-title" id="basic-layout-form">:: Usuarios</h4>
+                    <a class="heading-elements-toggle"><i class="icon-ellipsis font-medium-3"></i></a>
+                    <div class="heading-elements">
+
+                        <button class="btn btn-green"
+                                type="button"
+                                onclick="loadCardAjax('{{ route('users.create') }}',$('#card_usuario'))">
+                            <i class="icon-plus" style="color: white;"></i>    Agregar
+                        </button>
+
+                    </div>
+                </div>
+                <div class="card-body collapse in">
+                    <div class="card-block">
+                        <table class="table table-bordered sget"
+                               id="laravel_datatable"
+                               role="grid"
+                               style="width: 100%">
+                            <thead>
+                            <tr>
+                                <th>Usuario</th>
+                                <th>Creado</th>
+                                <th>Creado</th>
+                                <th>Rol</th>
+                                <th>Estado</th>
+                                <th>Acciones</th>
+
+                            </tr>
+                            </thead>
+                        </table>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <div class="col-ms-12 col-md-4">
+            <div class="row">
+                <div class="col-md-12 col-sm-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h4 class="card-title">:: Usuarios </h4>
+                            <a class="heading-elements-toggle"><i class="icon-ellipsis font-medium-3"></i></a>
+                            <div class="heading-elements">
+                                <ul class="list-inline mb-0">
+                                    <li>
+                                        <a data-action="collapse" id="">
+                                            <i class="icon-minus4"></i>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="card-body collapse in">
+                            <div class="card-block" id="card_usuario">
+                                <strong>
+                                    <h4>" Seleccione elemento a editar "</h4>
+                                </strong>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12 col-sm-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h4 class="card-title">:: Permisos</h4>
+                            <a class="heading-elements-toggle"><i class="icon-ellipsis font-medium-3"></i></a>
+                            <div class="heading-elements">
+                                <ul class="list-inline mb-0">
+                                    <li><a data-action="collapse"><i class="icon-minus4"></i></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="card-body collapse in">
+                            <div class="card-block" id="card_pemissions">
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
 
 <div class="modal animated fadeIn text-left"
          id="modalCreate"
@@ -58,6 +134,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button"
+                            onclick=""
                             class="btn grey btn-outline-secondary btn-cancel"
                             data-dismiss="modal">Cancelar</button>
                     <button type="button"
@@ -150,6 +227,7 @@
 
 
     <script src="{{ asset('js/util/datatable.js') }}"></script>
+    <script src="{{ asset('js/util/functions.js') }}"></script>
     <script>
         $(document).ready( function () {
             $('#laravel_datatable').DataTable({
@@ -160,7 +238,8 @@
                 columns: [
                     { data: 'cs_name'},
                     { data: 'created_at'},
-                    {data:'rol_id'},
+                    { data: 'updated_at'},
+                    {data:'rolname'},
                     { data:'cb_state',
                         render: function (data,type,row){
                                 if(data){

@@ -32,6 +32,9 @@
     <!-- BEGIN Custom CSS-->
 
     <link rel="stylesheet" type="text/css" href="{{ asset('template/assets/css/style.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('pfNotify/PNotify.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/main/sget.css') }}">
+    @yield('css')
 
 </head>
 <body data-open="click" data-menu="vertical-menu" data-col="2-columns" class="vertical-layout vertical-menu 2-columns  fixed-navbar">
@@ -49,11 +52,10 @@
 
 <div class="app-content content container-fluid">
     <div class="content-wrapper">
-        <div class="content-header row">
+        <div class="content-header">
             @yield('hrow')
         </div>
         <div class="content-body">
-
             @yield('body')
 
         </div>
@@ -69,13 +71,14 @@
 <script src="{{ asset('template/app-assets/js/core/libraries/jquery.min.js') }} " type="text/javascript"></script>
 <script src="{{ asset('template/app-assets/vendors/js/ui/tether.min.js') }} " type="text/javascript"></script>
 <script src="{{ asset('template/app-assets/js/core/libraries/bootstrap.min.js') }} " type="text/javascript"></script>
-<script src="{{ asset('pfNotify/PNotify.css') }}"></script>
+
 <script src="{{ asset('template/app-assets/vendors/js/ui/perfect-scrollbar.jquery.min.js') }} " type="text/javascript"></script>
 <script src="{{ asset('template/app-assets/vendors/js/ui/unison.min.js') }} " type="text/javascript"></script>
 <script src="{{ asset('template/app-assets/vendors/js/ui/blockUI.min.js') }} " type="text/javascript"></script>
 <script src="{{ asset('template/app-assets/vendors/js/ui/jquery.matchHeight-min.js') }} " type="text/javascript"></script>
 <script src="{{ asset('template/app-assets/vendors/js/ui/screenfull.min.js') }} " type="text/javascript"></script>
 <script src="{{ asset('template/app-assets/vendors/js/extensions/pace.min.js') }} " type="text/javascript"></script>
+
 
 <script src="{{ asset('template/app-assets/vendors/js/charts/chart.min.js') }}" type="text/javascript"></script>
 <script src="{{ asset('template/app-assets/js/core/app-menu.js') }}" type="text/javascript"></script>

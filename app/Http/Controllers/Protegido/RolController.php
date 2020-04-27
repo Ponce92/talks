@@ -18,7 +18,7 @@ class RolController extends Controller
         $this->middleware('auth');
         $this->middleware('credential:puede_ver_roles')->only(['index']);
         $this->middleware('credential:puede_crear_roles')->only(['create','store']);
-        $this->middleware('credential:puede_editar_roles')->only(['edit','update']);
+//        $this->middleware('credential:puede_editar_roles')->only(['edit','update']);
         $this->middleware('credential:puede_eliminar_roles')->only(['destroy']);
     }
 
@@ -58,7 +58,7 @@ class RolController extends Controller
             $html=view('protected.roles.create')->render();
             return response()->json(array('valor'=>true,'html'=>$html));
         }
-
+        abort(404,'------');
         // Si la peticion no es ajax levantamos un error 404 ...
     }
 
@@ -88,7 +88,7 @@ class RolController extends Controller
                 $html='';
                 if($isValid->fails()){
                     //retornamos la vista crear con correcciones;
-                    $band=false;
+                    $status="form_errors";
                     $html=view('protected.roles.create')
                                         ->withErrors($isValid)
                                         ->with('name',$request->name)
@@ -110,11 +110,11 @@ class RolController extends Controller
                     }
 
                     $rol->save();
-                    $band=true;
-                    $html="";
+                    $status="success";
+                    $html=view('protected.roles.create')->render();
                 }
 
-                return response()->json(array('valor'=>$band, 'html'=>$html));
+                return response()->json(array('status'=>$status, 'html'=>$html));
             }
         }
 
@@ -154,27 +154,29 @@ class RolController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param  int $id
      */
-    public function update(Request $request)
+    public function update(Request $request, $id)
     {
+
         if($request->ajax() && $request->method()=='PUT'){
-            $band=false;
-            $html='';
+
             //Validacion del request..........
             $val=Validator::Make($request->all(),[
-                'id'=>'required|int|min:1',
-                'name'=>['required','string','min:4','max:50',Rule::unique('roles','cs_name')->ignore($request->id,'rol_id')],
+                'name'=>['required','string','min:4','max:50',Rule::unique('roles','cs_name')
+                                                                    ->ignore($id,'id')],
                 'desc'=>'required|string|min:6|max:250',
                 'estado'=>''
             ]);
 
+            $rol=Rol::find($id);
+
             if($val->fails())
             {
-                    $band=false;
+                    $status="form_errors";
                     $html=view('protected.roles.edit')
                         ->withErrors($val)
+                        ->with('Object',$rol)
                         ->with('id',$request->id)
                         ->with('name',$request->name)
                         ->with('desc',$request->desc)
@@ -183,16 +185,22 @@ class RolController extends Controller
 
             }else{
             //Almacenamos el valor............
-                $rol=Rol::find($request->id);
                 $rol->setName($request->name);
                 $rol->setDesc($request->desc);
                 $request->estado ? $rol->setState(true):$rol->setState(false);
 
                 $rol->save();
-                $html='';
-                $band=true;
+                $status="success";
+                $html=view('protected.roles.edit')
+                    ->with('Object',$rol)
+                    ->render();
             }
-            return response()->json(array('valor'=>$band, 'html'=>$html));
+            //---------------------------
+            $resp=array("status"=>$status,
+                        "html"=>$html
+                );
+
+            return response()->json($resp);
         }
     }
 

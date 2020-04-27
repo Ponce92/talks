@@ -1,17 +1,4 @@
-<div class="row">
-    @if($errors->any())
-        <div class="col col-md-12">
-            <div class="alert alert-danger alert-dismissible mb-2" role="alert">
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">×</span>
-                </button>
-                <strong>Error !</strong> Se encontraron errores al processar el formulario.
-            </div>
-        </div>
-    @endif
-</div>
-<form action="#" method="put" data-url="{{ $errors->any() ? route('roles.update',$id):route('roles.update',$Object->getId()) }}" id="formEdit">
-    <input type="text" name="id" value="{{ $errors->any() ? $id:$Object->getId() }}" id="id" hidden>
+<form action="{{route('roles.update',$Object->getId()) }}" method="PUT"  id="formEdit">
     <div class="form-body">
         <div class="row">
             <div class="col col-sm-12 col-md-12">
@@ -70,5 +57,15 @@
                 </div>
             </div>
         </div>
+    </div>
+    <div class="form-actions center" style="padding: 10px;">
+        <button type="button"
+                onclick="loadCardAjax('{{route('roles.create')}}',$('#rol_card_trg'));$('#card_pemissions').html('');"
+                class="btn btn-outline-danger btn-cancel"
+                data-dismiss="modal">Cancelar</button>
+        <button type="button"
+                form="formCreate"
+                onclick="loadCardPostAjax($('#formEdit'),$('#rol_card_trg'))"
+                class="btn btn-outline-green">Guardar</button>
     </div>
 </form>

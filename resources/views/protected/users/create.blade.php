@@ -1,23 +1,9 @@
-<div class="row">
-    @if($errors->any())
-        <div class="col col-md-12">
-            <div class="alert alert-danger alert-dismissible mb-2" role="alert">
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">×</span>
-                </button>
-                <strong>Error !</strong> Se encontraron errores al processar el formulario.
-            </div>
-        </div>
-
-    @endif
-</div>
-
 <form action="#" method="post" data-url="{{ route('users.store') }}" autocomplete="nope" id="formCreate">
     <div class="form-body">
         <div class="row">
             <div class="col col-sm-12 col-md-12">
                 <label class="label" for="name">Nombre de usuario :</label>
-                <fieldset class="form-group">
+                <div class="form-group">
                     <input type="text"
                            id="name"
                            name="name"
@@ -29,14 +15,14 @@
                         </small>
 
                     </p>
-                </fieldset>
+                </div>
             </div>
         </div>
 
         <div class="row">
             <div class="col-md-6">
+                <label for="password">Password</label>
                 <div class="form-group">
-                    <label for="password">Password</label>
                     <input type="password"
                            name="password"
                            class="form-control {{ $errors->has('password') ? 'border-danger':'' }}"
@@ -112,6 +98,15 @@
                 </div>
             </div>
         </div>
+    </div>
+    <div class="form-actions right">
+        <button type="button"
+                onclick="loadCardAjax('{{ route('users.create') }}',$('#card_usuario'))"
+                class="btn btn-danger  "
+                data-dismiss="modal">Cancelar</button>
+        <button type="button"
+                onclick="loadCardPostAjax($('#formCreate'),$('#card_usuario'))"
+                class="btn btn-green">Agregar</button>
     </div>
 </form>
 

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Protegido\Permission;
 use App\Models\Protegido\Rol;
 use App\User;
+use DB;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -15,24 +16,23 @@ class UserController extends Controller
 
     public function __construct()
     {
-        $this->middleware('auth');
-        $this->middleware('credential:puede_ver_usuarios')->only(['index']);
-        $this->middleware('credential:puede_crear_usuarios')->only(['create','store']);
-        $this->middleware('credential:puede_editar_usuarios')->only(['edit','update']);
-        $this->middleware('credential:puede_eliminar_usuarios')->only(['destroy']);
+//        $this->middleware('auth');
+//        $this->middleware('credential:puede_ver_usuarios')->only(['index']);
+//        $this->middleware('credential:puede_crear_usuarios')->only(['create','store']);
+//        $this->middleware('credential:puede_editar_usuarios')->only(['edit','update']);
+//        $this->middleware('credential:puede_eliminar_usuarios')->only(['destroy']);
     }
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function index(Request $request)
     {
         if($request->ajax()){
-            $model=User::where('cb_protected','<>',true);
+            $model=DB::table('roles')
+                        ->join('users','roles.id','=','users.rol_id')
+                        ->select('users.*','roles.cs_name as rolname')
+            ->get();
 
             return datatables()
-                ->eloquent($model)
+                ->collection($model)
                 ->addColumn('acctions','protected.users.acctions')
                 ->rawColumns(['acctions','rol'])
                 ->toJson();
@@ -62,17 +62,10 @@ class UserController extends Controller
         }
 
     }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
+    
     public function store(Request $request)
     {
-        $band=false;
-        $html="";
+
         if($request->ajax()){
             $isValid=Validator::Make($request->all(),[
                 'name'=>'required|string|min:4|max:50|unique:users,cs_name',
@@ -84,7 +77,7 @@ class UserController extends Controller
                 $roles=Rol::where('cb_protected','<>',true)
                     ->where('cb_state','=',true)
                     ->get();
-
+                $status="form_error";
                 $html=view('protected.users.create')
                     ->withErrors($isValid)
                     ->with('name',$request->name)
@@ -92,7 +85,6 @@ class UserController extends Controller
                     ->with('estado',$request->get('estado'))
                     ->with('roles',$roles)
                     ->render();
-
             }else{
                 $user=new User;
                 $pass=bcrypt($request->get('password'));
@@ -108,11 +100,16 @@ class UserController extends Controller
                 $user->setUpdatedAt(Date::now());
 
                 $user->save();
-                $band=true;
-                $html="";
+                $status="success";
+
+                $roles=Rol::where('cb_protected','<>',true)
+                    ->where('cb_state','=',true)
+                    ->get();
+
+                $html=view('protected.users.create')->with('roles',$roles)->render();
             }
 
-            return response()->json(array('valor'=>$band, 'html'=>$html));
+            return response()->json(array('status'=>$status, 'html'=>$html));
             //Fin de l $request->ajax() . . .
         }
     }

@@ -23,7 +23,7 @@ Route::post('/login','Auth\LoginController@login')->name('login');
 
 
 Route::get('/',function (){
-    return redirect('public/');
+    return redirect('login/');
 });
 
 Route::get('public/','HomeController@showHome')->name('home');
@@ -48,6 +48,28 @@ Route::group(['middleware'=>'auth'],function(){
         'protected/users'=>'Protegido\UserController',
         'protected/groups'=>'Protegido\GropController'
     ]);
+
+
+    /**
+     * Rutas del modulo de administracion de planilla...
+     */
+    Route::resources([
+        'payroll/departments'=>'Payroll\DepartmentController',
+        'payroll/job'=>'Payroll\JobController',
+        'payroll/employees'=>'Payroll\EmployeeController',
+        'payroll/positions'=>'Payroll\PositionController',
+        'payroll/jobs'=>'Payroll\JobController',
+        'payroll/persons'=>'Payroll\PersonController'
+    ]);
+
+    Route::get('payroll/departments/get/positions/{id}','Payroll\DepartmentController@getPositions')->name('getPositions');
+    Route::get('payroll/departments/get/positions/related/{id}','Payroll\DepartmentController@getPositionsRelated')->name('getPositionsRelated');
+    Route::post('payroll/departments/post/positions','Payroll\DepartmentController@addPosition')->name('addPositions');
+
+
+    Route::get('payroll/departments/get/jobs/{id}','Payroll\DepartmentController@getJobs')->name('jobsSummary');
+    Route::post('payroll/jobs/positions/','Payroll\JobController@getPositions')->name('getJobsPost');
+    Route::get('payroll/employee/only/edit/{id}','Payroll\EmployeeController@getOnlyEmployee')->name('employeeOnly');
 });
 
 
