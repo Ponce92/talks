@@ -8,6 +8,7 @@ use App\Models\Payroll\Position;
 use Illuminate\Http\Request;
 use DB;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 
 class DepartmentController extends Controller
 {
@@ -15,13 +16,12 @@ class DepartmentController extends Controller
     public  function __construct()
     {
         $this->middleware('auth');
-        $this->middleware('credential:puede_crear_departamentos')->only(['create','store']);
-        $this->middleware('credential:puede_editar_departamentos')->only(['edit','update']);
-        $this->middleware('credential:puede_eliminar_departamentos')->only(['delete']);
+//        $this->middleware('credential:puede_crear_departamentos')->only(['create','store']);
+//        $this->middleware('credential:puede_editar_departamentos')->only(['edit','update']);
+//        $this->middleware('credential:puede_eliminar_departamentos')->only(['delete']);
     }
 
-    /**
-     */
+
     public function index(Request $request)
     {
         if($request->ajax()){
@@ -31,24 +31,25 @@ class DepartmentController extends Controller
                 ->rawColumns(['acctions'])
                 ->toJson();
         }else{
-            return view('payroll.departments.index');
+            return view('payroll.departments.departments');
         }
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function create(Request $request)
     {
         if($request->ajax()){
-            //Si es ajax y metodo get retornamos un nuevo formulario vacio...
-            $obj=New Department();
+            $dep=New Department();
             $html=view('payroll.departments.create')
-                ->with('obj',$obj)
+                ->with('dep',$dep)
                 ->render();
-            return response()->json(array('status'=>'success','html'=>$html));
+
+            //--------------------
+            $resp=array(
+                "html"=>$html,
+                "stats"=>"success",
+            );
+            return response()->json($resp);
         }
     }
 
@@ -56,7 +57,6 @@ class DepartmentController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
@@ -72,29 +72,40 @@ class DepartmentController extends Controller
         $obj->setDesc($request->desc);
 
         if($isValid->fails()){
-            $band=false;
+
+            $status="forms-errors";
             $html=view('payroll.departments.create')
                 ->withErrors($isValid)
-                ->with('obj',$obj)
+                ->with('dep',$obj)
                 ->render();
 
         }else{
             $obj->save();
-            $band=true;
-            $html="";
+            $dep=new Department();
+            $status="success";
+            $html=view('payroll.departments.create')
+                ->with('dep',$dep)
+                ->render();
         }
+        //--------------\
+        $resp=array(
+            "html"=>$html,
+            "status"=>$status,
+        );
 
-        return response()->json(array('valor'=>$band, 'html'=>$html));
+        return response()
+            ->json($resp);
     }
 
     /**
      * Display the specified resource.
      *
      * @param  \App\Models\Payroll\Department  $department
-     * @return \Illuminate\Http\Response
      */
     public function show(Department $department)
     {
+        return  view('payroll.departments.department')
+                ->with('department',$department);
 
     }
 
@@ -102,13 +113,22 @@ class DepartmentController extends Controller
      * Show the form for editing the specified resource.
      *
      * @param  \App\Models\Payroll\Department  $department
-     * @return \Illuminate\Http\Response
+
      */
     public function edit(Department $department)
     {
+        $status="success";
+        $html=view('payroll.departments.edit')
+            ->with('dep',$department)
+            ->render();
+        $resp=array(
+            "html"=>$html,
+            "status"=>$status,
+        );
 
-        return view('payroll.departments.edit')
-            ->with('department',$department);
+        return response()
+            ->json($resp);
+
     }
 
     /**
@@ -120,6 +140,44 @@ class DepartmentController extends Controller
      */
     public function update(Request $request, Department $department)
     {
+        $isValid=Validator::Make($request->all(),[
+            'name'=>['required','string','min:2','max:50',Rule::unique('departments','cs_name')
+                ->ignore($department->getId(),'id')],
+
+            'code'=>['required','string','min:2','max:50',
+                        Rule::unique('departments','cs_name')
+                                ->ignore($department->getId(),'id')
+                    ],
+            'desc'=>'required|string|min:6|max:250',
+        ]);
+
+        $department->setName($request->name);
+        $department->setCode($request->code);
+        $department->setDesc($request->desc);
+
+        if($isValid->fails()){
+
+            $status="forms-errors";
+            $html=view('payroll.departments.edit')
+                ->withErrors($isValid)
+                ->with('dep',$department)
+                ->render();
+
+        }else{
+            $department->save();
+            $status="success";
+            $html=view('payroll.departments.edit')
+                ->with('dep',$department)
+                ->render();
+        }
+        //--------------\
+        $resp=array(
+            "html"=>$html,
+            "status"=>$status,
+        );
+
+        return response()
+            ->json($resp);
 
     }
 
@@ -132,37 +190,6 @@ class DepartmentController extends Controller
     public function destroy(Department $department)
     {
         //
-    }
-
-    public function getPositions($id){
-        $status='success';
-        $department=Department::find($id);
-        $arreglo=Position::whereNotIn('id',DB::table('department_position')
-                    ->select('position_id')
-                    ->where('department_id','=',$department->getId()))
-            ->get();
-
-        $html=view('payroll.departments.positions_table')
-            ->with('positions',$arreglo)
-            ->render();
-        return response()->json(array('status'=>'success','html'=>$html));
-    }
-
-    public function addPosition(Request $request){
-        $department=Department::findOrFail($request->idDep);
-
-        $department->positions()->attach($request->idPos);
-        $resp='success';
-        return response()->json(array('status'=>$resp));
-    }
-
-    public function getPositionsRelated($id){
-        $department=Department::find($id);
-        $status='success';
-        $html=view('payroll.departments.positions_related')
-            ->with('department',$department)
-            ->render();
-        return response()->json(array('status'=>$status,'html'=>$html));
     }
 
 }

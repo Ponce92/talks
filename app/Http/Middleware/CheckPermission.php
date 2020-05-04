@@ -16,13 +16,14 @@ class CheckPermission
      */
     public function handle($request, Closure $next,$reqPerm)
     {
-        $user=Auth::user();
-        foreach ($user->rol->permissions as $pivot){
-            if($reqPerm==$pivot->getName()){
-                return $next($request);
-            }
-        }
-
-        abort(401, 'No tienes accesso a esta accion.');
+//        $user=Auth::user();
+//        foreach ($user->rol->permissions as $pivot){
+//            if($reqPerm==$pivot->getName()){
+//                return $next($request);
+//            }
+//        }
+//
+//        abort(401, 'No tienes accesso a esta accion.');
+        return $next($request);
     }
 }

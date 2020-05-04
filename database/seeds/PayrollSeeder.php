@@ -75,36 +75,36 @@ class PayrollSeeder extends Seeder
         ]);
 
 //Puestos .........................................
-        DB::table('positions')->insert([
-            'cs_code'=>'BO',
-            'cs_name'=>'Back Officce',
-            'cn_level'=>14,
-            'cs_lob'=>'Validacion y seguimiento'
-        ]);
-        DB::table('positions')->insert([
-            'cs_code'=>'BI',
-            'cs_name'=>'Analista BI',
-            'cn_level'=>7,
-            'cs_lob'=>'Analisis y desarrollo'
-        ]);
-        DB::table('positions')->insert([
-            'cs_code'=>'OPE',
-            'cs_name'=>'Operador',
-            'cn_level'=>15,
-            'cs_lob'=>'Recepacion de llamadas'
-        ]);
-        DB::table('positions')->insert([
-            'cs_code'=>'VAL',
-            'cs_name'=>'Validador',
-            'cn_level'=>14,
-            'cs_lob'=>'Validacion de datos'
-        ]);
-        DB::table('positions')->insert([
-            'cs_code'=>'SUP',
-            'cs_name'=>'Supervisor',
-            'cn_level'=>12,
-            'cs_lob'=>'Supervisor de campania'
-        ]);
+//        DB::table('positions')->insert([
+//            'cs_code'=>'BO',
+//            'cs_name'=>'Back Officce',
+//            'cn_level'=>14,
+//            'cs_lob'=>'Validacion y seguimiento'
+//        ]);
+//        DB::table('positions')->insert([
+//            'cs_code'=>'BI',
+//            'cs_name'=>'Analista BI',
+//            'cn_level'=>7,
+//            'cs_lob'=>'Analisis y desarrollo'
+//        ]);
+//        DB::table('positions')->insert([
+//            'cs_code'=>'OPE',
+//            'cs_name'=>'Operador',
+//            'cn_level'=>15,
+//            'cs_lob'=>'Recepacion de llamadas'
+//        ]);
+//        DB::table('positions')->insert([
+//            'cs_code'=>'VAL',
+//            'cs_name'=>'Validador',
+//            'cn_level'=>14,
+//            'cs_lob'=>'Validacion de datos'
+//        ]);
+//        DB::table('positions')->insert([
+//            'cs_code'=>'SUP',
+//            'cs_name'=>'Supervisor',
+//            'cn_level'=>12,
+//            'cs_lob'=>'Supervisor de campania'
+//        ]);
 
         //Referencis de persona ...
 

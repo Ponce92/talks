@@ -21,6 +21,12 @@ class Department extends Model
         $this->id=$id;
     }
 
+    public function getChief()
+    {
+    }
+    public function setChief(){
+    }
+
     public function getName(){
         return $this->cs_name;
 
@@ -43,8 +49,7 @@ class Department extends Model
         $this->cs_desc=$desc;
     }
 
-    public function positions(){
-        return $this->belongsToMany(Position::class);
-    }
+
+
 }
 

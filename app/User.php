@@ -52,6 +52,12 @@ class User extends Authenticatable
      *
      *
      */
+    public function getId(){
+        return $this->id;
+    }
+    public function setId($id){
+        $this->id=$id;
+    }
 
     public  function getName(){
         return $this->cs_name;
@@ -71,6 +77,15 @@ class User extends Authenticatable
         $this->cb_state=$est;
     }
 
+    public function getState(){
+
+        if($this->cb_state){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
     public function setPassword($pass){
         $this->password=$pass;
     }
@@ -86,14 +101,36 @@ class User extends Authenticatable
         foreach ($rol->permissions as $pivot){
 
             if($pivot->getName() == $perm){
-                $band=true;
+                return true;
             }
         }
-        return $band;
+        //permisos a nivel de grupo
+        foreach ($this->groups as $gr)
+        {
+            foreach ($gr->permissions as $pivot)
+            {
+                if($pivot->getName() == $perm)
+                {
+                    return true;
+                }
+            }
+        }
+
+        //Permissos a nivel de usuairo
+        foreach ($this->permissions as $pivot){
+            if($pivot->getName() == $perm){
+                return true;
+            }
+        }
+
+        return false;
     }
 
-    public function permission(){
-        return $this->belongsToMany(Permission::class);
+    public function permissions(){
+        return $this->belongsToMany('App\Models\Protegido\Permission');
+    }
+    public function groups(){
+        return $this->belongsToMany(Group::class);
     }
 
     public function rol(){

@@ -106,9 +106,10 @@ function loadCardAjax(url,target) {
  * @param target
  */
 function loadCardPostAjax(form,target) {
-    var url =form.attr('action');
+    var url =form.attr('data-url');
     var method=form.attr('method');
     var token =$('#token').val();
+    console.log(url);
 
     $.ajax({
         url:url,
@@ -141,6 +142,8 @@ function loadCardPostAjax(form,target) {
     });
 }
 
+
+
 /**
  *
  * @param p_url
@@ -169,7 +172,7 @@ function saveChangeTreeCheckbox(p_url,p_name,p_id) {
         method:'POST',
         dataType:'json',
         success: function (data) {
-            if(data.resp=='success'){
+            if(data.status=='success'){
                 showMesssage('success','Permisos asignados correctamente');
             }else {
                 showMesssage('danger','Error en la ejecucion de la sentencia ');
@@ -189,3 +192,21 @@ function saveChangeTreeCheckbox(p_url,p_name,p_id) {
     });
     return 0;
 }
+
+
+
+
+
+/**
+ *====================================================================================
+ *====================================================================================
+ * @param card
+ */
+function clearCard(card) {
+    var html='<center><i class="fas fa-laptop-code trg-clear"></i></center>';
+    card.html('');
+    card.html(html);
+
+}
+
+

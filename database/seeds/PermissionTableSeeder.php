@@ -1,7 +1,6 @@
 <?php
 
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\Date;
 
 class PermissionTableSeeder extends Seeder
 {
@@ -16,26 +15,26 @@ class PermissionTableSeeder extends Seeder
             'cs_name'=>'puede_ver_permisos',
             'cs_desc'=>'----',
             'cb_activo'=>true,
-            'cd_created_at'=>Date::now(),
-            'cd_updated_at'=>Date::now(),
-            'cs_group'=>'permisos',
+            'cd_created_at'=>now(),
+            'cd_updated_at'=>now(),
+            'cs_group'=>'Permisos',
         ]);
         DB::table('permissions')->insert([
             'cs_name'=>'puede_crear_permisos',
             'cs_desc'=>'----',
             'cb_activo'=>true,
-            'cd_created_at'=>Date::now(),
-            'cd_updated_at'=>Date::now(),
-            'cs_group'=>'permisos'
+            'cd_created_at'=>now(),
+            'cd_updated_at'=>now(),
+            'cs_group'=>'Permisos'
 
         ]);
         DB::table('permissions')->insert([
             'cs_name'=>'puede_asignar_permisos',
             'cs_desc'=>'----',
             'cb_activo'=>true,
-            'cd_created_at'=>Date::now(),
-            'cd_updated_at'=>Date::now(),
-            'cs_group'=>'permisos',
+            'cd_created_at'=>now(),
+            'cd_updated_at'=>now(),
+            'cs_group'=>'Permisos',
 
         ]);
 
@@ -43,24 +42,24 @@ class PermissionTableSeeder extends Seeder
             'cs_name'=>'puede_ver_roles',
             'cs_desc'=>'----',
             'cb_activo'=>true,
-            'cd_created_at'=>Date::now(),
-            'cd_updated_at'=>Date::now(),
+            'cd_created_at'=>now(),
+            'cd_updated_at'=>now(),
             'cs_group'=>'roles',
         ]);
         DB::table('permissions')->insert([
             'cs_name'=>'puede_crear_roles',
             'cs_desc'=>'----',
             'cb_activo'=>true,
-            'cd_created_at'=>Date::now(),
-            'cd_updated_at'=>Date::now(),
+            'cd_created_at'=>now(),
+            'cd_updated_at'=>now(),
             'cs_group'=>'roles',
         ]);
         DB::table('permissions')->insert([
             'cs_name'=>'puede_eliminar_roles',
             'cs_desc'=>'----',
             'cb_activo'=>true,
-            'cd_created_at'=>Date::now(),
-            'cd_updated_at'=>Date::now(),
+            'cd_created_at'=>now(),
+            'cd_updated_at'=>now(),
             'cs_group'=>'roles',
         ]);
 
@@ -69,16 +68,16 @@ class PermissionTableSeeder extends Seeder
             'cs_name'=>'puede_ver_cargos',
             'cs_desc'=>'----',
             'cb_activo'=>true,
-            'cd_created_at'=>Date::now(),
-            'cd_updated_at'=>Date::now(),
+            'cd_created_at'=>now(),
+            'cd_updated_at'=>now(),
             'cs_group'=>'cargos',
         ]);
         DB::table('permissions')->insert([
             'cs_name'=>'puede_crear_cargos',
             'cs_desc'=>'----',
             'cb_activo'=>true,
-            'cd_created_at'=>Date::now(),
-            'cd_updated_at'=>Date::now(),
+            'cd_created_at'=>now(),
+            'cd_updated_at'=>now(),
             'cs_group'=>'cargos',
 
         ]);
@@ -86,8 +85,8 @@ class PermissionTableSeeder extends Seeder
             'cs_name'=>'puede_eliminar_cargos',
             'cs_desc'=>'----',
             'cb_activo'=>true,
-            'cd_created_at'=>Date::now(),
-            'cd_updated_at'=>Date::now(),
+            'cd_created_at'=>now(),
+            'cd_updated_at'=>now(),
             'cs_group'=>'cargos',
 
         ]);
@@ -96,23 +95,24 @@ class PermissionTableSeeder extends Seeder
             'cs_name'=>'puede_ver_departamentos',
             'cs_desc'=>'----',
             'cb_activo'=>true,
-            'cd_created_at'=>Date::now(),
-            'cd_updated_at'=>Date::now(),
+            'cd_created_at'=>now(),
+            'cd_updated_at'=>now(),
+            'cs_group'=>'Departamentos',
         ]);
         DB::table('permissions')->insert([
             'cs_name'=>'puede_crear_departamentos',
             'cs_desc'=>'----',
             'cb_activo'=>true,
-            'cd_created_at'=>Date::now(),
-            'cd_updated_at'=>Date::now(),
+            'cd_created_at'=>now(),
+            'cd_updated_at'=>now(),
             'cs_group'=>'Departamentos',
         ]);
         DB::table('permissions')->insert([
             'cs_name'=>'puede_eliminar_departamentos',
             'cs_desc'=>'----',
             'cb_activo'=>true,
-            'cd_created_at'=>Date::now(),
-            'cd_updated_at'=>Date::now(),
+            'cd_created_at'=>now(),
+            'cd_updated_at'=>now(),
             'cs_group'=>'Departamentos',
         ]);
 
@@ -120,24 +120,24 @@ class PermissionTableSeeder extends Seeder
             'cs_name'=>'puede_ver_plazas',
             'cs_desc'=>'----',
             'cb_activo'=>true,
-            'cd_created_at'=>Date::now(),
-            'cd_updated_at'=>Date::now(),
+            'cd_created_at'=>now(),
+            'cd_updated_at'=>now(),
             'cs_group'=>'Plazas',
         ]);
         DB::table('permissions')->insert([
             'cs_name'=>'puede_crear_plazas',
             'cs_desc'=>'----',
             'cb_activo'=>true,
-            'cd_created_at'=>Date::now(),
-            'cd_updated_at'=>Date::now(),
+            'cd_created_at'=>now(),
+            'cd_updated_at'=>now(),
             'cs_group'=>'Plazas',
         ]);
         DB::table('permissions')->insert([
             'cs_name'=>'puede_eliminar_plazas',
             'cs_desc'=>'----',
             'cb_activo'=>true,
-            'cd_created_at'=>Date::now(),
-            'cd_updated_at'=>Date::now(),
+            'cd_created_at'=>now(),
+            'cd_updated_at'=>now(),
             'cs_group'=>'Plazas',
         ]);
 
@@ -145,8 +145,8 @@ class PermissionTableSeeder extends Seeder
             'cs_name'=>'puede_editar_departamentos',
             'cs_desc'=>'----',
             'cb_activo'=>true,
-            'cd_created_at'=>Date::now(),
-            'cd_updated_at'=>Date::now(),
+            'cd_created_at'=>now(),
+            'cd_updated_at'=>now(),
             'cs_group'=>'Departamento',
         ]);
 

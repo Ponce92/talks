@@ -196,28 +196,27 @@ function deleteObject() {
  * @param element
  * @param  label
  */
-function fillSelect(url,target,element,label) {
-    var to_fill=$(target);
-    var token =$('#token').val();
-    var opt = $(element).val();
+function fillSelect(element,targetElement) {
+
     $.ajax({
-        url:url,
-        type:'POST',
-        headers:{'X-CSRF-TOKEN':token},
-        data:{'id':opt},
+        url:element.val(),
+        type:'GET',
         success: function (data){
-            if(data.options.length > 0)
+            if( data.options.length <1)
             {
-                to_fill.attr('disabled',false);
-            }else{
-                to_fill.attr('disabled',true);
+              showMesssage('info',data.msj);
+                targetElement.attr('disabled',true);
+              return 0;
             }
-            to_fill.html('');
-            to_fill.append('<option value="" disabled selected>'+label+'</option>');
+
+
+            targetElement.html('');
+            targetElement.attr('disabled',false);
+            targetElement.append('<option value="" selected disabled> Seleccione area</option>');
             for(var i in data.options)
             {
                 var pivot=data.options[i];
-                to_fill.append('<option value="'+pivot.id+'">'+pivot.cs_name+'</option>')
+                targetElement.append('<option value="'+pivot.id+'">'+pivot.cs_name+'</option>')
             }
         },
         statusCode: {

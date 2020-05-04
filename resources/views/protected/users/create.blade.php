@@ -1,3 +1,4 @@
+
 <form action="#" method="post" data-url="{{ route('users.store') }}" autocomplete="nope" id="formCreate">
     <div class="form-body">
         <div class="row">
@@ -9,9 +10,35 @@
                            name="name"
                            value="{{ $errors->any() ? $name:'' }}"
                            class="form-control {{ $errors->has('name') ? 'border-danger':'' }} ">
+
+                            {{ $errors->first('name') }}
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-group">
+                    <label for="Rol">Seleccione</label>
+                    <select name="rol" id="rol"  class="form-control {{ $errors->has('rol') ? 'border-danger':'' }}">
+                        <option value="">Selecione rol</option>
+
+                        @if($errors->any())
+                            @foreach($roles as $obj)
+                                <option value="{{ $obj->getId() }}" {{ $obj->getId() == $rol ? 'selected':'' }}  >
+                                    {{ $obj->getName() }}
+                                </option>
+                            @endforeach
+                        @else
+                            @foreach($roles as $obj)
+                                <option value="{{ $obj->getId() }}">{{ $obj->getName() }}</option>
+                            @endforeach
+                        @endif
+
+                    </select>
                     <p class="text-right">
                         <small class="danger text-muted">
-                            {{ $errors->first('name') }}
+                            {{ $errors->first('rol') }}
                         </small>
 
                     </p>
@@ -47,35 +74,6 @@
         </div>
 
         <div class="row">
-            <div class="col-md-12">
-                <div class="form-group">
-                    <label for="Rol">Seleccione</label>
-                    <select name="rol" id="rol"  class="form-control {{ $errors->has('rol') ? 'border-danger':'' }}">
-                        <option value="">Selecione rol</option>
-
-                            @if($errors->any())
-                                @foreach($roles as $obj)
-                                    <option value="{{ $obj->getId() }}" {{ $obj->getId() == $rol ? 'selected':'' }}  >
-                                        {{ $obj->getName() }}
-                                    </option>
-                                @endforeach
-                            @else
-                                @foreach($roles as $obj)
-                                    <option value="{{ $obj->getId() }}">{{ $obj->getName() }}</option>
-                                @endforeach
-                            @endif
-
-                    </select>
-                    <p class="text-right">
-                        <small class="danger text-muted">
-                            {{ $errors->first('rol') }}
-                        </small>
-
-                    </p>
-                </div>
-            </div>
-        </div>
-        <div class="row">
             <div class="col-md-6">
                 <div class="form-group">
                     <div class="input-group">
@@ -101,11 +99,11 @@
     </div>
     <div class="form-actions right">
         <button type="button"
-                onclick="loadCardAjax('{{ route('users.create') }}',$('#card_usuario'))"
+                onclick="loadCardAjax('{{ route('users.create') }}',$('#card_user'))"
                 class="btn btn-danger  "
                 data-dismiss="modal">Cancelar</button>
         <button type="button"
-                onclick="loadCardPostAjax($('#formCreate'),$('#card_usuario'))"
+                onclick="loadCardPostAjax($('#formCreate'),$('#card_user'))"
                 class="btn btn-green">Agregar</button>
     </div>
 </form>

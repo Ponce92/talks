@@ -1,4 +1,6 @@
-<form action="{{route('roles.update',$Object->getId()) }}" method="PUT"  id="formEdit">
+<form action="#"
+      data-url="{{route('roles.update',$Object->getId()) }}"
+      method="PUT"  id="formEdit">
     <div class="form-body">
         <div class="row">
             <div class="col col-sm-12 col-md-12">

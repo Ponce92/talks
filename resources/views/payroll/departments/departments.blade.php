@@ -1,6 +1,7 @@
 @extends('layout.layout')
 
-@section('title') Puestos @endsection
+@section('title') Departamentos @endsection
+
 @section('hrow')
     <div class="col-sm-12 mb-1">
         <div class="content-header-left breadcrumb-new">
@@ -12,7 +13,7 @@
                         </li>
                         <li class="breadcrumb-item">Payroll
                         </li>
-                        <li class="breadcrumb-item">Puestos
+                        <li class="breadcrumb-item">Department
                         </li>
                     </ol>
                 </div>
@@ -27,13 +28,13 @@
         <div class="col-md-8">
             <div class="card">
                 <div class="card-header">
-                    <h4 class="card-title" id="basic-layout-form">Puestos laborales</h4>
+                    <h4 class="card-title">Departamentos</h4>
                     <a class="heading-elements-toggle"><i class="icon-ellipsis font-medium-3"></i></a>
                     <div class="heading-elements">
-                        @if(Auth::user()->hasPermission('puede_crear_cargos'))
+                        @if(Auth::user()->hasPermission('puede_crear_departamentos'))
                             <button class="btn btn-green"
                                     type="button"
-                                    onclick="loadCardAjax('{{ route('positions.create') }}',$('#card_position') )">
+                                    onclick="loadCardAjax('{{route('departments.create')}}',$('#card_department'))">
                                 <i class="icon-plus" style="color: white;"></i>    Agregar
                             </button>
                         @endif
@@ -48,7 +49,7 @@
                                style="width: 100%">
                             <thead>
                             <tr class="odd">
-                                <th style="width: 50px;">Codigo</th>
+                                <th>Codigo</th>
                                 <th>Nombre</th>
                                 <th>Comentario</th>
                                 <th style="width: 150px;">Acciones</th>
@@ -60,16 +61,16 @@
                 </div>
             </div>
         </div>
-
         <div class="col-md-4">
             <div class="card">
                 <div class="card-header">
-                    <h4 class="card-title" id="basic-layout-form">:: Puesto </h4>
+                    <h4 class="card-title">:: Departamento</h4>
                     <a class="heading-elements-toggle"><i class="icon-ellipsis font-medium-3"></i></a>
+                    <div class="heading-elements">
+                    </div>
                 </div>
                 <div class="card-body collapse in">
-                    <div class="card-block" id="card_position">
-
+                    <div class="card-block" id="card_department">
                         <div class="row">
                             <div class="col-md12">
                                 <div class="row right"><br>
@@ -83,16 +84,17 @@
                             <div class="col-md12">
                                 <div class="row">
                                     <center>
-                                        <strong style="font-size: 1.3rem;color: #22333B">Seleccione una accion</strong>
+                                        <strong style="font-size: 1.3rem;color: #22333B">Seleccione una opcion</strong>
                                     </center>
                                 </div>
                             </div>
                         </div>
-
                     </div>
+
                 </div>
             </div>
         </div>
+
     </div>
 
 
@@ -107,7 +109,7 @@
                 <div class="modal-header">
                     <h4 class="modal-title">
                         <i class="icon-cog2"></i>
-                        Crear cargo de empleado
+                        Crear departamento
                     </h4>
                 </div>
                 <div class="modal-body" id="targetCreate">
@@ -124,7 +126,30 @@
             </div>
         </div>
     </div>
+{{--
+    Edicion del objeto, modal . . .
+    --}}
+    <div class="modal animated fadeIn text-left"
+         id="modalEdit"
+         tabindex="-1"
+         role="dialog"
+         aria-labelledby="edit"
+         style="display: none; padding-right: 15px;">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">
+                        <i class="icon-cog2"></i>
+                        Edicion de departamento
+                    </h4>
+                </div>
+                <div class="modal-body" id="targetEdit">
 
+                </div>
+
+            </div>
+        </div>
+    </div>
 
 
     <input type="text" hidden name="token" id="token" value="{{csrf_token()}}">
@@ -133,7 +158,6 @@
 @endsection
 
 @section('scripts')
-
     <link  href="https://cdn.datatables.net/1.10.16/css/dataTables.bootstrap4.min.css" rel="stylesheet">
     <script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.10.16/js/dataTables.bootstrap4.min.js"></script>
@@ -147,10 +171,10 @@
                 processing: true,
 
                 serverSide: true,
-                ajax: "{{ route('positions.index') }}",
+                ajax: "{{ route('departments.index') }}",
                 columns: [
                     { data: 'cs_code',orderable:false},
-                    { data: 'cs_name',orderable:false},
+                    { data: 'cs_name'},
                     { data: 'cs_desc'},
                     { data: 'acctions'},
                 ]

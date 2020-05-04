@@ -1,6 +1,6 @@
 
-<form action="#" method="post" data-url="{{ route('positions.store') }}" id="formCreate">
-{{--    <input type="text" name="rol_id" value="" id="rol_id">--}}
+<form action="#" method="put" data-url="{{ route('positions.update',$position->getId()) }}" id="formCreate">
+    {{--    <input type="text" name="rol_id" value="" id="rol_id">--}}
     <div class="form-body">
 
         <div class="col col-sm-8 col-md-7">
@@ -31,24 +31,22 @@
             </div>
         </div>
         <div class="col-md-12">
-        <label class="label" for="lob">Descripcion :</label>
-        <div class="form-group">
+            <label class="label" for="lob">Descripcion :</label>
+            <div class="form-group">
             <textarea type="tex"
-                   id="desc"
-                   name="desc"
+                      id="desc"
+                      name="desc"
                       class="form-control {{ $errors->has('lob') ? 'border-danger':'' }} ">{{$position->getDesc()}}</textarea>
-            <div class="col-md-12 text-danger">
-                {{ $errors->first('lob') }}
+                <div class="col-md-12 text-danger">
+                    {{ $errors->first('lob') }}
+                </div>
             </div>
+
         </div>
-
-    </div>
-
-
         <div class="col-md-6">
             <div class="row">
                 <label class="btn">
-                    <input type="checkbox" readonly
+                    <input type="checkbox"
                            name="chief"
                            {{ $position->reqChief() ? 'checked':'' }}
                            id="cbox1"
@@ -58,8 +56,6 @@
                 <label class="btn">
                     <input type="checkbox"
                            id="subs"
-                           name="subs"
-
                            {{ $position->hasSubs() ? 'checked':'' }}
                            value="cbox2"> Tiene sub-alternos
                 </label>
@@ -72,8 +68,7 @@
                     <input type="checkbox"
                            {{ $position->reqDep() ? 'checked':'' }}
                            id="depa"
-                           name="depa"
-                           value="dep"> Requiere department
+                           value=""> Requiere department
                 </label>
             </div>
             <div class="row">
@@ -81,7 +76,6 @@
                     <input type="checkbox"
                            {{ $position->reqArea() ? 'checked':'' }}
                            id="area"
-                           name="area"
                            value="cbox3"> Tienen un area
                 </label>
             </div>

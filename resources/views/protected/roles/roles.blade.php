@@ -21,8 +21,8 @@
             </div>
         </div>
     </div>
-
 @endsection
+
 @section('body')
     <div class="row ">
         <div class="col-sm-12 col-md-8">
@@ -79,35 +79,49 @@
                         </div>
                         <div class="card-body collapse in">
                             <div class="card-block" id="rol_card_trg">
-                                <strong>
-                                    <h4>" Seleccione elemento a editar "</h4>
-                                </strong>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-12 col-sm-12">
-                    <div class="card">
-                        <div class="card-header">
-                            <h4 class="card-title">:: Permisos</h4>
-                            <a class="heading-elements-toggle"><i class="icon-ellipsis font-medium-3"></i></a>
-                            <div class="heading-elements">
-                                <ul class="list-inline mb-0">
-                                    <li><a data-action="collapse"><i class="icon-minus4"></i></a></li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="card-body collapse in">
-                            <div class="card-block" id="card_pemissions">
+                                <div class="row">
+                                    <div class="col-md12">
+                                        <div class="row right"><br>
 
+                                            <center>
+                                                <i class="icon-folder-open2" style="color: #23395B ;font-size: 5rem;"></i>
+                                            </center>
+
+                                        </div>
+                                    </div>
+                                    <div class="col-md12">
+                                        <div class="row">
+                                            <center>
+                                                <strong style="font-size: 1.3rem;color: #22333B">Seleccione una opcion</strong>
+                                            </center>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
+{{--                <div class="col-md-12 col-sm-12">--}}
+{{--                    <div class="card">--}}
+{{--                        <div class="card-header">--}}
+{{--                            <h4 class="card-title">:: Permisos</h4>--}}
+{{--                            <a class="heading-elements-toggle"><i class="icon-ellipsis font-medium-3"></i></a>--}}
+{{--                            <div class="heading-elements">--}}
+{{--                                <ul class="list-inline mb-0">--}}
+{{--                                    <li><a data-action="collapse"><i class="icon-minus4"></i></a></li>--}}
+{{--                                </ul>--}}
+{{--                            </div>--}}
+{{--                        </div>--}}
+{{--                        <div class="card-body collapse in">--}}
+{{--                            <div class="card-block" id="card_pemissions">--}}
+
+{{--                            </div>--}}
+{{--                        </div>--}}
+{{--                    </div>--}}
+{{--                </div>--}}
             </div>
 
         </div>
-
     </div>
 
 

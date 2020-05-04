@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Payroll;
 
 use App\Http\Controllers\Controller;
+use App\Models\Payroll\AreaOperativa;
 use App\Models\Payroll\Department;
 use App\Models\Payroll\Job;
 use App\Models\Payroll\Position;
@@ -168,11 +169,14 @@ EOT;
     /**
      * Retorna los puestos ligados a un departamento
      */
-    public function getPositions(Request $request)
-    {
-        $dep=Department::find($request->id);
+
+    public function getAreas($id){
+        $areas=AreaOperativa::where('cs_department_code',Department::find($id)->getCode())->get();
         return response()
-            ->json(array('status'=>'success','options'=>$dep->positions));
+            ->json(array('status'=>'success',
+                            'options'=>$areas,
+                            'msj'=>"El departamento no posee areas operativas, primero debe crear el area"
+                    ));
     }
 
     /**
@@ -188,5 +192,10 @@ EOT;
         $code=$pos->getCode().' - '.str_pad($number,4,'0',STR_PAD_LEFT );
 
         return $code;
+    }
+
+    function getPositios(int $dep,int $area)
+    {
+        dd($dep.'<=======>'.$area);
     }
 }

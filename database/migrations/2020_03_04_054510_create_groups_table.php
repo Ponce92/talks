@@ -17,7 +17,8 @@ class CreateGroupsTable extends Migration
             $table->bigIncrements('id');
             $table->string('cs_name',150);
             $table->string('cs_desc')->nullable();
-            $table->string('cb_state');
+            $table->boolean('cb_state');
+            $table->string('cs_group');
 
 
             $table->timestamps();

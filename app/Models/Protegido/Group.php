@@ -18,6 +18,13 @@ class Group extends Model
     /**
      * Getters and Setters . . .
      */
+
+    public function getId(){
+        return $this->id;
+    }
+    public function setId($id){
+        return $this->id=$id;
+    }
     public function setName($name){
         $this->cs_name=$name;
     }
@@ -31,7 +38,7 @@ class Group extends Model
         return $this->cs_desc;
     }
 
-    public function getState(){
+    public function isActivo(){
         if($this->cb_state){
             return true;
         }
@@ -41,7 +48,16 @@ class Group extends Model
         $this->cb_state=$state;
     }
 
-    public function getId(){
-        return $this->pk_id;
+    public function getGroup()
+    {
+        return $this->cs_group;
+    }
+    public function setGroup($gr)
+    {
+        $this->cs_group=$gr;
+    }
+
+    public function permissions(){
+        return $this->belongsToMany(Permission::class);
     }
 }

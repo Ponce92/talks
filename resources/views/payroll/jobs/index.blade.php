@@ -3,7 +3,7 @@
 @section('title') Plazas @endsection
 
 @section('body')
-    <div class="col-md-12">
+    <div class="col-md-9">
         <div class="card">
             <div class="card-header">
                 <h4 class="card-title" id="basic-layout-form">Plazas laborales</h4>
@@ -12,8 +12,9 @@
                     @if(Auth::user()->hasPermission('puede_crear_plazas'))
                         <button class="btn btn-green"
                                 type="button"
-                                onclick="showCreateForm('{{ route('jobs.create') }}')">
-                            <i class="icon-plus" style="color: white;"></i>    Agregar
+                                id="createBtn"
+                                onclick="loadCardAjax('{{ route('jobs.create') }}',$('#card_job'))">
+                            <i class="icon-plus" style="color: white;"></i>    Nuevas plazas
                         </button>
                     @endif
                 </div>
@@ -44,7 +45,7 @@
                     </div>
                     <div class="row">
                         <div class="col col-12">
-                            <table class="table table-bordered table-striped dataTable table-condensed"
+                            <table class="table table-bordered dataTable sget"
                                    id="laravel_datatable"
                                    aria-describedby="info"
                                    role="grid"
@@ -68,66 +69,45 @@
             </div>
         </div>
     </div>
-
-{{--        Creacion del objeto...          --}}
-
-    <div class="modal animated fadeIn text-left"
-         id="modalCreate"
-         tabindex="-1"
-         role="dialog"
-         aria-labelledby="create"
-         style="display: none; padding-right: 15px;">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title">
-                        <i class="icon-cog2"></i>
-                        Agregar plazas
-                    </h4>
+    <div class="col-md-3">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="card-title" id="basic-layout-form">:: Plazas</h4>
+                <a class="heading-elements-toggle"><i class="icon-ellipsis font-medium-3"></i></a>
+                <div class="heading-elements">
                 </div>
-                <div class="modal-body" id="targetCreate">
-                    {{--   ++++++++++++++++++++++    --}}
-                </div>
-                <div class="modal-footer">
-                    <button type="button"
-                            class="btn btn-outline-secondary btn-cancel"
-                            data-dismiss="modal">Cancelar</button>
-                    <button type="button"
-                            onclick="store('#modalCreate','#formCreate')"
-                            class="btn btn-outline-info">Agregar</button>
+            </div>
+            <div class="card-body collapse in">
+                <div class="card-block" id="card_job">
                 </div>
             </div>
         </div>
     </div>
-{{--   Edicion del objeto --}}
-    <div class="modal animated fadeIn text-left"
-         id="modalEdit"
+
+
+    {{--
+           |Formulario de agregacion de
+    --}}
+    <div class="modal animated text-left"
+         id="modalCargos"
          tabindex="-1"
          role="dialog"
-         aria-labelledby="edit"
-         style="display: none; padding-right: 15px;">
+         aria-labelledby="edit">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <h4 class="modal-title">
-                        <i class="icon-cog2"></i>
-                        Agregar plazas
+                        <i class="icon icon-list" > </i>
+                        Seleccione cargo
                     </h4>
                 </div>
-                <div class="modal-body" id="targetEdit">
-                    {{--   ++++++++++++++++++++++    --}}
-                </div>
-                <div class="modal-footer">
-                    <button type="button"
-                            class="btn btn-outline-secondary btn-cancel"
-                            data-dismiss="modal">Cancelar</button>
-                    <button type="button"
-                            onclick="store('#modalEdit','#formEdit')"
-                            class="btn btn-outline-info">Agregar</button>
+                <div class="modal-body" id="addCargoModal">
+
                 </div>
             </div>
         </div>
     </div>
+
     <input type="text" hidden name="token" id="token" value="{{csrf_token()}}">
 @endsection
 
@@ -142,6 +122,7 @@
     <script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.10.16/js/dataTables.bootstrap4.min.js"></script>
     <script src="{{ asset('js/util/datatable.js') }}"></script>
+    <script src="{{ asset('js/util/functions.js') }}"></script>
     <script>
         var elem = document.querySelector('.js-switch');
         var init =new Switchery(elem,{
@@ -184,9 +165,9 @@
             $('#laravel_datatable').DataTable().draw(true);
         }
     </script>
-    <style type="text/css">
-        td.center{
-            text-align: center;
-        }
-    </style>
+{{--    <style type="text/css">--}}
+{{--        td.center{--}}
+{{--            text-align: center;--}}
+{{--        }--}}
+{{--    </style>--}}
 @endsection

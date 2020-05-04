@@ -44,11 +44,8 @@ class RolPermisionsController extends Controller
             }catch (\Exception $e){
                 $resp='error';
             }
-            return response()->json(array('resp'=>$resp));
-        }else{
-
+            return response()->json(array('status'=>$resp));
         }
-
         return redirect()->route('dashboard');
     }
 }

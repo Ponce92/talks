@@ -10,6 +10,14 @@ class Position extends Model
     protected $table='positions';
     public $timestamps=false;
 
+    public function __construct(array $attributes = [])
+    {
+        $this->cb_req_chief=false;
+        $this->cb_req_dep=false;
+        $this->cb_has_subs=false;
+        $this->cb_req_area=false;
+        parent::__construct($attributes);
+    }
 
     public function getId(){
         return $this->id;
@@ -44,4 +52,59 @@ class Position extends Model
     public function setLob($lob){
         return $this->cs_lob=$lob;
     }
+
+    public function getDesc()
+    {
+        return $this->cs_desc;
+    }
+    public function setDesc($desc)
+    {
+        $this->cs_desc=$desc;
+    }
+
+    public function setReqChief($val)
+    {
+        $this->cb_req_chief=$val;
+    }
+    public function reqChief(){
+        if($this->cb_req_chief==true){
+            return true;
+        }
+        return false;
+    }
+
+    public function setReqArea($val)
+    {
+        $this->cb_req_area=$val;
+    }
+    public function reqArea(){
+        if($this->cb_req_area==true){
+            return true;
+        }
+
+        return false;
+    }
+
+    public function setHasSubs($val)
+    {
+        $this->cb_has_subs=$val;
+    }
+    public function hasSubs(){
+        if($this->cb_has_subs==true){
+            return true;
+        }
+        return false;
+    }
+
+    public function setReqDep($val)
+    {
+        $this->cb_req_dep=$val;
+    }
+    public function reqDep(){
+        if($this->cb_req_dep==true){
+            return true;
+        }
+        return false;
+    }
+
 }

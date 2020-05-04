@@ -17,9 +17,9 @@
                     <li><a href="{{route('roles.index')}}" data-i18n="nav.dash.main" class="menu-item">Roles</a>
                     </li>
 
-                    <li>
-                        <a href="{{route('permissions.index')}}" data-i18n="nav.dash.main" class="menu-item">Permisos</a>
-                    </li>
+{{--                    <li>--}}
+{{--                        <a href="{{route('permissions.index')}}" data-i18n="nav.dash.main" class="menu-item">Permisos</a>--}}
+{{--                    </li>--}}
 
 
                     <li>
@@ -44,7 +44,7 @@
                     @endif
                     @if(Auth::user()->hasPermission('puede_ver_cargos'))
                         <li>
-                            <a href="{{route('positions.index')}}" data-i18n="nav.dash.main" class="menu-item">Cargos</a>
+                            <a href="{{route('positions.index')}}" data-i18n="nav.dash.main" class="menu-item">Puestos de trabajo</a>
                         </li>
                     @endif
 

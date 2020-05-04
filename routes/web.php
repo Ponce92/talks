@@ -43,10 +43,19 @@ Route::group(['middleware'=>'auth'],function(){
     Route::get('/private/admin/rolpermisions/{idRol}','Protegido\RolPermisionsController@index')->name('rolPermisions');
     Route::post('/private/admin/rolpermisions/update/','Protegido\RolPermisionsController@update')->name('update.rol.permisions');
 
+    Route::get('/private/user/permissions/{id}','Protegido\UserController@getPermission')->name('user.permisions');
+    Route::post('/private/user/sync/permissions/{id}','Protegido\UserController@syncPermission')->name('sync.user.permisions');
+
+    Route::get('/private/user/groups/{user}','Protegido\UserController@getGroups')->name('user.groups');
+    Route::post('/private/user/sync/groups/{user}','Protegido\UserController@syncGroups')->name('sync.user.groups');
+
+
+    Route::get('/private/groups/permissions/{group}','Protegido\GroupController@getPermissions')->name('group.permisions');
+    Route::post('/private/groups/sync/permissions/{group}','Protegido\GroupController@syncPermissions')->name('sync.groups.permisions');
 
     Route::resources([
         'protected/users'=>'Protegido\UserController',
-        'protected/groups'=>'Protegido\GropController'
+        'protected/groups'=>'Protegido\GroupController',
     ]);
 
 
@@ -68,8 +77,24 @@ Route::group(['middleware'=>'auth'],function(){
 
 
     Route::get('payroll/departments/get/jobs/{id}','Payroll\DepartmentController@getJobs')->name('jobsSummary');
-    Route::post('payroll/jobs/positions/','Payroll\JobController@getPositions')->name('getJobsPost');
     Route::get('payroll/employee/only/edit/{id}','Payroll\EmployeeController@getOnlyEmployee')->name('employeeOnly');
+
+    Route::get('payroll/jobs/get/areas/{id}','Payroll\JobController@getAreas')->name('postions.area');
+    Route::get('payroll/jobs/areas/positions/{dep?}/{area?}','Payroll\JobController@getPositios')->name('areas.get.positions');
+
+    Route::prefix('payroll/departemet/{department}/areaope')->name('areaope.')->group(function (){
+        Route::get('list','Payroll\AreaOpeController@list')->name('list');
+        Route::get('create','Payroll\AreaOpeController@create')->name('create');
+        Route::post('store','Payroll\AreaOpeController@store')->name('store');
+        Route::get('edit','Payroll\AreaOpeController@edit')->name('edit');
+        Route::put('update','Payroll\AreaOpeController@update')->name('update');
+        Route::get('positions','Payroll\AreaOpeController@positions')->name('position');
+        Route::put('update','Payroll\AreaOpeController@update')->name('update');
+        Route::get('related','Payroll\AreaOpeController@alterPositions')->name('alter');
+    });
+    Route::get('payroll/departemet/areas/{area}/add/{position}/','Payroll\AreaOpeController@addPosition')->name('areaope.addposition');
+    Route::get('payroll/departemet/areas/{area}/trash/{position}/','Payroll\AreaOpeController@trashPosition')->name('areaope.trash');
+
 });
 
 

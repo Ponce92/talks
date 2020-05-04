@@ -31,19 +31,25 @@ class PositionController extends Controller
 
     /**
      * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
+
      */
     public function create(Request $request)
     {
         if($request->ajax()){
-            //Si es ajax y metodo get retornamos un nuevo formulario vacio...
+            $status="success";
             $position=new Position();
+
             $html=view('payroll.positions.create')
-                ->with('obj',$position)
+                ->with('position',$position)
                 ->render();
 
-            return response()->json(array('status'=>true,'html'=>$html));
+            //--------------------
+            $resp=array(
+                "html"=>$html,
+                "status"=>$status
+            );
+
+            return response()->json($resp);
         }
     }
 
@@ -55,36 +61,53 @@ class PositionController extends Controller
      */
     public function store(Request $request)
     {
-        $status='error';
-        $html='';
-        $isValid=Validator::Make($request->all(),[
+          $isValid=Validator::Make($request->all(),[
             'name'=>'required|string|min:4|max:50|unique:positions,cs_name',
-            'code'=>'required|string|min:2|max:12|unique:positions,cs_name',
-            'level'=>'required|int|min:1|max:15',
-            'lob'=>'required|string|min:2|max:50',
+            'code'=>'required|string|min:2|max:12|unique:positions,cs_code',
+            'desc'=>'',
         ]);
 
-        $obj= new Position();
-        $obj->setName($request->name);
-        $obj->setCode($request->code);
-        $obj->setLevel($request->level);
-        $obj->setLob($request->lob);
+        $position= new Position();
+        $position->setName($request->name);
+        $position->setCode($request->code);
+        $position->setDesc($request->desc);
+        if($request->chief)
+        {
+            $position->setReqChief(true);
+        }
 
+        if($request->subs)
+        {
+            $position->setHasSubs(true);
+        }
+        if($request->depa)
+        {
+            $position->setReqDep(true);
+        }
+        if($request->area)
+        {
+            $position->setReqArea(true);
+        }
 
         if($isValid->fails()){
-            $band=false;
+            $status="form_errors";
             $html=view('payroll.positions.create')
                 ->withErrors($isValid)
-                ->with('obj',$obj)
+                ->with('position',$position)
                 ->render();
 
         }else{
-            $obj->save();
+            $position->save();
             $html="";
             $status="success";
         }
 
-        return response()->json(array('valor'=>$status, 'html'=>$html));
+        //------------------------------
+        $resp=array(
+            "html"=>$html,
+            "status"=>$status,
+            );
+        return response()->json($resp);
     }
 
     /**
@@ -108,11 +131,16 @@ class PositionController extends Controller
     {
         $status="success";
 
-        $html=view('payroll.positions.position')
-            ->with('obj',$position)
+        $html=view('payroll.positions.edit')
+            ->with('position',$position)
             ->render();
+        //--------------------
+        $resp=array(
+            "html"=>$html,
+            "status"=>$status
+        );
 
-        return response()->json(array('html'=>$html,"status"=>$status));
+        return response()->json($resp);
     }
 
     /**
@@ -124,35 +152,62 @@ class PositionController extends Controller
      */
     public function update(Request $request, Position $position)
     {
-        $status='error';
-        $html='';
-        $var=Validator::Make($request->all(),[
-            'name'=>['required','string','min:4','max:50',Rule::unique('positions','cs_name')->ignore($request->id)],
-            'code'=>['required','string','min:2','max:50',Rule::unique('positions','cs_code')->ignore($request->id)],
-            'level'=>'required|int|min:1|max:15',
-            'lob'=>'required|string|min:2|max:50',
+        $isValid=Validator::Make($request->all(),[
+            'name'=>['required',
+                    'string',
+                    'min:4',
+                    'max:50',
+                    Rule::unique('positions','cs_name')
+                        ->ignore($position->getId(),'id')],
+            'code'=>['required',
+                'string',
+                'min:2',
+                'max:6',
+                Rule::unique('positions','cs_code')
+                    ->ignore($position->getId(),'id')],
+            'desc'=>'',
         ]);
 
         $position->setName($request->name);
         $position->setCode($request->code);
-        $position->setLevel($request->level);
-        $position->setLob($request->lob);
+        $position->setDesc($request->desc);
+        if($request->chief)
+        {
+            $position->setReqChief(true);
+        }
 
-        if($var->fails()){
-            $status='fails_validation';
-            $html=view('payroll.positions.position')
-                ->withErrors($var)
-                ->with('obj',$position)
+        if($request->subs)
+        {
+            $position->setHasSubs(true);
+        }
+        if($request->depa)
+        {
+            $position->setReqDep(true);
+        }
+        if($request->area)
+        {
+            $position->setReqArea(true);
+        }
+
+        if($isValid->fails()){
+            $status="form_errors";
+            $html=view('payroll.positions.edit')
+                ->withErrors($isValid)
+                ->with('position',$position)
                 ->render();
 
         }else{
             $position->save();
-            $status='success';
-            $html='';
+            $html="";
+            $status="success";
         }
 
-        return response()->json(array('status'=>$status, 'html'=>$html));
-
+        //------------------------------
+        $resp=array(
+            "html"=>$html,
+            "status"=>$status,
+        );
+        return response()->json($resp);
     }
 
     /**
