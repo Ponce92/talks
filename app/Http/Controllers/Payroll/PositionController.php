@@ -39,8 +39,10 @@ class PositionController extends Controller
             $status="success";
             $position=new Position();
 
+
             $html=view('payroll.positions.create')
                 ->with('position',$position)
+                ->with('chiefs',Position::all())
                 ->render();
 
             //--------------------
@@ -63,7 +65,8 @@ class PositionController extends Controller
     {
           $isValid=Validator::Make($request->all(),[
             'name'=>'required|string|min:4|max:50|unique:positions,cs_name',
-            'code'=>'required|string|min:2|max:12|unique:positions,cs_code',
+            'code'=>'required|string|min:3|max:3|unique:positions,cs_code',
+            'chiefP'=>'required_with:chief',
             'desc'=>'',
         ]);
 
@@ -71,6 +74,11 @@ class PositionController extends Controller
         $position->setName($request->name);
         $position->setCode($request->code);
         $position->setDesc($request->desc);
+        if($request->chiefP)
+        {
+            $position->setChief(Position::find($request->chiefP));
+        }
+
         if($request->chief)
         {
             $position->setReqChief(true);
@@ -93,6 +101,7 @@ class PositionController extends Controller
             $status="form_errors";
             $html=view('payroll.positions.create')
                 ->withErrors($isValid)
+                ->with('chiefs',Position::all())
                 ->with('position',$position)
                 ->render();
 
@@ -133,6 +142,7 @@ class PositionController extends Controller
 
         $html=view('payroll.positions.edit')
             ->with('position',$position)
+            ->with('chiefs',Position::all())
             ->render();
         //--------------------
         $resp=array(
@@ -155,44 +165,34 @@ class PositionController extends Controller
         $isValid=Validator::Make($request->all(),[
             'name'=>['required',
                     'string',
-                    'min:4',
+                    'min:2',
                     'max:50',
                     Rule::unique('positions','cs_name')
                         ->ignore($position->getId(),'id')],
             'code'=>['required',
                 'string',
-                'min:2',
-                'max:6',
+                'min:3',
+                'max:3',
                 Rule::unique('positions','cs_code')
                     ->ignore($position->getId(),'id')],
             'desc'=>'',
+            'chiefP'=>'required_with:chief',
         ]);
 
         $position->setName($request->name);
         $position->setCode($request->code);
         $position->setDesc($request->desc);
-        if($request->chief)
-        {
-            $position->setReqChief(true);
-        }
 
-        if($request->subs)
-        {
-            $position->setHasSubs(true);
-        }
-        if($request->depa)
-        {
-            $position->setReqDep(true);
-        }
-        if($request->area)
-        {
-            $position->setReqArea(true);
-        }
+       $request->chief ? $position->setReqChief(true):$position->setReqChief(false);
+       $request->subs  ? $position->setHasSubs(true):$position->setHasSubs(false);
+       $request->depa  ? $position->setReqDep(true):$position->setReqDep(false);
+       $request->area  ? $position->setReqArea(true):$position->setReqArea(false);
 
         if($isValid->fails()){
             $status="form_errors";
             $html=view('payroll.positions.edit')
                 ->withErrors($isValid)
+                ->with('chiefs',Position::all())
                 ->with('position',$position)
                 ->render();
 

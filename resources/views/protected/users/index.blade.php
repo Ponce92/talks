@@ -32,11 +32,13 @@
                     <h4 class="card-title" id="basic-layout-form">:: Usuarios</h4>
                     <a class="heading-elements-toggle"><i class="icon-ellipsis font-medium-3"></i></a>
                     <div class="heading-elements">
+                        @if(Auth::user()->hasPermission('crear_usuarios'))
                         <button class="btn btn-green"
                                 type="button"
                                 onclick="loadCardAjax('{{ route('users.create') }}',$('#card_user'))">
                             <i class="icon-plus" style="color: white;"></i>    Agregar
                         </button>
+                        @endif
                     </div>
                 </div>
                 <div class="card-body collapse in">

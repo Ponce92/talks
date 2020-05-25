@@ -15,9 +15,12 @@ use App\Models\Payroll\Person;
 use App\Models\Payroll\Position;
 use App\Models\Payroll\Reference;
 use App\Models\Payroll\RelationshipType;
+use App\Models\Payroll\Retirement;
+use App\Models\Payroll\RetirementType;
 use Illuminate\Http\Request;
 use DB;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 
 class EmployeeController extends Controller
 {
@@ -30,7 +33,19 @@ class EmployeeController extends Controller
     {
         if($request->ajax())
         {
-            $query=DB::select('Select * from employees');
+            $query=DB::table('persons as pe')
+                    ->join('employees as em','pe.id','=','em.person_id')
+                    ->join('positions as po','em.cs_position_code','=','po.cs_code')
+                    ->join('employee_status as es','em.employee_status_id','=','es.id')
+                    ->where('es.cs_name','<>','Baja')
+                    ->select(   "em.id",
+                                "em.cs_code as code",
+                                DB::raw('CONCAT(pe.cs_last_name,", ",pe.cs_name) as full_name'),
+                                "po.cs_name as cargo",
+                                "es.cs_name as estado",
+                                "em.cd_entry_date as ingreso"
+                            )
+                    ->get();
 
             return datatables()
                 ->collection($query)
@@ -40,15 +55,16 @@ class EmployeeController extends Controller
         }
 
 
-        return view('payroll.employees.index');
+        return view('payroll.employees.employees');
     }
 
     public function create()
     {
-        return view('payroll.employees.employee')
+        return view('payroll.employees.employee.create')
             ->with('contractsTypes',ContractTypes::all())
             ->with('maritalStatus',MaritalStatus::all())
             ->with('parkingTypes',ParkingTypes::all())
+            ->with('puestos',Position::all())
             ->with('RelationshipTypes',RelationshipType::all())
             ->with('employeeStatus',EmployeeStatus::all());
     }
@@ -76,10 +92,9 @@ class EmployeeController extends Controller
 
         $employee->setCode($request->employeeCode);
 
-        $employee->position_id=1;
-        $employee->department_id=1;
+        $employee->setPosition(Position::where('cs_code',$request->puestoCode)->first());
 
-        $employee->setEmployeeStatus(EmployeeStatus::find($request->employeeStatus));
+        $employee->setEmployeeStatus(EmployeeStatus::where('cs_name','Activo')->first());
         $employee->setContractType(ContractTypes::find($request->contractsTypes));
         $employee->setParkingType(ParkingTypes::find($request->parkingTypes));
 
@@ -102,6 +117,7 @@ class EmployeeController extends Controller
             {
                 $ref= new Reference();
 
+                $ref->setPerson($person);
                 $ref->setName($request->reference1);
                 $ref->setNumber($request->reference1t);
                 $ref->setRelationshipType(RelationshipType::find($request->reference1s));
@@ -152,11 +168,12 @@ class EmployeeController extends Controller
 
             DB::commit();
         }catch (\Exception $e){
-            dd($e);
+            dd($e->getMessage());
             DB::rollback();
+            return back();
         }
 
-        return route('employees.index');
+        return redirect()->route('employees.index');
     }
 
     /**
@@ -166,34 +183,7 @@ class EmployeeController extends Controller
      */
     public function show(Request $request,Employee $employee)
     {
-        if($request->ajax()){
-            $html=view('payroll.employees.employeeedit')
-                ->with('contractsTypes',ContractTypes::all())
-                ->with('edit','off')
-                ->with('departments',Department::all())
-                ->with('positions',Position::all())
-                ->with('maritalStatus',MaritalStatus::all())
-                ->with('parkingTypes',ParkingTypes::all())
-                ->with('relationshipTypes',RelationshipType::all())
-                ->with('employeeStatus',EmployeeStatus::all())
-                ->with('employee',$employee)->render();
 
-            return  response()
-                ->json(array('status'=>'success','html'=>$html));
-        }else{
-            return view('payroll.employees.edit')
-                ->with('contractsTypes',ContractTypes::all())
-                ->with('edit','off')
-                ->with('departments',Department::all())
-                ->with('positions',Position::all())
-                ->with('maritalStatus',MaritalStatus::all())
-                ->with('parkingTypes',ParkingTypes::all())
-                ->with('RelationshipTypes',RelationshipType::all())
-                ->with('employeeStatus',EmployeeStatus::all())
-                ->with('employee',$employee)
-                ->with('person',$employee->person);
-
-        }
     }
 
     /**
@@ -203,19 +193,15 @@ class EmployeeController extends Controller
      */
     public function edit(Request $request,Employee $employee)
     {
-        $html=view('payroll.employees.employeeedit')
+        return view('payroll.employees.employee.edit')
             ->with('contractsTypes',ContractTypes::all())
-            ->with('edit','on')
             ->with('departments',Department::all())
             ->with('positions',Position::all())
             ->with('maritalStatus',MaritalStatus::all())
             ->with('parkingTypes',ParkingTypes::all())
             ->with('relationshipTypes',RelationshipType::all())
             ->with('employeeStatus',EmployeeStatus::all())
-            ->with('employee',$employee)->render();
-
-        return  response()
-            ->json(array('status'=>'success','html'=>$html));
+            ->with('employee',$employee);
     }
 
     /**
@@ -223,70 +209,10 @@ class EmployeeController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \App\Models\Payroll\Employee  $employee
-     * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Employee $employee)
     {
-        $validation=Validator::Make($request->all(),[
-            "employeeStatus"=>"required",
-            "employeeDepartment"=>"required",
-            "employeePosition"=>"required",
-            "contractsTypes"=>"required",
-            "parkingTypes"=>"required",
-
-            "entryDate"=>"required|date",
-            "endDate"=>"date|nullable",
-            "mail"=>"email",
-            "userVicidial"=>"nullable|min:2|max:30",
-            "headsetCode"=>"nullable|min:2|max:30",
-            "loker"=>"nullable|min:2|max:20",
-            "biometric"=>"nullable|min:6",
-        ]);
-        $employee->setEmployeeStatus(EmployeeStatus::find($request->employeeStatus));
-        $employee->setDepartment(Department::find($request->employeeDepartment));
-        $employee->setPosition(Position::find($request->employeePosition));
-        $employee->setContractType(ContractTypes::find($request->contractsTypes));
-        $employee->setParkingType(ParkingTypes::find($request->parkingTypes));
-
-
-        $employee->setEntryDate($request->entryDate);
-        $employee->setEndDate($request->endDate);
-        $employee->setHeadsetCode($request->headsetCode);
-        $employee->setEmail($request->mail);
-        $employee->setLoker($request->loker);
-        $employee->setUserVic($request->userVicidial);
-        $employee->setBiometric($request->biometric);
-
-
-        if($validation->fails()){
-            $status="form_error";
-            $html=view('payroll.employees.employeeedit')
-                ->withErrors($validation)
-                ->with('edit','on')
-                ->with('employee',$employee)
-                ->with('employeeStatus',EmployeeStatus::all())
-                ->with('contractsTypes',ContractTypes::all())
-                ->with('departments',Department::all())
-                ->with('positions',Position::all())
-                ->with('parkingTypes',ParkingTypes::all())
-                ->render();
-        }else{
-            $status="success";
-            $html="";
-            $employee->save();
-
-            $html=view('payroll.employees.employeeedit')
-                ->with('edit','off')
-                ->with('employee',$employee)
-                ->with('employeeStatus',EmployeeStatus::all())
-                ->with('departments',Department::all())
-                ->with('positions',Position::all())
-                ->with('contractsTypes',ContractTypes::all())
-                ->with('parkingTypes',ParkingTypes::all())
-                ->render();
-        }
-
-        return response()->json(array('status'=>$status,'html'=>$html));
+        //code here
     }
 
     /**
@@ -306,6 +232,184 @@ class EmployeeController extends Controller
             ->render();
         return response()->json(array('status'=>'success','html'=>$html));
 
+    }
+    public function updateEmployee(Request $request, Employee $employee)
+    {
+        $validation=Validator::Make($request->all(),[
+            "contractsTypes"=>"required",
+            "parkingTypes"=>"required",
+            "entryDate"=>"required|date",
+            "mail"=>['required','email',
+                Rule::unique('employees','cs_email')
+                    ->ignore($employee->getId(),'id')],
+            "userVicidial"=>"nullable|min:2|max:30",
+            "headsetCode"=>"nullable|min:2|max:30",
+            "loker"=>"nullable|min:2|max:20",
+            "biometric"=>"nullable|min:6",
+        ]);
+
+        $employee->setContractType(ContractTypes::find($request->contractsTypes));
+        $employee->setParkingType(ParkingTypes::find($request->parkingTypes));
+        $employee->setEntryDate($request->entryDate);
+        $employee->setHeadsetCode($request->headsetCode);
+        $employee->setEmail($request->mail);
+        $employee->setLoker($request->loker);
+        $employee->setUserVic($request->userVicidial);
+        $employee->setBiometric($request->biometric);
+
+
+        if($validation->fails()){
+            $status="form_error";
+            return view('payroll.employees.employee.edit')
+                ->withErrors($validation)
+                ->with('employee',$employee)
+                ->with('status',$status)
+                ->with('employeeStatus',EmployeeStatus::all())
+                ->with('contractsTypes',ContractTypes::all())
+                ->with('departments',Department::all())
+                ->with('maritalStatus',MaritalStatus::all())
+                ->with('positions',Position::all())
+                ->with('parkingTypes',ParkingTypes::all());
+        }else{
+            $status="success";
+            $employee->save();
+
+            return view('payroll.employees.employee.edit')
+                ->with('employee',$employee)
+                ->with('employeeStatus',EmployeeStatus::all())
+                ->with('maritalStatus',MaritalStatus::all())
+                ->with('departments',Department::all())
+                ->with('positions',Position::all())
+                ->with('contractsTypes',ContractTypes::all())
+                ->with('status',$status)
+                ->with('parkingTypes',ParkingTypes::all());
+        }
+    }
+
+    public function updatePerson(Request $request, Employee $employee)
+    {
+        $validation=Validator::Make($request->all(),[
+            "nombres"=>"required|string|max:50|min:6",
+            "lastName"=>"required|string|max:50|min:6",
+            "birthDate"=>"date|required",
+            "sexo"=>"required",
+            "address"=>"required|string|min:4|max:255",
+            "nit"=>[
+                'required',
+                Rule::unique('persons','cs_nit')
+                    ->ignore($employee->person->getId(),'id')
+            ],
+            "dui"=>[
+                'required',
+                Rule::unique('persons','cs_dui')
+                    ->ignore($employee->person->getId(),'id')
+            ],
+            "maritalStatus"=>"required",
+            "emaill"=>[
+                'required',
+                'email',
+                Rule::unique('persons','cs_email')
+                    ->ignore($employee->person->getId(),'id')
+                    ]
+        ]);
+
+        $person=$employee->person;
+
+        $person->setName($request->nombres);
+        $person->setLastName($request->lastName);
+        $person->setEmail($request->emaill);
+        $person->setDui($request->dui);
+        $person->setNit($request->nit);
+        $person->setBirthDate($request->birthDate);
+        $person->setSexo($request->sexo);
+        $person->setAddress($request->address);
+        $person->setMaritalStatus(MaritalStatus::find($request->maritalStatus));
+
+
+
+        if($validation->fails())
+        {
+            $status="form_error";
+            $employee->person=$person;
+            return view('payroll.employees.employee.edit')
+                ->withErrors($validation)
+                ->with('employee',$employee)
+                ->with('status',$status)
+                ->with('person','person')
+                ->with('employeeStatus',EmployeeStatus::all())
+                ->with('contractsTypes',ContractTypes::all())
+                ->with('departments',Department::all())
+                ->with('maritalStatus',MaritalStatus::all())
+                ->with('positions',Position::all())
+                ->with('parkingTypes',ParkingTypes::all());
+        }else{
+            $status="success";
+            $person->save();
+
+            return view('payroll.employees.employee.edit')
+                ->with('employee',$employee)
+                ->with('employeeStatus',EmployeeStatus::all())
+                ->with('maritalStatus',MaritalStatus::all())
+                ->with('departments',Department::all())
+                ->with('person','person')
+                ->with('positions',Position::all())
+                ->with('contractsTypes',ContractTypes::all())
+                ->with('status',$status)
+                ->with('parkingTypes',ParkingTypes::all());
+        }
+
+    }
+
+    public function showLow(Employee $employee)
+    {
+        $low=new Retirement();
+        $html=view('payroll.employees.employee.low')
+            ->with('types',RetirementType::all())
+            ->with('employee',$employee)
+            ->with('low',$low)
+            ->render();
+        return response()->json(array('status'=>'success','html'=>$html));
+
+    }
+
+    public function storeLow(Request $request, Employee $employee)
+    {
+        $validation=Validator::Make($request->all(),[
+            "type"=>"required",
+            "obs"=>"required_with:rec",
+            "rec"=>"",
+        ]);
+        $status="error";
+
+        $low=new Retirement();
+
+        $low->setEmployee($employee);
+        $low->setObservacion($request->obs);
+        $low->setRehireable($request->rec);
+        if($request->type != '' && $request->type != null){
+            $low->setType(RetirementType::find($request->type));
+        }
+        if($request->rec){
+            $low->setRehireable(true);
+        }else{$low->setRehireable(false);}
+
+        if($validation->fails())
+        {
+            $status="form_errors";
+            $html= view('payroll.employees.employee.low')
+                ->withErrors($validation)
+                    ->with('low',$low)
+                    ->with('employee',$employee)
+                    ->with('types',RetirementType::all())
+                    ->render();
+        }else{
+            $employee->setEmployeeStatus(EmployeeStatus::where('cs_name','Baja')->first());
+            $low->save();
+            $employee->save();
+            $status="success";
+            $html='';
+        }
+        return response()->json(array('status'=>$status,'html'=>$html));
     }
 
 }

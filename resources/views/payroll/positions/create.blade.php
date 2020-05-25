@@ -31,6 +31,30 @@
             </div>
         </div>
         <div class="col-md-12">
+            <label for="chief">Superior </label>
+            <div class="form-group">
+                <select name="chiefP"
+                        id="chief"  class="form-control {{ $errors->has('chiefP') ? 'border-danger':'' }}">
+                    <option value="">Seleccione <puesto></puesto></option>
+
+                    @if($errors->any())
+                        @foreach($chiefs as $obj)
+                            <option value="{{ $obj->getId() }}" {{ $obj->getId() == $chief ? 'selected':'' }}  >
+                                {{ $obj->getName() }}
+                            </option>
+                        @endforeach
+                    @else
+                        @foreach($chiefs as $obj)
+                            <option value="{{ $obj->getId() }}">{{ $obj->getName() }}</option>
+                        @endforeach
+                    @endif
+                </select>
+                <div class="col-md-12 text-danger">
+                    {{ $errors->first('chiefP') }}
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12">
         <label class="label" for="lob">Descripcion :</label>
         <div class="form-group">
             <textarea type="tex"
@@ -91,12 +115,12 @@
     <div class="form-actions right" style="padding: 10px;">
         <button type="button"
                 onclick="loadCardAjax('{{route('positions.create')}}',$('#card_position'))"
-                class="btn btn-red"
-                data-dismiss="modal">Cancelar</button>
+                class="btn btn-blue-grey"
+                data-dismiss="modal"> <i class="icon-close"></i> Cancelar</button>
         <button type="button"
                 form="formCreate"
                 onclick="loadCardPostAjax($('#formCreate'),$('#card_position'))"
-                class="btn btn-green">Aregar</button>
+                class="btn btn-green"> <i class="icon-save"></i> Aregar</button>
     </div>
 </form>
 

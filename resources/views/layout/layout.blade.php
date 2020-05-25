@@ -33,8 +33,8 @@
 
     <link rel="stylesheet" type="text/css" href="{{ asset('template/assets/css/style.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('pfNotify/PNotify.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ asset('css/main/sget.css') }}">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/main/sget.css') }}">
     @yield('css')
 
 </head>

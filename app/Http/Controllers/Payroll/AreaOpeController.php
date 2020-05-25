@@ -215,11 +215,11 @@ class AreaOpeController extends Controller
             ->with('area',$areaOperativa)
             ->with('list',$areaOperativa->positions)
             ->render();
-
+        //=======================================================
         $resp=array(
             "html"=>$html,
             "status"=>$status,
-        );
+                );
         return response()->json($resp);
     }
 

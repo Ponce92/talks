@@ -64,7 +64,6 @@ Route::group(['middleware'=>'auth'],function(){
      */
     Route::resources([
         'payroll/departments'=>'Payroll\DepartmentController',
-        'payroll/job'=>'Payroll\JobController',
         'payroll/employees'=>'Payroll\EmployeeController',
         'payroll/positions'=>'Payroll\PositionController',
         'payroll/jobs'=>'Payroll\JobController',
@@ -76,11 +75,36 @@ Route::group(['middleware'=>'auth'],function(){
     Route::post('payroll/departments/post/positions','Payroll\DepartmentController@addPosition')->name('addPositions');
 
 
+    Route::get('payroll/jobs/candidatos/{job}/','Payroll\JobController@candidatos')->name('jobs.candidatos');
+    Route::get('payroll/jobs/{job}/subs','Payroll\JobController@subs')->name('jobs.subs');
+    Route::get('payroll/jobs/{job}/subsIn','Payroll\JobController@subsIn')->name('jobs.subsIn');
+    Route::get('payroll/jobs/{job}/subsOut','Payroll\JobController@subsOut')->name('jobs.subsOut');
+    Route::post('payroll/jobs/{job}/subs/add','Payroll\JobController@subsInStore')->name('jobs.subsInStore');
+    Route::post('payroll/jobs/{job}/subs/delete','Payroll\JobController@subsOutStore')->name('jobs.subsOutStore');
+
+
+    Route::get('payroll/jobs/{job}/employees/','Payroll\JobController@employees')->name('jobs.employees.list');
+    Route::get('payroll/jobs/{job}/chief/','Payroll\JobController@chiefEmployee')->name('jobs.chief.list');
+
     Route::get('payroll/departments/get/jobs/{id}','Payroll\DepartmentController@getJobs')->name('jobsSummary');
     Route::get('payroll/employee/only/edit/{id}','Payroll\EmployeeController@getOnlyEmployee')->name('employeeOnly');
+    Route::post('payroll/employee/updatemployee/{employee}','Payroll\EmployeeController@updateEmployee')->name('employee.update');
+    Route::post('payroll/employee/updateperson/{employee}','Payroll\EmployeeController@updatePerson')->name('person.update');
 
-    Route::get('payroll/jobs/get/areas/{id}','Payroll\JobController@getAreas')->name('postions.area');
+    Route::get('payroll/employee/low/{employee}','Payroll\EmployeeController@showLow')->name('employe.baja.show');
+    Route::post('payroll/employee/low/{employee}','Payroll\EmployeeController@storeLow')->name('employe.baja.store');
+    Route::post('payroll/jobs/assignment/store','Payroll\JobController@storeAssignment')->name('job.assignment.store');
+
+
+    Route::get('payroll/jobs/get/department/areas','Payroll\JobController@getAreas')->name('postions.area');
+
+
+
     Route::get('payroll/jobs/areas/positions/{dep?}/{area?}','Payroll\JobController@getPositios')->name('areas.get.positions');
+    Route::get('payroll/jobs/positions/get/real/','Payroll\JobController@getPositions')->name('jobs.get.positions');
+    Route::get('payroll/jobs/{position}/crear/','Payroll\JobController@crear')->name('jobs.get.crear');
+
+
 
     Route::prefix('payroll/departemet/{department}/areaope')->name('areaope.')->group(function (){
         Route::get('list','Payroll\AreaOpeController@list')->name('list');
@@ -92,6 +116,8 @@ Route::group(['middleware'=>'auth'],function(){
         Route::put('update','Payroll\AreaOpeController@update')->name('update');
         Route::get('related','Payroll\AreaOpeController@alterPositions')->name('alter');
     });
+
+
     Route::get('payroll/departemet/areas/{area}/add/{position}/','Payroll\AreaOpeController@addPosition')->name('areaope.addposition');
     Route::get('payroll/departemet/areas/{area}/trash/{position}/','Payroll\AreaOpeController@trashPosition')->name('areaope.trash');
 

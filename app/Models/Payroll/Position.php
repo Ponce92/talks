@@ -66,6 +66,7 @@ class Position extends Model
     {
         $this->cb_req_chief=$val;
     }
+
     public function reqChief(){
         if($this->cb_req_chief==true){
             return true;
@@ -107,4 +108,15 @@ class Position extends Model
         return false;
     }
 
+    public function setChief(Position $position)
+    {
+        $this->position_id=$position->getId();
+    }
+    public function getChief(){
+        if($this->position_id){
+            return Position::find($this->position_id);
+
+        }
+        return new Position();
+    }
 }

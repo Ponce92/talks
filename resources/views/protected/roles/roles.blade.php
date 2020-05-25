@@ -31,7 +31,7 @@
                     <h4 class="card-title" id="basic-layout-form">Roles</h4>
                     <a class="heading-elements-toggle"><i class="icon-ellipsis font-medium-3"></i></a>
                     <div class="heading-elements">
-                        @if(Auth::user()->hasPermission('puede_crear_roles'))
+                        @if(Auth::user()->hasPermission('crear_roles'))
                         <button class="btn btn-green" type="button"
                                 onclick="loadCardAjax('{{route('roles.create')}}',$('#rol_card_trg'));">
                             <i class="icon-plus" style="color: white;"></i>    Agregar

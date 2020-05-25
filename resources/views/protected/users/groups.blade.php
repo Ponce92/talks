@@ -28,15 +28,16 @@
         </li>
     @endforeach
 </ul>
+<form action="#" class="form">
+    <div class="form-actions right">
+        <button type="button"
+                onclick="saveChangeTreeCheckbox('{{ route('sync.user.groups',$user->getId()) }}','optGropChecboxes','{{$user->getId()}}');"
+                class="btn btn-green">
+            <i class="icon-save"></i>
+            Guardar</button>
+    </div>
+</form>
 
-<hr>
-<div class="form-actions center">
-    <button type="button"
-            onclick="saveChangeTreeCheckbox('{{ route('sync.user.groups',$user->getId()) }}','optGropChecboxes','{{$user->getId()}}');"
-            class="btn btn-green">
-        <i class="icon-save"></i>
-        Guardar</button>
-</div>
 
 <script type="text/javascript">
     (function() {

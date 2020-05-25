@@ -97,14 +97,17 @@
             </div>
         </div>
     </div>
+
     <div class="form-actions right">
         <button type="button"
                 onclick="loadCardAjax('{{ route('users.create') }}',$('#card_user'))"
-                class="btn btn-danger  "
-                data-dismiss="modal">Cancelar</button>
+                class="btn btn-grey"
+                data-dismiss="modal">
+            <i class="icon-close"></i>
+            Cancelar</button>
         <button type="button"
                 onclick="loadCardPostAjax($('#formCreate'),$('#card_user'))"
-                class="btn btn-green">Agregar</button>
+                class="btn btn-green"> <i class="icon-save"></i>Agregar</button>
     </div>
 </form>
 

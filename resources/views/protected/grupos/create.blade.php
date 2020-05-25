@@ -74,11 +74,12 @@
     <div class="form-actions right">
         <button type="button"
                 onclick="loadCardAjax('{{route('groups.create')}}',$('#card_group'))"
-                class="btn btn-danger btn-cancel"
-                data-dismiss="modal">Cancelar</button>
+                class="btn btn-grey"
+                data-dismiss="modal"> <i class="icon-close"></i> Cancelar</button>
         <button type="button"
                 onclick="loadCardPostAjax($('#formCreate'),$('#card_group'))"
-                class="btn btn-green">Agregar</button>
+                class="btn btn-green">
+            <i class="icon-save"></i>  Agregar</button>
     </div>
 </form>
 

@@ -189,46 +189,6 @@ function deleteObject() {
 
 /**
  * Author: Azael Ponce
- * Descripcion: funcion que llena un segundo select que depende de otro select
- *              valida que el select posea una option valida, limpia y llena el select. . .
- * @param url
- * @param target
- * @param element
- * @param  label
- */
-function fillSelect(element,targetElement) {
-
-    $.ajax({
-        url:element.val(),
-        type:'GET',
-        success: function (data){
-            if( data.options.length <1)
-            {
-              showMesssage('info',data.msj);
-                targetElement.attr('disabled',true);
-              return 0;
-            }
-
-
-            targetElement.html('');
-            targetElement.attr('disabled',false);
-            targetElement.append('<option value="" selected disabled> Seleccione area</option>');
-            for(var i in data.options)
-            {
-                var pivot=data.options[i];
-                targetElement.append('<option value="'+pivot.id+'">'+pivot.cs_name+'</option>')
-            }
-        },
-        statusCode: {
-            404: function() {
-                showMesssage('danger','No se ha podido contactar al servidor');
-            }
-        },
-    });
-}
-
-/**
- * Author: Azael Ponce
  * @param type
  * @param element
  * Descrip: Funcion que actualiza el valor de un input

@@ -86,6 +86,23 @@ class CreatePayrollStruct extends Migration
                 ->onDelete('cascade');
         });
 
+        //Tabla cargos o posisiones...
+        Schema::create('positions', function (Blueprint $table) {
+            $table->bigIncrements('id');
+            $table->string('cs_code')->unique();
+            $table->unsignedBigInteger('position_id')->nullable();
+            $table->string('cs_name')->unique();
+            $table->string('cs_desc')->nullable();
+            $table->boolean('cb_req_dep');
+            $table->boolean('cb_req_chief');
+            $table->boolean('cb_has_subs');
+            $table->boolean('cb_req_area');//requiere area
+
+            $table->foreign('position_id')
+                ->references('id')
+                ->on('positions')
+                ->onDelete('restrict');
+        });
         //Tabla empleados. . .
 
         Schema::create('employees', function (Blueprint $table) {
@@ -95,6 +112,8 @@ class CreatePayrollStruct extends Migration
             $table->unsignedBigInteger('employee_status_id');
             $table->unsignedBigInteger('contract_type_id');
             $table->unsignedBigInteger('parking_type_id');
+            $table->string('cs_position_code');
+
 
             $table->string('cs_user_vic')->nullable();
             $table->date('cd_entry_date');
@@ -108,6 +127,10 @@ class CreatePayrollStruct extends Migration
             $table->foreign('person_id')
                 ->references('id')
                 ->on('persons')
+                ->onDelete('cascade');
+            $table->foreign('cs_position_code')
+                ->references('cs_code')
+                ->on('positions')
                 ->onDelete('cascade');
 
             $table->foreign('employee_status_id')
@@ -141,16 +164,7 @@ class CreatePayrollStruct extends Migration
                 $table ->string('cs_name',255)->unique();
                 $table ->string('cs_desc',500)->nullable();
         });
-        Schema::create('positions', function (Blueprint $table) {
-                $table->bigIncrements('id');
-                $table->string('cs_code')->unique();
-                $table->string('cs_name')->unique();
-                $table->string('cs_desc')->nullable();
-                $table->boolean('cb_req_dep');
-                $table->boolean('cb_req_chief');
-                $table->boolean('cb_has_subs');
-                $table->boolean('cb_req_area');//requiere area
-        });
+
 
         Schema::create('ope_areas', function (Blueprint $table) {
             $table->bigIncrements('id');
@@ -162,7 +176,7 @@ class CreatePayrollStruct extends Migration
             $table->boolean('cb_status');
         });
 
-        Schema::create('ope_area_postition', function (Blueprint $table) {
+        Schema::create('ope_area_position', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('ope_area_id');
             $table->unsignedBigInteger('position_id');
@@ -184,42 +198,28 @@ class CreatePayrollStruct extends Migration
         //Tabla puestos de trabajo
         Schema::create('jobs', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('cs_code')->unique();
-            $table->unsignedBigInteger('department_id');
+            $table->string('cs_code',10)->unique();
+            $table->unsignedBigInteger('department_id')->nullable();
             $table->unsignedBigInteger('position_id');
+            $table->unsignedBigInteger('area_id')->nullable();
+            $table->string('chief_code',10)->nullable();
             $table->boolean('cb_state');
 
-            $table->foreign('department_id')
+
+
+            $table->foreign('area_id')
                 ->references('id')
-                ->on('departments')
+                ->on('ope_areas')
                 ->onDelete('cascade');
 
             $table->foreign('position_id')
                 ->references('id')
                 ->on('positions')
                 ->onDelete('cascade');
+
         });
 
 
-//        Schema::create('employee_job', function (Blueprint $table) {
-//            $table->bigIncrements('id');
-//            $table->unsignedBigInteger('employee_id');
-//            $table->unsignedBigInteger('job_id');
-//            $table->date('cd_entry');
-//            $table->date('cd_end');
-//            $table->string('cs_contract_type');
-//            $table->boolean('cb_state');
-//
-//            $table->foreign('employee_id')
-//                ->references('id')
-//                ->on('employees')
-//                ->onDelete('restrict');
-//
-//            $table->foreign('job_id')
-//                ->references('id')
-//                ->on('jobs')
-//                ->onDelete('restrict');
-//        });
 
         // Relacion empleado y puesto de trabajo
         Schema::create('employee_job', function (Blueprint $table) {
@@ -242,6 +242,36 @@ class CreatePayrollStruct extends Migration
                 ->onDelete('restrict');
         });
 
+
+        //
+        Schema::create('retirement_types', function (Blueprint $table) {
+            $table->bigIncrements('id');
+            $table->string('cs_name');
+        });
+
+
+
+
+        Schema::create('employees_retirement', function (Blueprint $table) {
+            $table->bigIncrements('id');
+            $table->unsignedBigInteger('retirement_type');
+            $table->string('cs_employee_code');
+            $table->string('cs_retirement')->nullable();
+            $table->date('cd_entry');
+
+            $table->foreign('cs_employee_code')
+                ->references('cs_code')
+                ->on('employees')
+                ->onDelete('restrict');
+
+            $table->foreign('retirement_type')
+                ->references('id')
+                ->on('retirement_types')
+                ->onDelete('restrict');
+        });
+
+
+
     }
 
     /**
@@ -253,6 +283,8 @@ class CreatePayrollStruct extends Migration
     {
 
         Schema::dropIfExists('marital_status');
+        Schema::dropIfExists('employees_retirement');
+        Schema::dropIfExists('retirement_types');
         Schema::dropIfExists('ope_area_postition');
         Schema::dropIfExists('relationship_types');
         Schema::dropIfExists('employee_status');

@@ -46,15 +46,18 @@
             </div>
         </div>
     </div>
-    <div class="form-actions center" style="padding: 10px;">
+    <div class="form-actions right" style="padding: 10px;">
         <button type="button"
                 onclick="loadCardAjax('{{route('roles.create')}}',$('#rol_card_trg'))"
-                class="btn btn-outline-danger btn-cancel"
-                data-dismiss="modal">Cancelar</button>
+                class="btn btn-grey btn-cancel"
+                data-dismiss="modal">
+            <i class="icon-close"></i>
+            Cancelar</button>
         <button type="button"
                 form="formCreate"
                 onclick="loadCardPostAjax($('#formCreate'),$('#rol_card_trg'))"
-                class="btn btn-outline-green">Agregar</button>
+                class="btn btn-green">
+               <i class="icon-save"></i> Agregar</button>
     </div>
 
 

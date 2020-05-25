@@ -62,11 +62,12 @@
     <div class="form-actions right">
         <button type="button"
                 onclick="loadCardAjax('{{ route('users.create') }}',$('#card_user'));clearCard($('#card_permission'));clearCard($('#card_groups'));"
-                class="btn btn-outline-danger btn-cancel"
-                >Cancelar</button>
+                class="btn btn-grey btn-cancel"
+                > <i class="icon-close"></i> Cancelar</button>
         <button type="button"
                 onclick="loadCardPostAjax($('#formEdit'),$('#card_user'))"
-                class="btn btn-outline-green">Guardar</button>
+                class="btn btn-green">
+            <i class="icon-save"></i> Guardar</button>
     </div>
 </form>
 

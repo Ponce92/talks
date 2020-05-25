@@ -30,7 +30,7 @@
                     <h4 class="card-title" id="basic-layout-form">Puestos laborales</h4>
                     <a class="heading-elements-toggle"><i class="icon-ellipsis font-medium-3"></i></a>
                     <div class="heading-elements">
-                        @if(Auth::user()->hasPermission('puede_crear_cargos'))
+                        @if(Auth::user()->hasPermission('crear_puestos'))
                             <button class="btn btn-green"
                                     type="button"
                                     onclick="loadCardAjax('{{ route('positions.create') }}',$('#card_position') )">

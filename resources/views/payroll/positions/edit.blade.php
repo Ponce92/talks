@@ -31,6 +31,25 @@
             </div>
         </div>
         <div class="col-md-12">
+            <label for="chief">Superior </label>
+            <div class="form-group">
+                <select name="chiefP"
+                        id="chief"
+                        class="form-control {{ $errors->has('chiefP') ? 'border-danger':'' }}">
+                    <option value="">Seleccione <puesto></puesto></option>
+                        @foreach($chiefs as $obj)
+                            <option value="{{ $obj->getId() }}" {{ $obj->getId() == $position->getChief()->getId() ? 'selected':'' }}  >
+                                {{ $obj->getName() }}
+                            </option>
+                        @endforeach
+                </select>
+                <div class="col-md-12 text-danger">
+                    {{ $errors->first('chiefP') }}
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-12">
             <label class="label" for="lob">Descripcion :</label>
             <div class="form-group">
             <textarea type="tex"
@@ -56,6 +75,7 @@
                 <label class="btn">
                     <input type="checkbox"
                            id="subs"
+                           name="subs"
                            {{ $position->hasSubs() ? 'checked':'' }}
                            value="cbox2"> Tiene sub-alternos
                 </label>
@@ -66,6 +86,7 @@
             <div class="row">
                 <label class="btn">
                     <input type="checkbox"
+                           name="depa"
                            {{ $position->reqDep() ? 'checked':'' }}
                            id="depa"
                            value=""> Requiere department
@@ -76,6 +97,7 @@
                     <input type="checkbox"
                            {{ $position->reqArea() ? 'checked':'' }}
                            id="area"
+                           name="area"
                            value="cbox3"> Tienen un area
                 </label>
             </div>
@@ -85,12 +107,12 @@
     <div class="form-actions right" style="padding: 10px;">
         <button type="button"
                 onclick="loadCardAjax('{{route('positions.create')}}',$('#card_position'))"
-                class="btn btn-red"
-                data-dismiss="modal">Cancelar</button>
+                class="btn btn-blue-grey"
+                data-dismiss="modal"> <i class="icon-close"></i> Cancelar</button>
         <button type="button"
                 form="formCreate"
                 onclick="loadCardPostAjax($('#formCreate'),$('#card_position'))"
-                class="btn btn-green">Aregar</button>
+                class="btn btn-green"> <i class="icon-save"></i> Aregar</button>
     </div>
 </form>
 

@@ -65,7 +65,7 @@ class Person extends Model
 
     public function getSexo()
     {
-        $this->cb_sexo;
+        return   $this->cb_sexo;
     }
     public function setSexo($sexo)
     {
@@ -78,15 +78,20 @@ class Person extends Model
     }
     public function getMaritalStaus()
     {
-        return $this->belongsTo('Models\Payroll\MaritalStaus');
+        return $this->belongsTo(MaritalStatus::class);
+    }
+    public function maritalStatus()
+    {
+        return $this->belongsTo(MaritalStatus::class);
     }
 
     public function getBirthDate()
     {
         return $this->cd_birth_date;
     }
-    public function setBirthDate($date)
+    public function setBirthDate($date1)
     {
+        $date=date('Y-m-d',strtotime($date1));
         $this->cd_birth_date=$date;
     }
 

@@ -1,8 +1,31 @@
 @extends('layout.layout')
 @section('title') Empleado @endsection
-@section('css')
+
+@section('hrow')
+    <link  href="{{ asset('plugins/datepiker/css/datepicker.css') }}" rel="stylesheet">
+    <div class="col-sm-12 mb-1">
+        <div class="content-header-left breadcrumb-new">
+            <div class="row breadcrumbs-top d-inline-block">
+                <div class="breadcrumb-wrapper col-12">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item">
+                            <a href="/">Home</a>
+                        </li>
+                        <li class="breadcrumb-item">Payroll
+                        </li>
+                        <li class="breadcrumb-item">
+                            <a href="{{ route('employees.index') }}">Empleados</a>
+                        </li>
+                        <li class="breadcrumb-item">Crear
+                        </li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
 
 @endsection
+
 @section('body')
     <div class="row">
         @if($errors->any())
@@ -13,22 +36,19 @@
                     </button>
                     <strong>Error !</strong>
                     Se encontraron errores al processar el formulario.
-                    <div class="row">
-                        {{   $errors}}
-                    </div>
+                    {{ $errors }}
                 </div>
-
             </div>
-
         @endif
     </div>
     <div class="card">
         <div class="card-header">
-            <h4 id="basic-laayout-form"> <strong>Datos de empleado</strong> </h4>
+            <h4 id="basic-laayout-form"> <strong>::</strong> Ingreso de empleado </h4>
         </div>
         <div class="card-contet">
             <div class="card-body">
-                <form class="form" method="post"  action="{{ route('employees.store')  }}">
+                <form class="form" method="post"  action="{{ route('employees.store')  }}" >
+                    <br>
                     {{ csrf_field() }}
                     <div class="form-body">
                         <div class="form-row">
@@ -36,7 +56,7 @@
                                 <h4 class="form-section">
                                     <i class="icon-person"></i> Datos personales
                                 </h4>
-{{--  Nombre y apellido--}}
+
                                 <div class="row">
                                     <div class="col-md-6">
                                         <label for="nombres">Nombres <span class="red">*</span> :</label>
@@ -53,6 +73,8 @@
                                         </div>
 
                                     </div>
+
+
                                     <div class="col-md-6">
                                         <label for="lastname">Apellidos <span class="red">*</span> :</label>
                                         <div class="form-group">
@@ -68,12 +90,14 @@
                                         </div>
                                     </div>
                                 </div>
-{{--  Fecha de nacimiento y sexo                          --}}
+
                                 <div class="row">
                                     <div class="col-md-6">
                                         <label for="birthDate">Fecha de nacimiento <span class="red">*</span> :</label>
                                         <div class="form-group">
-                                            <input type="date"
+                                            <input type="text"
+                                                   readonly
+                                                   data-toggle="datepicker"
                                                    id="birthDate"
                                                    value="{{ $errors->any() ? old('birthDate'):""}}"
                                                    class="form-control @if($errors->has("birthDate")) border-danger @endif"
@@ -83,28 +107,28 @@
                                             </div>
                                         </div>
                                     </div>
+
                                     <div class="col-md-6 col-sm-12">
                                         <label for="#">Sexo <span class="red">*</span> :</label>
-                                        <div class="row">
-                                            <div class="col-md-5 col-sm-11 offset-sm-1 offset-md-1">
-                                                <div class="form-check ">
-                                                    <input class="form-control @if($errors->has("sexo")) border-danger @endif"
-                                                           type="radio"
-                                                           name="sexo"
-                                                           id="sexo"
-                                                           @if(old('sexo')==1) checked @endif
-                                                           value="0">
-                                                    <label class="form-check-label" for="optr1">
-                                                        Masculino
-                                                    </label>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-5 offset-sm-1 col-sm-11">
+                                        <div class="form-group">
+                                            <div class="col-md-6">
                                                 <div class="form-check">
                                                     <input class="form-check-input"
                                                            type="radio"
                                                            name="sexo"
-                                                           @if(old('sexo')==1) checked @endif
+                                                           id="optr1"
+                                                           @if(old('sexo')==0) checked @endif
+                                                           value="0">
+                                                    <label class="form-check-label" for="optr1">Masculino</label>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-5">
+                                                <div class="form-check">
+                                                    <input class="form-check-input"
+                                                           type="radio"
+                                                           name="sexo"
+                                                               @if(old('sexo')==1) checked @endif
                                                            id="optr2"
                                                            value="1">
                                                     <label class="form-check-label" for="optr2">
@@ -117,10 +141,9 @@
                                                 {{ $errors->first("sexo") }}
                                             </div>
                                         </div>
-
                                     </div>
                                 </div>
-{{--    Direccion                               --}}
+
                                 <div class="row">
                                     <div class="col-md-12">
                                         <label for="nombres">Direccion <span class="red">*</span> :</label>
@@ -137,7 +160,7 @@
                                         </div>
                                     </div>
                                 </div>
-{{--    NIT y DUI                            --}}
+
                                 <div class="row">
                                     <div class="col-md-4">
                                         <label for="nit">NIT <span class="red">*</span>:</label>
@@ -191,7 +214,7 @@
                                         </div>
                                     </div>
                                 </div>
-{{-- Correo electronico --}}
+
                                 <div class="row">
                                     <div class="col-md-12">
                                         <label for="correo">Correo electronico</label>
@@ -214,128 +237,84 @@
                                 </div>
 {{--        ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ --}}
                             </div>
+
                             <div class="col-md-6">
                                 <h4 class="form-section">
                                     <i class="icon-settings2"></i> Datos de empleado
                                 </h4>
-        {{--        Codigo de l trabajador y fecha ingreso, fecha fin                   --}}
-                                <div class="form-row">
-                                        <div class="col-md-4">
-                                            <label for="employeeCode">Codigo trabajador <span class="red">*</span> :</label>
-                                            <div class="form-group">
+
+                                <div class="row mb-1">
+                                    <div class="col-md-5">
+                                        <label for="employeeCode">Codigo <span class="red">*</span> :</label>
+                                        <div class="row">
+                                            <div class="col-md-8">
                                                 <input type="text"
                                                        id="employeeCode"
-                                                       class="form-control @if($errors->has("employeeCode")) border-danger @endif"
+                                                       class="form-control"
                                                        placeholder=""
                                                        value="{{ $errors->any() ? old('employeeCode'):''}}"
                                                        name="employeeCode">
-
+                                            </div>
+                                            <div class="col-md-4">
+                                                <button type="button" class="btn btn-success">
+                                                    <i class="icon-refresh2"></i>
+                                                </button>
+                                            </div>
+                                            <div class="col-md-12 invalid-feedback text-danger">
+                                                {{ $errors->first("employeeCode") }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-7">
+                                        <label for="puestoName">Puesto <span class="red">*</span> :</label>
+                                        <input type="text"  id="puestoCode" hidden value="{{ $errors->any() ? old('puestoCode'):''}}" name="puestoCode" >
+                                        <div class="row">
+                                            <div class="col-md-8">
+                                                <input type="text"
+                                                       class="form-control {{ $errors->has('puestoCode') ? 'border-danger':'' }}"
+                                                       readonly
+                                                       id="puestoName"
+                                                       placeholder="seleccione"
+                                                       value="{{ $errors->any() ? old('puestoName'):''}}"
+                                                       name="puestoName">
                                                 <div class="col-md-12 invalid-feedback text-danger">
-                                                    {{ $errors->first("employeeCode") }}
+                                                    {{ $errors->first("puestoCode") }}
                                                 </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <button type="button"
+                                                        data-toggle="modal"
+                                                        data-target="#modalCargos"
+                                                        class="btn btn-success">
+                                                    <i class="icon-list"></i>
+                                                </button>
                                             </div>
 
                                         </div>
-                                        <div class="col-md-4">
-                                            <label for="entryDate">Fecha ingreso <span class="red">*</span> :</label>
-                                            <div class="form-group">
-                                                <input type="date"
-                                                       id="entryDate"
-                                                       value="{{ $errors->any() ? old('entryDate'):""}}"
-                                                       class="form-control @if($errors->has("entryDate")) border-danger @endif"
-                                                       placeholder=""
-                                                       name="entryDate">
 
-                                                <div class="col-md-12 invalid-feedback text-danger">
-                                                    {{ $errors->first("entryDate") }}
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <label for="endDate">Fecha baja :</label>
-                                            <div class="form-group">
-                                                <input type="date"
-                                                       id="end_date"
-                                                       value="{{ $errors->any() ? old('endDate'):""}}"
-                                                       class="form-control @if($errors->has("endDate")) border-danger @endif"
-                                                       placeholder=""
-                                                       name="endDate">
-                                                <div class="col-md-12 invalid-feedback text-danger">
-                                                    {{ $errors->first("endDate") }}
-                                                </div>
-                                            </div>
-                                        </div>
+                                    </div>
                                 </div>
-                                <div class="form-row">
+
+
+                                <div class="row">
+                                    <div class="col-md-5">
+                                        <label for="entryDate">Fecha ingreso <span class="red">*</span> :</label>
+                                        <div class="form-group">
+                                            <input type="text"
+                                                   readonly
+                                                   data-toggle="datepicker"
+                                                   id="entryDate"
+                                                   value="{{ $errors->any() ? old('entryDate'):""}}"
+                                                   class="form-control @if($errors->has("entryDate")) border-danger @endif"
+                                                   placeholder=""
+                                                   name="entryDate">
+                                            <div class="col-md-12 invalid-feedback text-danger">
+                                                {{ $errors->first("entryDate") }}
+                                            </div>
+                                        </div>
+                                    </div>
+
                                     <div class="col-md-6">
-                                        <label for="mail">Correo intitucional :</label>
-                                        <div class="form-group">
-                                            <input type="text"
-                                                   id="mail"
-                                                   value="{{ $errors->any() ? old('mail'):""}}"
-                                                   class="form-control @if($errors->has("mail")) border-danger @endif"
-                                                   placeholder="usuario@talkamericas.com"
-                                                   name="mail">
-                                            <div class="col-md-12 invalid-feedback text-danger">
-                                                {{ $errors->first("mail") }}
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-md-3">
-                                        <div class="form-group">
-                                            <label for="userVicidial">Usuario vicidial :</label>
-                                            <input type="text"
-                                                   id="userVicidial"
-                                                   class="form-control @if($errors->has("userVicidial")) border-danger @endif"
-                                                   placeholder="usuario1"
-                                                   value="{{ $errors->any() ? old('userVicidial'):''}}"
-                                                   name="userVicidial">
-                                            <div class="col-md-12 invalid-feedback text-danger">
-                                                {{ $errors->first("userVicidial") }}
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-3">
-                                        <div class="form-group">
-                                            <label for="headsetCode">Codigo headset :</label>
-                                            <input type="text"
-                                                   id="headsetCode"
-                                                   value="{{ $errors->any() ? old('headsetCode'):""}}"
-                                                   class="form-control @if($errors->has("headsetCode")) border-danger @endif"
-                                                   placeholder="RJ45-B"
-                                                   name="headsetCode">
-                                            <div class="col-md-12 invalid-feedback text-danger">
-                                                {{ $errors->first("headsetCode") }}
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="form-row">
-                                    <div class="col-md-4">
-                                        <label for="employee_state">Estado <span class="red">*</span>:</label>
-                                        <div class="form-group">
-                                            <select name="employeeStatus"
-                                                    id="employeeStatus"
-                                                    class="form-control  @if($errors->has("employeeStatus")) border-danger @endif">
-                                                <option value=""
-                                                    {{ $errors->any() ?'':'selected' }}>
-                                                    Selecione el estado
-
-                                                </option>
-                                                @foreach($employeeStatus as $pivot)
-                                                    <option value="{{$pivot->getId()}}"
-                                                        {{ old("employeeStatus") ==$pivot->getId() ? "selected":"" }} >
-                                                        {{ $pivot->getName() }}
-                                                    </option>
-                                                @endforeach
-                                            </select>
-                                            <div class="col-md-12 invalid-feedback text-danger">
-                                                {{ $errors->first("employeeStatus") }}
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-4">
                                         <label for="employee_contract">Tipo contrato <span class="red">*</span> :</label>
                                         <div class="form-group">
                                             <select name="contractsTypes"
@@ -358,7 +337,11 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-md-4">
+                                </div>
+
+
+                                <div class="row">
+                                    <div class="col-md-5">
                                         <label for="employee_park">Parqueo :</label>
                                         <div class="form-group">
                                             <select name="parkingTypes"
@@ -381,10 +364,53 @@
                                         </div>
 
                                     </div>
-                                </div>
 
-                                <div class="row"><div class="col-md-12"></div></div>
+                                    <div class="col-md-7">
+                                        <label for="mail">Correo intitucional :</label>
+                                        <div class="form-group">
+                                            <input type="text"
+                                                   id="mail"
+                                                   value="{{ $errors->any() ? old('mail'):""}}"
+                                                   class="form-control @if($errors->has("mail")) border-danger @endif"
+                                                   placeholder="usuario@talkamericas.com"
+                                                   name="mail">
+                                            <div class="col-md-12 invalid-feedback text-danger">
+                                                {{ $errors->first("mail") }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                                 <div class="form-row">
+
+
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="userVicidial">Usuario vicidial :</label>
+                                            <input type="text"
+                                                   id="userVicidial"
+                                                   class="form-control @if($errors->has("userVicidial")) border-danger @endif"
+                                                   placeholder="usuario1"
+                                                   value="{{ $errors->any() ? old('userVicidial'):''}}"
+                                                   name="userVicidial">
+                                            <div class="col-md-12 invalid-feedback text-danger">
+                                                {{ $errors->first("userVicidial") }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="headsetCode">Codigo headset :</label>
+                                            <input type="text"
+                                                   id="headsetCode"
+                                                   value="{{ $errors->any() ? old('headsetCode'):""}}"
+                                                   class="form-control @if($errors->has("headsetCode")) border-danger @endif"
+                                                   placeholder="RJ45-B"
+                                                   name="headsetCode">
+                                            <div class="col-md-12 invalid-feedback text-danger">
+                                                {{ $errors->first("headsetCode") }}
+                                            </div>
+                                        </div>
+                                    </div>
                                     <div class="col-md-4">
                                         <label for="loker">Loker :</label>
                                         <div class="form-group">
@@ -400,20 +426,25 @@
 
                                         </div>
                                     </div>
-                                    <div class="col-md-4">
-                                        <label for="biometric">Accesso biometrico :</label>
-                                        <div class="form-group">
-                                            <input type="text"
-                                                   id="biometric"
-                                                   name="biometric"
-                                                   value="{{ $errors->any() ? old('biometric'):""}}"
-                                                   placeholder="code"
-                                                   class="form-control @if($errors->has("biometric")) border-danger @endif">
-                                            <div class="col-md-12 invalid-feedback text-danger">
-                                                {{ $errors->first("biometric") }}
-                                            </div>
-                                        </div>
-                                    </div>
+                                </div>
+
+                                <div class="row"><div class="col-md-12"></div></div>
+                                <div class="form-row">
+
+{{--                                    <div class="col-md-4">--}}
+{{--                                        <label for="biometric">Accesso biometrico :</label>--}}
+{{--                                        <div class="form-group">--}}
+{{--                                            <input type="text"--}}
+{{--                                                   id="biometric"--}}
+{{--                                                   name="biometric"--}}
+{{--                                                   value="{{ $errors->any() ? old('biometric'):""}}"--}}
+{{--                                                   placeholder="code"--}}
+{{--                                                   class="form-control @if($errors->has("biometric")) border-danger @endif">--}}
+{{--                                            <div class="col-md-12 invalid-feedback text-danger">--}}
+{{--                                                {{ $errors->first("biometric") }}--}}
+{{--                                            </div>--}}
+{{--                                        </div>--}}
+{{--                                    </div>--}}
                                     <div class="col-md-4"></div>
                                 </div>
                             </div>
@@ -490,60 +521,7 @@
                                 </div>
                                 <hr>
 
-                                <div class="row">
-                                    <div class="col-md-5 offset-md-1 offset-sm-0">
-                                        <label for="reference2">Nombre :</label>
-                                        <div class="form-group">
-                                            <input type="text"
-                                                   id="reference2"
-                                                   name="reference2"
-                                                   class="form-control @if($errors->has("reference2")) border-danger @endif">
-                                            <div class="col-md-12 invalid-feedback text-danger">
-                                                {{ $errors->first("reference2") }}
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <label for="reference2c">Emergencia</label>
-                                        <input type="checkbox"
-                                               name="reference2c"
-                                               id="reference2c"
-                                               class="form-control @if($errors->has("reference2c")) border-danger @endif">
-                                        <div class="col-md-12 invalid-feedback text-danger">
-                                            {{ $errors->first("reference2c") }}
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-5 offset-md-1 offset-sm-0">
-                                        <label for="reference2t">Telefono :</label>
-                                        <div class="form-group">
-                                            <input type="text"
-                                                   id="reference2t"
-                                                   name="reference2t"
-                                                   class="form-control @if($errors->has("reference2t")) border-danger @endif">
-                                            <div class="col-md-12 invalid-feedback text-danger">
-                                                {{ $errors->first("reference2t") }}
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <label for="reference2s">Parentesco :</label>
-                                        <div class="form-group">
-                                            <select name="reference2s"
-                                                    id="reference2s"
-                                                    class="form-control @if($errors->has("reference2s")) border-danger @endif" >
-                                                <option value="">Seleccione parenteco</option>
-                                                @foreach($RelationshipTypes as $pivot)
-                                                    <option value="{{ $pivot->getId() }}">{{ $pivot->getName() }}</option>
-                                                @endforeach
-                                            </select>
-                                            <div class="col-md-12 invalid-feedback text-danger">
-                                                {{ $errors->first("reference2s") }}
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+
 
                             </div>
 {{--    Telefonos de contacto                        --}}
@@ -604,16 +582,76 @@
                         </div>
                     </div>
                     <div class="form-actions right" style="padding-right: 25px;">
-                        <button type="submit"  class="btn btn-info">
-                            <i class="icon-plus"></i>  Guardar registro
+                        <button type="submit"  class="btn btn-success">
+                            <i class="icon-save"> </i> Guardar registro
                         </button>
                     </div>
                 </form>
             </div>
         </div>
     </div>
+
+
+
+
+    <div class="modal animated text-left"
+         id="modalCargos"
+         tabindex="-1"
+         role="dialog"
+         aria-labelledby="edit">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">
+                        .::. Seleccione puesto
+                    </h4>
+                </div>
+                <div class="modal-body"
+                     id="postitionModalTarget"
+                     style="max-height: 600px;overflow-y: auto;;margin-bottom: 30px">
+
+                    <table class="table table-bordered dataTable sget"
+                           aria-describedby="info"
+                           role="grid"
+                           style="width: 100%">
+                        <thead>
+                        <tr>
+                            <th>Codigo</th>
+                            <th>Nombre del cargo</th>
+                            <th>Agregar</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        @foreach($puestos as  $pvt)
+                            <tr>
+                                <td>{{ $pvt->getCode() }}</td>
+                                <td>{{ $pvt->getName() }}</td>
+                                <td>
+                                    <center>
+                                        <button type="button"
+                                                onclick="$('#puestoCode').val('{{ $pvt->getCode() }}');$('#puestoName').val('{{ $pvt->getName() }}')"
+                                                data-dismiss="modal"
+                                                class="btn btn-success btn-sm">
+                                            <i class="icon-plus"></i>
+                                        </button>
+                                    </center>
+                                </td>
+                            </tr>
+                        @endforeach
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
 @endsection
 
 @section('scripts')
+
+    <script src="{{ asset('plugins/datepiker/js/datepicker.js') }}"></script>
+    <script src="{{ asset('plugins/datepiker/js/datepicker.es-ES.js') }}"></script>
+    <script type="text/javascript">
+        $('[data-toggle="datepicker"]').datepicker();
+    </script>
 
 @endsection

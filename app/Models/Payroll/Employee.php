@@ -15,6 +15,13 @@ class Employee extends Model
         return $this->id;
     }
 
+    public function getName(){
+        if($this->person){
+            return $this->person->getName().','.$this->person->getLastName();
+        }
+        return '-- -- -- ';
+    }
+
     public function getCode()
     {
         return $this->cs_code;
@@ -39,7 +46,8 @@ class Employee extends Model
     }
     public function setEntryDate($entryDate)
     {
-        $this->cd_entry_date=$entryDate;
+        $date=date('Y-m-d',strtotime($entryDate));
+        $this->cd_entry_date=$date;
     }
 
     public function getEndDate()
@@ -93,6 +101,7 @@ class Employee extends Model
     {
         return $this->belongsTo('App\Models\Payroll\Person');
     }
+
     public function setPerson(Person $person)
     {
      $this->person_id=$person->getId();
@@ -126,13 +135,17 @@ class Employee extends Model
         $this->parking_type_id=$type->getId();
     }
 
-    public function position()
+    public function getPosition()
     {
-        return $this->belongsTo('App\Models\Payroll\Position');
+        if($this->cs_position_code)
+        {
+            return Position::where('cs_code',$this->cs_position_code)->first();
+        }
+        return new Position();
     }
     public function setPosition(Position $pos)
     {
-        $this->position_id=$pos->getId();
+        $this->cs_position_code=$pos->getCode();
     }
 
     public function department(){

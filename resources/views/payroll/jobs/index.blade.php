@@ -2,86 +2,133 @@
 
 @section('title') Plazas @endsection
 
-@section('body')
-    <div class="col-md-9">
-        <div class="card">
-            <div class="card-header">
-                <h4 class="card-title" id="basic-layout-form">Plazas laborales</h4>
-                <a class="heading-elements-toggle"><i class="icon-ellipsis font-medium-3"></i></a>
-                <div class="heading-elements">
-                    @if(Auth::user()->hasPermission('puede_crear_plazas'))
-                        <button class="btn btn-green"
-                                type="button"
-                                id="createBtn"
-                                onclick="loadCardAjax('{{ route('jobs.create') }}',$('#card_job'))">
-                            <i class="icon-plus" style="color: white;"></i>    Nuevas plazas
-                        </button>
-                    @endif
+@section('hrow')
+    <div class="col-sm-12 mb-1">
+        <div class="content-header-left breadcrumb-new">
+            <div class="row breadcrumbs-top d-inline-block">
+                <div class="breadcrumb-wrapper col-12">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item">
+                            <a href="/">Home</a>
+                        </li>
+                        <li class="breadcrumb-item">Payroll
+                        </li>
+                        <li class="breadcrumb-item">Plazas laborales
+                        </li>
+                    </ol>
                 </div>
-            </div>
-            <div class="card-body collapse in">
-                <div class="card-block">
-                    <div class="row" style="padding-bottom: 15px;">
-                        <div class="col-md-6 col-sm-0"></div>
-                        <div class="col-md-6 col-sm-12">
-                            <div class="row">
-                                <div class="col-md-5 offset-md-3">
-                                    <select name="positionS"
-                                            onchange="updateDtbl()"
-                                            id="positionS"
-                                            class="form-control input-sm">
-                                        <option value="0" selected> Todos los puesto</option>
-                                        @foreach($puestos as $pivot)
-                                            <option value="{{$pivot->getId()}}">{{ $pivot->getName() }}</option>
-                                        @endforeach
-                                </select>
-                                </div>
-                                <div class="col-md-4">
-                                    <label for="#">Solo vacantes: </label>
-                                    <input type="checkbox" onchange="updateDtbl()" name="status" id="status"  class="js-switch" />
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col col-12">
-                            <table class="table table-bordered dataTable sget"
-                                   id="laravel_datatable"
-                                   aria-describedby="info"
-                                   role="grid"
-                                   style="width: 100%">
-                                <thead>
-                                    <tr>
-                                        <th>Id</th>
-                                        <th>Codigo</th>
-                                        <th>Departamento</th>
-                                        <th>Cargo</th>
-                                        <th>Vacante</th>
-                                        <th style="width: 150px;">Acciones</th>
-                                    </tr>
-                                </thead>
-                            </table>
-                        </div>
-                    </div>
-
-                </div>
-
             </div>
         </div>
     </div>
-    <div class="col-md-3">
-        <div class="card">
-            <div class="card-header">
-                <h4 class="card-title" id="basic-layout-form">:: Plazas</h4>
-                <a class="heading-elements-toggle"><i class="icon-ellipsis font-medium-3"></i></a>
-                <div class="heading-elements">
+@endsection
+
+@section('body')
+    <div class="row">
+        <div class="col-md-9">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="card-title" id="basic-layout-form">Plazas laborales</h4>
+                    <a class="heading-elements-toggle"><i class="icon-ellipsis font-medium-3"></i></a>
+                    <div class="heading-elements">
+                    </div>
                 </div>
-            </div>
-            <div class="card-body collapse in">
-                <div class="card-block" id="card_job">
+                <div class="card-body collapse in">
+                    <div class="card-block">
+                        <div class="row" style="padding-bottom: 15px;">
+                            <div class="col-md-6 col-sm-0"></div>
+                            <div class="col-md-6 col-sm-12">
+                                <div class="row">
+                                    <div class="col-md-5 offset-md-3">
+                                        <select name="positionS"
+                                                onchange="updateDtbl()"
+                                                id="positionS"
+                                                class="form-control input-sm">
+                                            <option value="0" selected> Todos los puesto</option>
+                                            @foreach($puestos as $pivot)
+                                                <option value="{{$pivot->getId()}}">{{ $pivot->getName() }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label for="#">Solo vacantes: </label>
+                                        <input type="checkbox" onchange="updateDtbl()" name="status" id="status"  class="js-switch" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col col-12">
+                                <table class="table table-bordered dataTable sget"
+                                       id="laravel_datatable"
+                                       aria-describedby="info"
+                                       role="grid"
+                                       style="width: 100%">
+                                    <thead>
+                                    <tr>
+                                        <th>Codigo</th>
+                                        <th>Nombre del puesto</th>
+                                        <th>Empleado asignado</th>
+                                        <th>Estatus de plaza</th>
+                                        <th style="width: 150px;">Acciones</th>
+                                    </tr>
+                                    </thead>
+                                </table>
+                            </div>
+                        </div>
+
+                    </div>
+
                 </div>
             </div>
         </div>
+        @if(Auth::user()->hasPermission('crear_plazas'))
+        <div class="col-md-3">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="card-title" id="basic-layout-form">:: Plazas</h4>
+                    <a class="heading-elements-toggle"><i class="icon-ellipsis font-medium-3"></i></a>
+                    <div class="heading-elements">
+                    </div>
+                </div>
+                <div class="card-body collapse in">
+                    <div class="card-block" id="">
+                        <div class="row">
+                            <div class="col-md-12 mb-2">
+                                <fieldset>
+                                    <div class="input-group bootstrap-touchspin">
+                                        <input type="text"
+                                               name=""
+                                               id="noneInput"
+                                               style="background: white;"
+                                               readonly
+                                               class="touchspin form-control"
+{{--                                               onclick="$('#btnAddPosition').click()"--}}
+                                               placeholder="Seleccione cargo."
+                                               min="1"
+                                               max="10">
+                                        <span class="input-group-btn input-group-append bootstrap-touchspin-injected">
+                            <button class="btn btn-success bootstrap-touchspin-up"
+                                    id="btnAddPosition"
+                                    onclick=""
+                                    data-toggle="modal"
+                                    data-target="#modalCargos"
+                                    type="button">
+                                <i class="icon-list"></i>
+                            </button>
+                        </span>
+                                    </div>
+                                </fieldset>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12" id="mainCard" >
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        @endif
     </div>
 
 
@@ -97,17 +144,69 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h4 class="modal-title">
-                        <i class="icon icon-list" > </i>
-                        Seleccione cargo
+                        .::. Seleccione puesto
                     </h4>
                 </div>
-                <div class="modal-body" id="addCargoModal">
+                <div class="modal-body"
+                     id="postitionModalTarget"
+                     style="max-height: 600px;overflow-y: auto;;margin-bottom: 30px">
 
+                    <table class="table table-bordered dataTable sget"
+                           aria-describedby="info"
+                           role="grid"
+                           style="width: 100%">
+                        <thead>
+                        <tr>
+                            <th>Codigo</th>
+                            <th>Nombre del cargo</th>
+                            <th>Agregar</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                            @foreach($puestos as  $pvt)
+                                <tr>
+                                    <td>{{ $pvt->getCode() }}</td>
+                                    <td>{{ $pvt->getName() }}</td>
+                                    <td>
+                                        <center>
+                                            <button type="button"
+                                                    onclick="loadCardAjax('{{route('jobs.get.crear',['position'=>$pvt->getId()])}}',$('#mainCard'));$('#noneInput').val('{{ $pvt->getName() }}')"
+                                                    data-dismiss="modal"
+                                                    class="btn btn-success btn-sm">
+                                                <i class="icon-plus"></i>
+                                            </button>
+                                        </center>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
     </div>
 
+
+    {{--|
+        |Modal de asingacion de personal a puestos de trabajo
+   --}}
+    <div class="modal animated text-left"
+         id="asingacionModal"
+         tabindex="-1"
+         role="dialog"
+         aria-labelledby="edit">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">
+                        .::. Ajustes de puesto
+                    </h4>
+                </div>
+                <div class="modal-body" id="asignacionTarget">
+                </div>
+            </div>
+        </div>
+    </div>
     <input type="text" hidden name="token" id="token" value="{{csrf_token()}}">
 @endsection
 
@@ -146,17 +245,27 @@
                     }
                 },
                 columns: [
-                    { data: 'id'},
-                    { data: 'cs_code'},
-                    { data: 'dep',orderable:false},
-                    { data: 'pos',orderable:false},
-                    { data:'vacant',
-                        render: function (data,type,row){
-                            if(data){
-                                return "<i class='icon-checkbox-checked success' ><i/>"
+                    { data: 'jocode'},
+                    { data: 'poname',orderable:false},
+                    { data: 'emname',
+                            render:function (data,type,row){
+                                if(!data){
+                                    return "-- -- --";
+                                }else{
+                                    return data;
+                                }
+
                             }
-                            return "<i class='icon-checkbox-unchecked danger' ><i/>";
-                        },orderable:false,class:'center'},
+                    },
+                    { data:'emcode',
+                        render: function (data,type,row){
+                            if(data)
+                            {
+                                return "<center><i class='icon-checkbox-unchecked danger' ><i/></center>"
+                            }
+                            return "<center><i class='icon-checkbox-unchecked danger' ><i/></center>";
+                        }
+                    },
                     { data: 'acctions',class:'center',orderable:false},
                 ]
             });

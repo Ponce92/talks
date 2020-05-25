@@ -32,7 +32,7 @@ function showMesssage(type,msj){
             break;
         case 'danger':
             PNotify.error({
-                title:'Error . . .',
+                title:'Error..!',
                 text: msj,
                 delay:1000,
                 icon:'icon icon-fire',
@@ -42,7 +42,7 @@ function showMesssage(type,msj){
             break;
         case 'notice':
             PNotify.notice({
-                title:'',
+                title:'Atencion..!',
                 text: msj,
                 icon:'icon icon-info',
                 delay:1000,

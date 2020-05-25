@@ -30,7 +30,7 @@ class Reference extends Model
     }
     public function setNumber($number)
     {
-        $this->cn_numbre=$number;
+        $this->cn_number=$number;
     }
     public function isEmergency()
     {
@@ -51,4 +51,8 @@ class Reference extends Model
         $this->relationship_type_id=$rel->getId();
     }
 
+    public function setPerson(Person $person)
+    {
+    $this->person_id=$person->getId();
+    }
 }

@@ -22,3 +22,7 @@ table.sget tbody  tr:hover{
 textarea{
     resize: none;
 }
+
+input:read-only{
+    background-color: rgb(254,254,254)!important;
+}

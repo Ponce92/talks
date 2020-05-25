@@ -31,7 +31,7 @@
                     <h4 class="card-title">Departamentos</h4>
                     <a class="heading-elements-toggle"><i class="icon-ellipsis font-medium-3"></i></a>
                     <div class="heading-elements">
-                        @if(Auth::user()->hasPermission('puede_crear_departamentos'))
+                        @if(Auth::user()->hasPermission('crear_departamentos'))
                             <button class="btn btn-green"
                                     type="button"
                                     onclick="loadCardAjax('{{route('departments.create')}}',$('#card_department'))">

@@ -29,14 +29,16 @@
     @endforeach
 </ul>
 
-<hr>
-<div class="form-actions center">
-    <button type="button"
-            onclick="saveChangeTreeCheckbox('{{ route('update.rol.permisions',$rol->getId()) }}','optCheckboxes','{{$rol->getId()}}');"
-            class="btn btn-green">
-        <i class="icon-save"></i>
-        Guardar</button>
-</div>
+<form action="#" class="form">
+    <div class="form-actions right">
+        <button type="button"
+                onclick="saveChangeTreeCheckbox('{{ route('update.rol.permisions',$rol->getId()) }}','optCheckboxes','{{$rol->getId()}}');"
+                class="btn btn-green">
+            <i class="icon-save"></i>
+            Guardar</button>
+    </div>
+</form>
+
 
 <script type="text/javascript">
     (function() {

@@ -81,12 +81,12 @@
         <button type="button"
                 onclick="loadCardAjax('{{route('groups.create')}}',$('#card_group'));
                     clearCard($('#card_permission'))"
-                class="btn btn-danger btn-cancel"
-                >Cancelar</button>
+                class="btn btn-grey"
+                > <i class="icon-close"></i> Cancelar</button>
         <button type="button"
                 onclick="loadCardPostAjax($('#formEdit'),$('#card_group'))"
                 class="btn btn-green">
-            Guardar
+            <i class="icon-save"></i> Guardar
         </button>
     </div>
 </form>

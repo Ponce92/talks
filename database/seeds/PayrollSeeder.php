@@ -52,59 +52,6 @@ class PayrollSeeder extends Seeder
             'cs_name'=>'Vehiculo',
         ]);
 
-//Departamentos......................................
-        DB::table('departments')->insert([
-            'cs_code'=>'BI',
-            'cs_name'=>'Bussiniess Inteligence',
-            'cs_desc'=>'Departamento de BI'
-        ]);
-        DB::table('departments')->insert([
-            'cs_code'=>'Smart',
-            'cs_name'=>'Smart department',
-            'cs_desc'=>'Departamento relacionado con smart'
-        ]);
-        DB::table('departments')->insert([
-            'cs_code'=>'QA',
-            'cs_name'=>'Quality',
-            'cs_desc'=>'Departamento de QA'
-        ]);
-        DB::table('departments')->insert([
-            'cs_code'=>'GG',
-            'cs_name'=>'Gerencia General',
-            'cs_desc'=>'Gerencia de la empresa'
-        ]);
-
-//Puestos .........................................
-//        DB::table('positions')->insert([
-//            'cs_code'=>'BO',
-//            'cs_name'=>'Back Officce',
-//            'cn_level'=>14,
-//            'cs_lob'=>'Validacion y seguimiento'
-//        ]);
-//        DB::table('positions')->insert([
-//            'cs_code'=>'BI',
-//            'cs_name'=>'Analista BI',
-//            'cn_level'=>7,
-//            'cs_lob'=>'Analisis y desarrollo'
-//        ]);
-//        DB::table('positions')->insert([
-//            'cs_code'=>'OPE',
-//            'cs_name'=>'Operador',
-//            'cn_level'=>15,
-//            'cs_lob'=>'Recepacion de llamadas'
-//        ]);
-//        DB::table('positions')->insert([
-//            'cs_code'=>'VAL',
-//            'cs_name'=>'Validador',
-//            'cn_level'=>14,
-//            'cs_lob'=>'Validacion de datos'
-//        ]);
-//        DB::table('positions')->insert([
-//            'cs_code'=>'SUP',
-//            'cs_name'=>'Supervisor',
-//            'cn_level'=>12,
-//            'cs_lob'=>'Supervisor de campania'
-//        ]);
 
         //Referencis de persona ...
 
@@ -119,11 +66,25 @@ class PayrollSeeder extends Seeder
         ]);
         DB::table('relationship_types')->insert([
             'cs_name'=>'Conocido'
-        ]);  DB::table('relationship_types')->insert([
+        ]);
+        DB::table('relationship_types')->insert([
         'cs_name'=>'Jefe'
-    ]);
+        ]);
 
 
+        //====================================================
+        DB::table('retirement_types')->insert([
+            'cs_name'=>'Finalizacion de contrato'
+        ]);
+        DB::table('retirement_types')->insert([
+            'cs_name'=>'Insubordinacion'
+        ]);
+        DB::table('retirement_types')->insert([
+            'cs_name'=>'Renuncia voluntaria'
+        ]);
+        DB::table('retirement_types')->insert([
+            'cs_name'=>'Bajo rendimineto'
+        ]);
     }
 
 }
