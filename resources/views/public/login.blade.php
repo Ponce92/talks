@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
     <meta name="author" content="PIXINVENT">
-    <title>Login :: Talkamericas</title>
+    <title>Login :: Payroll</title>
 
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-touch-fullscreen" content="yes">
@@ -48,7 +48,7 @@
                             <div class="card-title text-xs-center">
                                 <div class="p-1">
                                     <img src="{{ asset('img/logo/logo_normal.svg') }}" alt="Talk americas" height="125">
-{{--                                    <b style="color: deepskyblue;">Talks Americas</b>--}}
+{{--                                    <b style="color: deepskyblue;">Payroll</b>--}}
                                 </div>
                             </div>
                             <h6 class="card-subtitle line-on-side text-muted text-xs-center font-small-3 pt-2"><span>Login</span></h6>
@@ -110,7 +110,7 @@
                         <div class="card-footer">
                             <div class="">
                                 <p class="float-sm-ceter text-xs-center m-0">
-                                    <a href="{{route("home")}}" class="card-link">  R.A Solution.</a>
+                                    <a href="{{route("home")}}" class="card-link"> Roque consultora.</a>
                                 </p>
                             </div>
                         </div>
