@@ -42,7 +42,6 @@ class LoginController extends Controller
 
     public function login(Request $request)
     {
-        dd($request);
         $this -> validate(request(),[
             'usuario'=> 'required|max:150|min:4',
             'password' => 'required|string'
@@ -51,7 +50,6 @@ class LoginController extends Controller
 
         if (Auth::attempt(['cs_name'=>$request->get('usuario'),'password'=>$request->get('password')]))
         {
-
             return redirect()->route('dashboard');
         }else {
             return back()->withErrors(['cal', 'upress']);
