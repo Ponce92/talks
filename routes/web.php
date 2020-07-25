@@ -14,7 +14,6 @@
 
 Route::get('/logout','Auth\LoginController@logout')->name('logout');
 Route::post('/login','Auth\LoginController@login')->name('login');
-Route::post('/','Auth\LoginController@login');
 //Route::get('/dashboard','Publico\HomeController@showDashboard')->name('dashboard');
 
 /**
