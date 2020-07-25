@@ -14,7 +14,6 @@
 
 Route::get('/logout','Auth\LoginController@logout')->name('logout');
 Route::post('/login','Auth\LoginController@login')->name('login');
-//Route::get('/dashboard','Publico\HomeController@showDashboard')->name('dashboard');
 
 /**
  * Tipos: /public/....
@@ -22,12 +21,9 @@ Route::post('/login','Auth\LoginController@login')->name('login');
  */
 
 
-Route::get('/',function (){
-    return redirect('login/');
-});
 
 Route::get('public/','HomeController@showHome')->name('home');
-Route::get('login','HomeController@showLogin')->name('showLogin')->middleware('guest');
+Route::get('/','HomeController@showLogin')->name('showLogin')->middleware('guest');
 
 /** Seccion : Rutas de administracion
  *  Descripcion:

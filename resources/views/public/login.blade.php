@@ -56,7 +56,7 @@
                         <div class="card-body collapse in">
                             <div class="card-block">
                                 <form class="form-horizontal form-simple"
-                                      method="POST" action="{{ route('login') }}"
+                                      method="post" action="{{ route('login') }}"
                                       autocomplete="off"
                                       novalidate>
                                     {{ csrf_field() }}

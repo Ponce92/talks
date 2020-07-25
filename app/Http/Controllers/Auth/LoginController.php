@@ -42,6 +42,7 @@ class LoginController extends Controller
 
     public function login(Request $request)
     {
+        dd($request);
         $this -> validate(request(),[
             'usuario'=> 'required|max:150|min:4',
             'password' => 'required|string'
