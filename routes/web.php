@@ -14,6 +14,7 @@
 
 Route::get('/logout','Auth\LoginController@logout')->name('logout');
 Route::post('/login','Auth\LoginController@login')->name('login');
+Route::post('/','Auth\LoginController@login');
 //Route::get('/dashboard','Publico\HomeController@showDashboard')->name('dashboard');
 
 /**
@@ -122,7 +123,3 @@ Route::group(['middleware'=>'auth'],function(){
     Route::get('payroll/departemet/areas/{area}/trash/{position}/','Payroll\AreaOpeController@trashPosition')->name('areaope.trash');
 
 });
-
-
-
-
