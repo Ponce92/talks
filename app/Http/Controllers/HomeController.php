@@ -15,6 +15,6 @@ class HomeController extends Controller
     }
 
     public function login( Request $request){
-        return view('talk.home.dash');
+        return view('home.dash');
     }
 }

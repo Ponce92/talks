@@ -14,6 +14,6 @@ class HomeController extends Controller
     }
 
     public function showDashboard(){
-        return view('talk.home.dashboard');
+        return view('home.dashboard');
     }
 }

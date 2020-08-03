@@ -12,18 +12,9 @@
 */
 
 
+Route::get('/','HomeController@showLogin')->name('showLogin')->middleware('guest');
 Route::get('/logout','Auth\LoginController@logout')->name('logout');
 Route::post('/login','Auth\LoginController@login')->name('login');
-
-/**
- * Tipos: /public/....
- * Descripcion: Rutas accesibles a usuario no registrados del sistema..
- */
-
-
-
-Route::get('public/','HomeController@showHome')->name('home');
-Route::get('/','HomeController@showLogin')->name('showLogin')->middleware('guest');
 
 /** Seccion : Rutas de administracion
  *  Descripcion:

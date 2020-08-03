@@ -46,8 +46,6 @@ class LoginController extends Controller
             'usuario'=> 'required|max:150|min:4',
             'password' => 'required|string'
         ]);
-
-
         if (Auth::attempt(['cs_name'=>$request->get('usuario'),'password'=>$request->get('password')]))
         {
             return redirect()->route('dashboard');

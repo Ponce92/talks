@@ -47,8 +47,7 @@
                         <div class="card-header no-border">
                             <div class="card-title text-xs-center">
                                 <div class="p-1">
-                                    <img src="{{ asset('img/logo/logo_normal.svg') }}" alt="Talk americas" height="125">
-{{--                                    <b style="color: deepskyblue;">Payroll</b>--}}
+                                    <img src="{{ asset('img/logo/roque_banner.jpg') }}" alt="Payroll" height="100"/>
                                 </div>
                             </div>
                             <h6 class="card-subtitle line-on-side text-muted text-xs-center font-small-3 pt-2"><span>Login</span></h6>
@@ -56,10 +55,12 @@
                         <div class="card-body collapse in">
                             <div class="card-block">
                                 <form class="form-horizontal form-simple"
-                                      method="post" action="{{ route('login') }}"
+                                      method="POST"
+                                      action="{{ route('login') }}"
                                       autocomplete="off"
                                       novalidate>
                                     {{ csrf_field() }}
+                                    {{ route('login') }}
                                     <fieldset class="form-group position-relative has-icon-left mb-0">
                                         <input type="text"
                                                class="form-control form-control-lg input-lg {{ $errors->has('usuario') ? 'is-invalid' : '' }} "
@@ -110,7 +111,7 @@
                         <div class="card-footer">
                             <div class="">
                                 <p class="float-sm-ceter text-xs-center m-0">
-                                    <a href="{{route("home")}}" class="card-link"> Roque consultora.</a>
+                                    <a href="{{route("showLogin")}}" class="card-link"> Roque consultora.</a>
                                 </p>
                             </div>
                         </div>
